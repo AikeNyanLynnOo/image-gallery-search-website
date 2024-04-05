@@ -4,6 +4,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
 import { ModeContext } from "./ModeWrapper";
+import { neutralWhite, primaryBgDark, primaryDark } from "@/lib/theme/colors";
 
 export const ModeDropDown = ({ customClasses }) => {
   const { mode, changeMode } = useContext(ModeContext);
@@ -27,9 +28,15 @@ export const ModeDropDown = ({ customClasses }) => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        {mode === "dark" && <DarkModeOutlinedIcon />}
+        {mode === "dark" && (
+          <DarkModeOutlinedIcon
+            sx={{
+              color: primaryDark,
+            }}
+          />
+        )}
         {mode === "light" && <LightModeOutlinedIcon />}
-        {mode === "system" && <SettingsSuggestOutlinedIcon />}
+        {/* {mode === "system" && <SettingsSuggestOutlinedIcon />} */}
       </IconButton>
       <Menu
         id="mode-menu"
@@ -55,7 +62,7 @@ export const ModeDropDown = ({ customClasses }) => {
         <MenuItem
           onClick={() => handleClose("dark")}
           sx={{
-            backgroundColor: mode === "dark" ? "#F5F5F5" : "#FFFFFF",
+            backgroundColor: mode === "dark" ? primaryBgDark : neutralWhite,
           }}
         >
           <DarkModeOutlinedIcon />
@@ -63,19 +70,19 @@ export const ModeDropDown = ({ customClasses }) => {
         <MenuItem
           onClick={() => handleClose("light")}
           sx={{
-            backgroundColor: mode === "light" ? "#F5F5F5" : "#FFFFFF",
+            backgroundColor: mode === "light" ? primaryBgDark : neutralWhite,
           }}
         >
           <LightModeOutlinedIcon />
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           onClick={() => handleClose("system")}
           sx={{
-            backgroundColor: mode === "system" ? "#F5F5F5" : "#FFFFFF",
+            backgroundColor: mode === "system" ? primaryBgDark : neutralWhite,
           }}
         >
           <SettingsSuggestOutlinedIcon />
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </div>
   );

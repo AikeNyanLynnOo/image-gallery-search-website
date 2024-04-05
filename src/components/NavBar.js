@@ -3,11 +3,19 @@ import { useCallback, useContext, useEffect, useMemo } from "react";
 import { clsx } from "clsx";
 import { SwitchBtn } from "./SwitchBtn";
 import { NavItem } from "./atoms/NavItemComponent";
-import { Icon, Typography } from "@mui/material";
+import { Button, Icon, Typography } from "@mui/material";
 import { ModeContext } from "./ModeWrapper";
 import Image from "next/image";
 import { ModeDropDown } from "./ModeDropDown";
 import { ResponsiveContainer } from "./ResponsiveContainer";
+import ButtonWithIcon from "./atoms/ButtonWithIcon";
+import {
+  neutralWhite,
+  primary,
+  primaryDark,
+  primaryTeal,
+} from "@/lib/theme/colors";
+import Link from "next/link";
 // import { CustomLogo } from "../atoms/CustomLogo";
 
 export const NavBar = ({
@@ -26,10 +34,12 @@ export const NavBar = ({
       "text-ownBlack-100": true,
       flex: true,
       "h-16": true,
-      relative: true,
+      sticky: true,
+      "top-0": true,
       "bg-transparent": true,
       "items-center": true,
-      "justify-between": true,
+      "justify-end": true,
+      "sm:justify-between": true,
       ...customNavClasses,
     });
   }, [customNavClasses]);
@@ -37,14 +47,23 @@ export const NavBar = ({
   return (
     <ResponsiveContainer
       customClasses={{
-        "border-b": true,
-        "shadow-sm": true,
+        // "border-b": true,
+        // "shadow-sm": true,
+        "sm:px-7": true,
+        "md:px-5": true,
+        "lg:px-28": false,
+        "xl:px-40": false,
+        sticky: true,
+        "top-0": true,
+        "z-10": true,
       }}
     >
       <nav className={navClasses}>
-        <Typography>Gallery</Typography>
+        <Link href={"/"} className="hidden sm:block">
+          <Typography variant="subheadline2Regular">Gallery</Typography>
+        </Link>
 
-        <div className="flex items-center h-full w-fit absolute left-1/2 top-0 -translate-x-1/2">
+        <div className="flex items-center h-full w-fit absolute left-5 sm:left-1/2 top-0 -translate-x-1/2">
           <NavItem
             link={{
               href: "/",
@@ -55,6 +74,31 @@ export const NavBar = ({
         </div>
         <div className="flex gap-x-5 items-center">
           <ModeDropDown />
+          <ButtonWithIcon
+            buttonText={"Upload"}
+            variant="outlined"
+            customStyles={{
+              "&.MuiButton-outlined": {
+                // border: `1px solid ${mode === "dark" ? primaryDark : primary}`,
+                // color: mode === "dark" ? primaryDark : primary,
+                border: "none",
+                color: neutralWhite,
+                px: 5,
+                py: 2,
+                borderRadius: 10,
+                backgroundColor: primaryTeal,
+              },
+            }}
+            textVariant={"btnSMedium"}
+            // icon={"file_upload_outlined"}
+            icon={"add_photo_alternate_outlined"}
+            iconPosition={"start"}
+            customIconStyles={{
+              fontSize: 16,
+              // color: mode === "dark" ? primaryDark : primary,
+              color: neutralWhite,
+            }}
+          />
         </div>
       </nav>
     </ResponsiveContainer>

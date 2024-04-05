@@ -4,7 +4,7 @@
 - * Should be user-friendly, responsive, include transitions/animations
 - * Overlay lightbox when click image
 - * Include swipers/buttons for image navigation 
-- * Filter/Sort (by name/ date/ file size/ dimensions/ tags/ categories)
+- * Sort (by name/ date/ file size/ dimensions/ tags/ categories)
 - * Share to social
 - * Upload user image
 - User register/login/logout
@@ -15,13 +15,23 @@ npm i @supabase/auth-helpers-react @supabase/supabase-js
 - show unsplash images & user uploaded images
 
 
-- nav bar (logo, upload, switch)
+## home page
+- nav bar (logo, upload, switch & sticky)
 - landing section (background, search box, suggested tags)
-- info section (search result counts/current searched term), filter, sort
-- suggestd image collections (if not yet searched) | remove after search
-- suggested random images gallery view (if not yet searched) | replace with search result images after search
-- infinite scroll (load more when scroll)
+- suggested image topics & collections
+- Sort
+- suggested random images gallery view
+- infinite scroll (load more when scroll) / load on btn click
 - back-to-top btn
+
+## search result page
+- nav bar (logo, upload, switch & sticky)
+- Sort
+- search result images
+- infinite scroll (load more when scroll) / load on btn click
+- back-to-top btn
+
+
 
 
 Image View
@@ -31,3 +41,16 @@ Image View
 - download counts
 - artist name
 - category/tags
+
+
+yarl__container yarl__flex_center
+
+APIs to bind with unsplash
+- list photos (editorial' feed) , load more with page no & per_page
+- search photos by (custom query or topics)
+- list topics
+- list a topics's photos
+- list collections
+- list a collection's photos
+
+
