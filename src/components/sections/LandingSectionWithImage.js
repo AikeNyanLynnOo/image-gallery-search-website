@@ -12,6 +12,7 @@ import { ModeContext } from "../ModeWrapper";
 
 export const LandingSectionWithImage = ({
   imgSrc,
+  topics,
   customImgStyles,
   customStyles,
   children,
@@ -100,15 +101,9 @@ export const LandingSectionWithImage = ({
         item
         xs={12}
         sx={{
-          //   backgroundColor: neutral[5],
-          // border: "1px solid blue",
-          // width: "100%",
-          // pt: 10,
-          // px: calculatePx(xl, lg, md, sm, 6),
           position: "relative",
           borderRadius: 8,
           border: `1px solid ${primary}`,
-          //   boxShadow: "0.2px 0.3px 0.3px hsl(0deg 0% 0% / 0.50)",
           overflow: "hidden",
         }}
       >
@@ -128,7 +123,7 @@ export const LandingSectionWithImage = ({
         </Typography>
         <Image
           src={imgSrc}
-          height={1000}
+          height={100}
           width={1000}
           alt="landing_img"
           style={{
@@ -176,41 +171,32 @@ export const LandingSectionWithImage = ({
             transform: "translateX(-50%)",
           }}
         >
-          {[
-            "sunset",
-            "wallpaper",
-            "phone",
-            "cat",
-            "camera",
-            "car",
-            "flower",
-            "laptop",
-            "office",
-            "coffee",
-          ].map((topics, index) => (
-            <ButtonWithIcon
-              key={index}
-              buttonText={topics}
-              variant="outlined"
-              customStyles={{
-                "&.MuiButton-outlined": {
-                  m: 1,
-                  border: "none",
+          {topics &&
+            topics.length > 0 &&
+            topics.slice(0,10).map((topics, index) => (
+              <ButtonWithIcon
+                key={index}
+                buttonText={topics.title}
+                variant="outlined"
+                customStyles={{
+                  "&.MuiButton-outlined": {
+                    m: 1,
+                    border: "none",
+                    color: mode === "dark" ? primaryDark : neutralWhite,
+                    px: 3,
+                    borderRadius: 10,
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  },
+                }}
+                textVariant={"btnXsRegular"}
+                icon={"search"}
+                iconPosition={"start"}
+                customIconStyles={{
+                  fontSize: 16,
                   color: mode === "dark" ? primaryDark : neutralWhite,
-                  px: 3,
-                  borderRadius: 10,
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
-                },
-              }}
-              textVariant={"btnXsRegular"}
-              icon={"search"}
-              iconPosition={"start"}
-              customIconStyles={{
-                fontSize: 16,
-                color: mode === "dark" ? primaryDark : neutralWhite,
-              }}
-            />
-          ))}
+                }}
+              />
+            ))}
         </Box>
       </Grid>
     </ResponsiveContainer>

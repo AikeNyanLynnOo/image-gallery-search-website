@@ -11,6 +11,7 @@ import { ImageOverlayWithText } from "../atoms/ImageOverlayWithText";
 import { ScrollTabs } from "../ScrollTabs";
 
 export const TopicsSection = ({
+  topics,
   imgSrc,
   customImgStyles,
   customStyles,
@@ -46,13 +47,13 @@ export const TopicsSection = ({
   return (
     <ResponsiveContainer
       customClasses={{
-        // "border-b": true,
+        // "border": true,
         // "shadow-sm": true,
         "sm:px-7": true,
         "md:px-5": true,
         "lg:px-28": false,
         "xl:px-40": false,
-        "py-10": true,
+        "py-12": true,
       }}
     >
       <Grid
@@ -67,86 +68,11 @@ export const TopicsSection = ({
           variant={getTitleVariant(xl, lg, md, sm)}
           textAlign={"center"}
         >
-          Choose any topics you want to browse!
+          Choose any topics you want to browse
         </Typography>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sx={
-          {
-           my : 5
-          }
-        }
-      >
-        <ScrollTabs
-          tabs={[
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-            {
-              text: "Wallpapers",
-              imgSrc: "/section_imgs/landing.jpeg",
-            },
-          ]}
-        />
+      <Grid item xs={12}>
+        <ScrollTabs tabs={topics} />
       </Grid>
     </ResponsiveContainer>
   );

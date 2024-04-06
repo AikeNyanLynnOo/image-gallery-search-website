@@ -55,7 +55,7 @@ export const NavBar = ({
         "xl:px-40": false,
         sticky: true,
         "top-0": true,
-        "z-10": true,
+        "z-20": true,
       }}
     >
       <nav className={navClasses}>

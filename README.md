@@ -20,7 +20,7 @@ npm i @supabase/auth-helpers-react @supabase/supabase-js
 - landing section (background, search box, suggested tags)
 - suggested image topics & collections
 - Sort
-- suggested random images gallery view
+<!-- - suggested random images gallery view -->
 - infinite scroll (load more when scroll) / load on btn click
 - back-to-top btn
 
@@ -31,6 +31,13 @@ npm i @supabase/auth-helpers-react @supabase/supabase-js
 - infinite scroll (load more when scroll) / load on btn click
 - back-to-top btn
 
+
+Collection
+- Cover photo (background)
+- likes (hover)
+- user profile image (name with tooltip) (hover)
+- last updated (hover)
+- total photos (hover)
 
 
 

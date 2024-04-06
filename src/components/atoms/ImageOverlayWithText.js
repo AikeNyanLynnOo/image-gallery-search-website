@@ -47,7 +47,7 @@ export const ImageOverlayWithText = ({
       relative: true,
       "rounded-lg": true,
       "overflow-hidden": true,
-      "h-20": true,
+      "h-auto": true,
       "w-48": true,
       "shadow-sm": true,
       ...customClasses,
@@ -63,35 +63,39 @@ export const ImageOverlayWithText = ({
       <div className={imageOverlayClasses}>
         <Image
           src={imgSrc}
-          height={1000}
+          height={100}
           width={1000}
           alt="landing_img"
           style={{
-            width: "100%",
-            height: "100%",
+            width: "fit-content",
+            height: "auto",
             objectFit: "cover",
             ...customImgStyles,
           }}
         />
-        <Typography
-          sx={{
-            width: "100%",
-            height: "100%",
-            p: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%,-50%)",
-            color: neutralWhite,
-            backgroundColor: "rgba(0,0,0,0.3)",
-          }}
-          variant={getTitleVariant(xl, lg, md, sm)}
-        >
-          {text}
-        </Typography>
+        {text && (
+          <Typography
+            sx={{
+              width: "100%",
+              height: "100%",
+              p: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%,-50%)",
+              color: neutralWhite,
+              backgroundColor: "rgba(0,0,0,0.3)",
+            }}
+            variant={
+              (!textVariant && getTitleVariant(xl, lg, md, sm)) || textVariant
+            }
+          >
+            {text}
+          </Typography>
+        )}
 
         {children}
       </div>

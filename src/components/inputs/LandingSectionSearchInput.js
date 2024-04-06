@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import { Clear } from "@mui/icons-material";
 import { Icon, IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import { typoSystem } from "@/lib/theme/typoSystem";
 
 import {
   neutralGrey,
   neutralWhite,
   primary,
   primaryDark,
+  primaryTeal,
 } from "../../../lib/theme/colors";
 import ButtonWithIcon from "../atoms/ButtonWithIcon";
 import { ModeContext } from "../ModeWrapper";
@@ -45,6 +47,9 @@ export const LandingSectionSearchInput = (props) => {
       maxRows={3}
       inputProps={{
         maxLength,
+        style: {
+          ...typoSystem.btnSRegular,
+        },
       }}
       onChange={(e) => {
         const textValue = e.target.value;
@@ -60,6 +65,9 @@ export const LandingSectionSearchInput = (props) => {
         borderRadius: 15,
         "&.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
           border: "none",
+        },
+        "& input::placeholder": {
+          ...typoSystem.btnSRegular,
         },
         backgroundColor: neutralWhite,
         "&.MuiOutlinedInput-root .MuiOutlinedInput-input": {
@@ -100,6 +108,9 @@ export const LandingSectionSearchInput = (props) => {
           <IconButton
             sx={{
               ml: 3,
+              "&.MuiIconButton-root:hover .MuiIcon-root": {
+                color: primaryTeal,
+              },
             }}
           >
             <Icon style={{ fontSize: 22 }}>search</Icon>
