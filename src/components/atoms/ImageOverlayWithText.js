@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import { CustomImageWithErrorHandle } from "../customComponents/CustomImageWithErrorHandle";
 
 export const ImageOverlayWithText = ({
   children,
@@ -15,6 +16,8 @@ export const ImageOverlayWithText = ({
   customTextStyles,
   customStyles,
   customClasses,
+  customImgClasses,
+  linkHref,
 }) => {
   const theme = useTheme();
   const xl = useMediaQuery(theme.breakpoints.up("xl"));
@@ -53,52 +56,108 @@ export const ImageOverlayWithText = ({
       ...customClasses,
     });
   }, [customClasses]);
+  if (linkHref) {
+    return (
+      <Link
+        href={linkHref} // add slugs for collection/search result
+        style={{
+          ...customStyles,
+        }}
+      >
+        <div className={imageOverlayClasses}>
+          <CustomImageWithErrorHandle
+            src={imgSrc}
+            height={100}
+            width={1000}
+            alt="landing_img"
+            // blurDataURL={
+            //   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8eOtWPQAIjwMmbBCS2AAAAABJRU5ErkJggg=="
+            // }
+            style={{
+              width: "fit-content",
+              height: "auto",
+              objectFit: "cover",
+              ...customImgStyles,
+            }}
+            className={customImgClasses}
+          />
+          {text && (
+            <Typography
+              sx={{
+                width: "100%",
+                height: "100%",
+                p: 2,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+                color: neutralWhite,
+                backgroundColor: "rgba(0,0,0,0.3)",
+              }}
+              variant={
+                (!textVariant && getTitleVariant(xl, lg, md, sm)) || textVariant
+              }
+            >
+              {text}
+            </Typography>
+          )}
+
+          {children}
+        </div>
+      </Link>
+    );
+  }
   return (
-    <Link
-      href={"/search_results"} // add slugs for collection/search result
+    <div
+      className={imageOverlayClasses}
       style={{
         ...customStyles,
       }}
     >
-      <div className={imageOverlayClasses}>
-        <Image
-          src={imgSrc}
-          height={100}
-          width={1000}
-          alt="landing_img"
-          style={{
-            width: "fit-content",
-            height: "auto",
-            objectFit: "cover",
-            ...customImgStyles,
+      <CustomImageWithErrorHandle
+        src={imgSrc}
+        height={100}
+        width={1000}
+        alt="landing_img"
+        // blurDataURL={
+        //   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8eOtWPQAIjwMmbBCS2AAAAABJRU5ErkJggg=="
+        // }
+        style={{
+          width: "fit-content",
+          height: "auto",
+          objectFit: "cover",
+          ...customImgStyles,
+        }}
+        className={customImgClasses}
+      />
+      {text && (
+        <Typography
+          sx={{
+            width: "100%",
+            height: "100%",
+            p: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%,-50%)",
+            color: neutralWhite,
+            backgroundColor: "rgba(0,0,0,0.3)",
           }}
-        />
-        {text && (
-          <Typography
-            sx={{
-              width: "100%",
-              height: "100%",
-              p: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%,-50%)",
-              color: neutralWhite,
-              backgroundColor: "rgba(0,0,0,0.3)",
-            }}
-            variant={
-              (!textVariant && getTitleVariant(xl, lg, md, sm)) || textVariant
-            }
-          >
-            {text}
-          </Typography>
-        )}
+          variant={
+            (!textVariant && getTitleVariant(xl, lg, md, sm)) || textVariant
+          }
+        >
+          {text}
+        </Typography>
+      )}
 
-        {children}
-      </div>
-    </Link>
+      {children}
+    </div>
   );
 };

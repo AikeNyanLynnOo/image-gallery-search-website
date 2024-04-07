@@ -8,27 +8,19 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useCallback } from "react";
 import { ResponsiveContainer } from "../ResponsiveContainer";
-import {
-  bgOverlay300,
-  neutralWhite,
-  primary,
-  primaryDark,
-  primaryTeal,
-} from "@/lib/theme/colors";
+import { bgOverlay300, neutralWhite, primaryTeal } from "@/lib/theme/colors";
 import { ModeContext } from "../ModeWrapper";
 import { ImageOverlayWithText } from "../atoms/ImageOverlayWithText";
 import Image from "next/image";
-// import { ResponsiveGallery } from "../ResponsiveGallery";
 import ResponsiveGallery from "../ResponsiveGallery";
 import {
   formatISOtoDate,
   numberWithCommas,
 } from "@/lib/helpers/helperFunctions";
 import { CustomTooltip } from "../styledComponents/CustomTooltip";
-import { CustomLoading } from "../customComponents/CustomLoading";
 import { CustomTypography } from "../customComponents/CustomTypography";
 
 export const PopularCollections = ({
@@ -68,11 +60,12 @@ export const PopularCollections = ({
       customClasses={{
         // "border-b": true,
         // "shadow-sm": true,
-        "sm:px-7": true,
-        "md:px-5": true,
+        "sm:px-7": false,
+        "md:px-16": false,
         "lg:px-28": false,
         "xl:px-40": false,
         "py-10": true,
+        "px-0": true,
       }}
     >
       <Grid
@@ -215,12 +208,13 @@ export const PopularCollections = ({
         ))} */}
       {/* </Grid> */}
 
-      <div className="px-0 lg:px-3">
+      <div className="px-0">
         <ResponsiveGallery>
           {collections &&
             collections.length > 0 &&
             collections.map((collection, index) => (
               <ImageOverlayWithText
+                linkHref={`/search_results?collection=${collection.id}`}
                 key={index}
                 imgSrc={collection.cover_photo.urls.regular}
                 customClasses={{
@@ -230,11 +224,11 @@ export const PopularCollections = ({
                   group: true,
                 }}
                 customImgStyles={{
-                  zIndex: "0",
                   maxHeight: "500px",
                   minHeight: "350px",
                   width: "100%",
                 }}
+                customImgClasses="hover:scale-125 transform transition ease-in-out delay-150 hover:-translate-y-1 duration-1000"
               >
                 {/* <Typography
                 sx={{

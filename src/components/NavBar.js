@@ -6,7 +6,7 @@ import { NavItem } from "./atoms/NavItemComponent";
 import { Button, Icon, Typography } from "@mui/material";
 import { ModeContext } from "./ModeWrapper";
 import Image from "next/image";
-import { ModeDropDown } from "./ModeDropDown";
+import { ModeDropDown } from "./dropdowns/ModeDropDown";
 import { ResponsiveContainer } from "./ResponsiveContainer";
 import ButtonWithIcon from "./atoms/ButtonWithIcon";
 import {

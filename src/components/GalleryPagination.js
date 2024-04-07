@@ -27,7 +27,6 @@ export const GalleryPagination = ({ totalPages }) => {
         count={totalPages || 10}
         shape="rounded"
         renderItem={(item) => {
-          console.log("Item>>", item);
           if (item.page && item.page >= 1 && item.page <= totalPages) {
             return (
               <Link href={`?page=${item.page}`}>

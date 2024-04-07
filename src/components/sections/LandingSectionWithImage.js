@@ -9,6 +9,8 @@ import { ResponsiveContainer } from "../ResponsiveContainer";
 import { neutralWhite, primary, primaryDark } from "@/lib/theme/colors";
 import ButtonWithIcon from "../atoms/ButtonWithIcon";
 import { ModeContext } from "../ModeWrapper";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export const LandingSectionWithImage = ({
   imgSrc,
@@ -18,6 +20,8 @@ export const LandingSectionWithImage = ({
   children,
   customLayoutStyles,
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const theme = useTheme();
   const xl = useMediaQuery(theme.breakpoints.up("xl"));
   const lg = useMediaQuery(theme.breakpoints.up("lg"));
@@ -83,6 +87,21 @@ export const LandingSectionWithImage = ({
 
   const handleClearInput = () => {
     setSearchTerm("");
+  };
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const handleSearch = () => {
+    if (searchTerm.trim().length) {
+      router.push(`/search_results?${createQueryString("query", searchTerm)}`);
+    }
   };
 
   return (
@@ -158,6 +177,7 @@ export const LandingSectionWithImage = ({
           }}
           source={source}
           changeSource={changeSource}
+          handleGo={handleSearch}
         />
         <Box
           sx={{
@@ -173,29 +193,30 @@ export const LandingSectionWithImage = ({
         >
           {topics &&
             topics.length > 0 &&
-            topics.slice(0,10).map((topics, index) => (
-              <ButtonWithIcon
-                key={index}
-                buttonText={topics.title}
-                variant="outlined"
-                customStyles={{
-                  "&.MuiButton-outlined": {
-                    m: 1,
-                    border: "none",
+            topics.slice(0, 10).map((topics, index) => (
+              <Link key={index} href={`/search_results?query=${topics.slug}`}>
+                <ButtonWithIcon
+                  buttonText={topics.title}
+                  variant="outlined"
+                  customStyles={{
+                    "&.MuiButton-outlined": {
+                      m: 1,
+                      border: "none",
+                      color: mode === "dark" ? primaryDark : neutralWhite,
+                      px: 3,
+                      borderRadius: 10,
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    },
+                  }}
+                  textVariant={"btnXsRegular"}
+                  icon={"search"}
+                  iconPosition={"start"}
+                  customIconStyles={{
+                    fontSize: 16,
                     color: mode === "dark" ? primaryDark : neutralWhite,
-                    px: 3,
-                    borderRadius: 10,
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
-                  },
-                }}
-                textVariant={"btnXsRegular"}
-                icon={"search"}
-                iconPosition={"start"}
-                customIconStyles={{
-                  fontSize: 16,
-                  color: mode === "dark" ? primaryDark : neutralWhite,
-                }}
-              />
+                  }}
+                />
+              </Link>
             ))}
         </Box>
       </Grid>

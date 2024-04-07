@@ -8,6 +8,8 @@ const {
   primaryBgDark,
   neutralWhite,
   secondaryTeal,
+  bgDark100,
+  bgDark200,
 } = require("./lib/theme/colors");
 module.exports = {
   content: [
@@ -34,6 +36,10 @@ module.exports = {
       },
       primaryDark: {
         100: primaryDark,
+      },
+      dark: {
+        100: bgDark100, // black
+        200: bgDark200, // dark black
       },
       primaryTeal: {
         100: primaryTeal,

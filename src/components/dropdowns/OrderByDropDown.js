@@ -10,7 +10,7 @@ import { Fragment, useContext, useState } from "react";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
-import { ModeContext } from "./ModeWrapper";
+import { ModeContext } from "../ModeWrapper";
 import {
   neutralWhite,
   primary,
@@ -18,54 +18,46 @@ import {
   primaryDark,
   primaryTeal,
 } from "@/lib/theme/colors";
-import ButtonWithIcon from "./atoms/ButtonWithIcon";
+import ButtonWithIcon from "../atoms/ButtonWithIcon";
 
-export const SourceDropDown = ({ source, changeSource, customClasses }) => {
+export const OrderByDropDown = ({ orderBy, changeOrderBy, customClasses }) => {
   const { mode, changeMode } = useContext(ModeContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (source) => {
+  const handleClose = (orderBy) => {
     setAnchorEl(null);
-    if (!source) {
+    if (!orderBy) {
       return;
     }
-    changeSource(source);
+    changeOrderBy(orderBy);
   };
   return (
     <div>
-      {/* <IconButton
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      ></IconButton> */}
-
       <ButtonWithIcon
         handleClick={handleClick}
-        buttonText={source}
+        buttonText={orderBy}
         variant="outlined"
         customStyles={{
           "&.MuiButton-outlined": {
-            border: `0.5px solid ${mode === "dark" ? primaryDark : primary}`,
-            color: neutralWhite,
+            // border: `0.5px solid ${mode === "dark" ? primaryDark : primary}`,
+            border: `0.5px solid ${primaryTeal}`,
+            color: primary,
             px: 3,
-            height: 48,
-            minWidth: 110,
-            ml: 0.5,
-            borderRadius: 9,
-            backgroundColor: primaryTeal,
+            height: 40,
+            minWidth: 100,
+            borderRadius: 7,
+            backgroundColor: neutralWhite,
           },
         }}
-        textVariant={"btnSMedium"}
-        // icon={"file_upload_outlined"}
+        textVariant={"btnXsRegular"}
         icon={"expand_more"}
         iconPosition={"end"}
         customIconStyles={{
           fontSize: 18,
-          color: neutralWhite,
+          color: primary,
         }}
       />
 
@@ -79,7 +71,7 @@ export const SourceDropDown = ({ source, changeSource, customClasses }) => {
         sx={{
           "& .MuiMenu-paper": {
             mt: 0.6,
-            minWidth: 110,
+            minWidth: 100,
             textAlign: "center",
           },
         }}
@@ -93,26 +85,26 @@ export const SourceDropDown = ({ source, changeSource, customClasses }) => {
         }}
       >
         <MenuItem
-          onClick={() => handleClose("Unsplash")}
+          onClick={() => handleClose("relevant")}
           sx={{
             py: 2,
-            justifyContent: "center",
+            // justifyContent: "center",
             backgroundColor:
-              source === "Unsplash" ? primaryBgDark : neutralWhite,
+              orderBy === "relevant" ? primaryBgDark : neutralWhite,
           }}
         >
-          <Typography variant="btnSRegular">Unsplash</Typography>
+          <Typography variant="btnXsRegular">Relevant</Typography>
         </MenuItem>
         <MenuItem
-          onClick={() => handleClose("Uploads")}
+          onClick={() => handleClose("latest")}
           sx={{
             py: 2,
-            justifyContent: "center",
+            // justifyContent: "center",
             backgroundColor:
-              source === "Uploads" ? primaryBgDark : neutralWhite,
+              orderBy === "relevant" ? primaryBgDark : neutralWhite,
           }}
         >
-          <Typography variant="btnSRegular">Uploads</Typography>
+          <Typography variant="btnXsRegular">Latest</Typography>
         </MenuItem>
       </Menu>
     </div>

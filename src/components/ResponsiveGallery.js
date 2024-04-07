@@ -16,7 +16,7 @@ export default class MyWrapper extends React.Component {
       <ResponsiveMasonry
         columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1200: 4 }}
       >
-        <Masonry gutter="2px">{this.props.children}</Masonry>
+        <Masonry gutter="8px">{this.props.children}</Masonry>
       </ResponsiveMasonry>
     );
   }

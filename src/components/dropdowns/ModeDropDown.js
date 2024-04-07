@@ -3,7 +3,7 @@ import { Fragment, useContext, useState } from "react";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
-import { ModeContext } from "./ModeWrapper";
+import { ModeContext } from "../ModeWrapper";
 import { neutralWhite, primaryBgDark, primaryDark } from "@/lib/theme/colors";
 
 export const ModeDropDown = ({ customClasses }) => {

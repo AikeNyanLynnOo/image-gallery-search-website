@@ -35,6 +35,7 @@ export const ScrollTabs = ({ tabs }) => {
           key={index}
           label={
             <ImageOverlayWithText
+              linkHref={`/search_results?query=${topics.slug}`}
               text={topics.title}
               imgSrc={topics.cover_photo.urls.regular}
               textVariant={"btnMMedium"}

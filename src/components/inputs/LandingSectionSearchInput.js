@@ -12,24 +12,26 @@ import {
 } from "../../../lib/theme/colors";
 import ButtonWithIcon from "../atoms/ButtonWithIcon";
 import { ModeContext } from "../ModeWrapper";
-import { SourceDropDown } from "../SourceDropDown";
+import { SourceDropDown } from "../dropdowns/SourceDropDown";
 
 export const LandingSectionSearchInput = (props) => {
   const {
     source,
     changeSource,
+    handleGo,
     type,
     placeholder,
     inputValue,
     textChange,
     handleClearInput,
-    translationProps,
     disabled,
     closeIconControl,
     multiline,
     minHeight,
     maxLength,
+    dropDownTextVariant,
     customInputStyles,
+    customStartAdornmentStyles,
   } = props;
 
   const { mode, changeMode } = useContext(ModeContext);
@@ -38,6 +40,11 @@ export const LandingSectionSearchInput = (props) => {
     <OutlinedInput
       onFocus={closeIconControl && closeIconControl.handleInputFocus}
       // onBlur={closeIconControl && closeIconControl.handleInputBlur}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleGo();
+        }
+      }}
       readOnly={disabled}
       placeholder={placeholder}
       type={type}
@@ -90,10 +97,7 @@ export const LandingSectionSearchInput = (props) => {
       }}
       style={{
         minHeight: multiline ? minHeight || "85px" : "auto",
-        padding:
-          translationProps && translationProps.isTranslation
-            ? "0px 16px"
-            : "0px",
+        padding: 0,
       }}
       endAdornment={
         <InputAdornment position="end">
@@ -106,6 +110,7 @@ export const LandingSectionSearchInput = (props) => {
               </IconButton>
             )}
           <IconButton
+            onClick={handleGo}
             sx={{
               ml: 3,
               "&.MuiIconButton-root:hover .MuiIcon-root": {
@@ -119,7 +124,12 @@ export const LandingSectionSearchInput = (props) => {
       }
       startAdornment={
         <InputAdornment position="start">
-          <SourceDropDown source={source} changeSource={changeSource} />
+          <SourceDropDown
+            source={source}
+            changeSource={changeSource}
+            dropDownTextVariant={dropDownTextVariant}
+            customStyles={customStartAdornmentStyles}
+          />
         </InputAdornment>
       }
     />

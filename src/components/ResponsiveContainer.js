@@ -6,7 +6,7 @@ export const ResponsiveContainer = ({ children, customClasses, scrollRef }) => {
     return clsx({
       relative: true,
       "z-1": true,
-      "dark:bg-gray-900": true,
+      "dark:bg-dark-100": true,
       "text-black-100": true,
       "bg-white": true,
       "px-4": true,

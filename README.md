@@ -16,20 +16,26 @@ npm i @supabase/auth-helpers-react @supabase/supabase-js
 
 
 ## home page
-- nav bar (logo, upload, switch & sticky)
-- landing section (background, search box, suggested tags)
-- suggested image topics & collections
-- Sort
+- nav bar (logo, upload, switch & sticky) ✅
+- landing section (background, search box, suggested tags) ✅
+- suggested image topics & collections ✅
+<!-- - Sort -->
 <!-- - suggested random images gallery view -->
-- infinite scroll (load more when scroll) / load on btn click
-- back-to-top btn
+- pagination ✅
+- footer ✅
+- back-to-top btn ✅
 
 ## search result page
-- nav bar (logo, upload, switch & sticky)
-- Sort
-- search result images
-- infinite scroll (load more when scroll) / load on btn click
-- back-to-top btn
+
+# routes
+search_results?query=""&order_by=relevant/latest
+search_results?collection=""&order_by=relevant/latest
+
+- nav bar (logo, upload, switch & sticky) ✅
+- Sort, search, result counts (sticky) ✅
+- search result images responsive view ✅
+- infinite scroll (load more when scroll) / load on btn click ✅
+- back-to-top btn ✅
 
 
 Collection

@@ -11,6 +11,7 @@ import {
 import { ModeWrapper } from "@/src/components/ModeWrapper";
 import { typoSystem } from "@/lib/theme/typoSystem";
 import { primary } from "@/lib/theme/colors";
+import { StoreProvider } from "./StoreProvider";
 
 const metadata = {
   title: "Create Next App",
@@ -146,14 +147,16 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <ModeWrapper>
-          <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              {children}
-            </ThemeProvider>
-          </StyledEngineProvider>
-        </ModeWrapper>
+        <StoreProvider>
+          <ModeWrapper>
+            <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                {children}
+              </ThemeProvider>
+            </StyledEngineProvider>
+          </ModeWrapper>
+        </StoreProvider>
       </body>
     </html>
   );
