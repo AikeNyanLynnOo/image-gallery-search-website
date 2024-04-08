@@ -92,6 +92,7 @@ export const LandingSectionWithImage = ({
   const createQueryString = useCallback(
     (name, value) => {
       const params = new URLSearchParams(searchParams);
+      params.delete("page");
       params.set(name, value);
       return params.toString();
     },

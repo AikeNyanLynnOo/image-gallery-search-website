@@ -148,7 +148,6 @@ export const GalleryPhotos = ({
   const handleSearch = async () => {
     if (searchTerm.trim().length) {
       router.push(`/search_results?${createQueryString("query", searchTerm)}`);
-      await sleep(100);
       fetchData({ restart: true });
     }
   };
@@ -159,7 +158,7 @@ export const GalleryPhotos = ({
       router.push(
         `/search_results?${createQueryString("order_by", updateVal)}`
       );
-      //   fetchData({ restart: true });
+      fetchData({ restart: true });
     }
   };
 

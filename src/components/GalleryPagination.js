@@ -21,7 +21,7 @@ export const GalleryPagination = ({ totalPages }) => {
   const { mode, changeMode } = useContext(ModeContext);
 
   return (
-    <div className="py-12 dark:bg-gray-900 bg-white w-full flex items-center justify-center">
+    <div className="py-12 dark:bg-dark-100 bg-white w-full flex items-center justify-center">
       <Pagination
         page={parseInt(searchParams.get("page")) || 1}
         count={totalPages || 10}
