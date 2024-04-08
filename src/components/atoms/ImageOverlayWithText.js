@@ -18,6 +18,7 @@ export const ImageOverlayWithText = ({
   customClasses,
   customImgClasses,
   linkHref,
+  handleClick,
 }) => {
   const theme = useTheme();
   const xl = useMediaQuery(theme.breakpoints.up("xl"));
@@ -116,6 +117,7 @@ export const ImageOverlayWithText = ({
       style={{
         ...customStyles,
       }}
+      onClick={handleClick}
     >
       <CustomImageWithErrorHandle
         src={imgSrc}

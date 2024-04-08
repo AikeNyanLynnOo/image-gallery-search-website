@@ -38,6 +38,21 @@ search_results?collection=""&order_by=relevant/latest
 - back-to-top btn ✅
 
 
+# gallery view
+- show light box on click
+
+# light box details
+
+<!-- functions -->
+- download with options
+- share to social (facebook, pinterest, x)
+- copy link
+
+<!-- details -->
+- views
+- downloads
+- user (profile_img, name, follow btn)
+
 Collection
 - Cover photo (background)
 - likes (hover)

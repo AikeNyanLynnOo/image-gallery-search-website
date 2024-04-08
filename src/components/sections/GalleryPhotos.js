@@ -27,6 +27,7 @@ import {
   formatISOtoDate,
   numberWithCommas,
   paramsToObject,
+  prepareSlides,
   sleep,
 } from "@/lib/helpers/helperFunctions";
 import { CustomTooltip } from "../styledComponents/CustomTooltip";
@@ -43,6 +44,7 @@ import {
   getPhotosSuccess,
   resetPhoto,
 } from "@/lib/features/photo/photoSlice";
+import useLightbox from "../customHooks.js/useLightBox";
 
 export const GalleryPhotos = ({
   totalCount,
@@ -197,6 +199,8 @@ export const GalleryPhotos = ({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const { openLightbox, renderLightbox } = useLightbox();
   return (
     <ResponsiveContainer
       customClasses={{
@@ -301,6 +305,8 @@ export const GalleryPhotos = ({
             photos.length > 0 &&
             photos.map((photo, index) => (
               <ImageOverlayWithText
+                handleClick={openLightbox}
+                handle
                 key={index}
                 imgSrc={photo.urls.regular}
                 customClasses={{
@@ -462,6 +468,9 @@ export const GalleryPhotos = ({
               </ImageOverlayWithText>
             ))}
         </ResponsiveGallery>
+
+        {/* light box */}
+        {renderLightbox({ slides: prepareSlides() })}
       </div>
     </ResponsiveContainer>
   );
