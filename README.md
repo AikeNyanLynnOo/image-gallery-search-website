@@ -44,14 +44,14 @@ search_results?collection=""&order_by=relevant/latest
 # light box details
 
 <!-- functions -->
-- download with options
-- share to social (facebook, pinterest, x)
-- copy link
+- download ✅
+- share to social (facebook, pinterest, x) (not in this version)
+- copy link (not in this version)
 
 <!-- details -->
-- views
-- downloads
-- user (profile_img, name, follow btn)
+- views ✅
+- downloads ✅
+- user (profile_img, name, follow btn) ✅
 
 Collection
 - Cover photo (background)

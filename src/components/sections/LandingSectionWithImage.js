@@ -147,7 +147,6 @@ export const LandingSectionWithImage = ({
           width={1000}
           alt="landing_img"
           style={{
-            // border: "1px solid red",
             width: "100%",
             height: "300px",
             objectFit: "cover",

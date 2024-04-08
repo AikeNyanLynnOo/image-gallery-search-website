@@ -60,7 +60,6 @@ export const SourceDropDown = ({
           },
         }}
         textVariant={dropDownTextVariant || "btnSMedium"}
-        // icon={"file_upload_outlined"}
         icon={"expand_more"}
         iconPosition={"end"}
         customIconStyles={{
@@ -85,9 +84,7 @@ export const SourceDropDown = ({
           },
         }}
         open={open}
-        onChange={(val) => {
-          console.log("value>>", val);
-        }}
+        onChange={(val) => {}} // for later version
         onClose={() => handleClose()}
         MenuListProps={{
           "aria-labelledby": "basic-button",
@@ -97,7 +94,6 @@ export const SourceDropDown = ({
           onClick={() => handleClose("Unsplash")}
           sx={{
             py: 2,
-            // justifyContent: "center",
             backgroundColor:
               source === "Unsplash" ? primaryBgDark : neutralWhite,
           }}
@@ -110,7 +106,6 @@ export const SourceDropDown = ({
           onClick={() => handleClose("Uploads")}
           sx={{
             py: 2,
-            // justifyContent: "center",
             backgroundColor:
               source === "Uploads" ? primaryBgDark : neutralWhite,
           }}

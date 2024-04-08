@@ -26,7 +26,7 @@ export const TopicsSection = ({
 
   const getTitleVariant = useCallback((xl, lg, md, sm) => {
     if (xl) {
-      //isScreenLargerThan1536
+      // isScreenLargerThan1536
       return "headline2Regular";
     } else if (lg) {
       // isScreenLargerThan1200
@@ -47,8 +47,6 @@ export const TopicsSection = ({
   return (
     <ResponsiveContainer
       customClasses={{
-        // "border": true,
-        // "shadow-sm": true,
         "sm:px-7": true,
         "md:px-5": true,
         "lg:px-28": false,

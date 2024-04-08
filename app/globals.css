@@ -235,3 +235,7 @@
     animation-timing-function: ease-out;
   }
 }
+.yarl__button {
+  filter: none !important;
+  color: #219C90 !important;
+}

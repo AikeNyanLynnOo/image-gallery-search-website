@@ -71,9 +71,6 @@ export const ImageOverlayWithText = ({
             height={100}
             width={1000}
             alt="landing_img"
-            // blurDataURL={
-            //   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8eOtWPQAIjwMmbBCS2AAAAABJRU5ErkJggg=="
-            // }
             style={{
               width: "fit-content",
               height: "auto",
@@ -124,9 +121,6 @@ export const ImageOverlayWithText = ({
         height={100}
         width={1000}
         alt="landing_img"
-        // blurDataURL={
-        //   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8eOtWPQAIjwMmbBCS2AAAAABJRU5ErkJggg=="
-        // }
         style={{
           width: "fit-content",
           height: "auto",

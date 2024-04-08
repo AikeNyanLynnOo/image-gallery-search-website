@@ -6,19 +6,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import { BeatLoader } from "react-spinners";
 
 export const CustomImageWithErrorHandle = (props) => {
-  const { customStyles, customClasses, ...propsForImg } = props;
+  const {
+    children,
+    loaderSize,
+    customStyles,
+    customClasses,
+    customImgClasses,
+    ...propsForImg
+  } = props;
   const [imageError, setImageError] = useState(false);
   const [isImgLoading, setIsImgLoading] = useState(false);
-
-  //   useEffect(() => {
-  //     setIsImgHovered((prev) => {
-  //       console.log("Index here>>", props.index);
-  //       if (!props.index && typeof props.index !== "number") {
-  //         return isHovered;
-  //       }
-  //       return isHovered === props.index;
-  //     });
-  //   }, [props.index, isHovered]);
 
   useEffect(() => {
     setIsImgLoading(true);
@@ -27,7 +24,7 @@ export const CustomImageWithErrorHandle = (props) => {
   useEffect(() => {
     setImageError(false);
   }, [propsForImg.src]);
-  
+
   const wrapperClasses = useMemo(() => {
     return clsx({
       relative: true,
@@ -43,7 +40,7 @@ export const CustomImageWithErrorHandle = (props) => {
     >
       {isImgLoading && (
         <p className="z-10 absolute top-0 bottom-0 h-full w-full flex justify-center items-center backdrop-blur-md">
-          <BeatLoader color={primaryTeal} size={8} />
+          <BeatLoader color={primaryTeal} size={loaderSize || 8} />
         </p>
       )}
 
@@ -52,6 +49,7 @@ export const CustomImageWithErrorHandle = (props) => {
         onLoadingComplete={(img) => {
           setIsImgLoading(false);
         }}
+        className={customImgClasses}
         placeholder="blur"
         blurDataURL={
           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8eOtWPQAIjwMmbBCS2AAAAABJRU5ErkJggg=="
@@ -61,6 +59,7 @@ export const CustomImageWithErrorHandle = (props) => {
           setImageError(true);
         }}
       />
+      {children}
     </div>
   );
 };

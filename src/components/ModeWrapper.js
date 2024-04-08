@@ -14,8 +14,6 @@ export const ModeWrapper = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("checking mode", mode);
-
     switch (mode) {
       case "dark":
         document.documentElement.classList.add("dark");
@@ -23,14 +21,6 @@ export const ModeWrapper = ({ children }) => {
       case "light":
         document.documentElement.classList.remove("dark");
         break;
-      // case "system":
-      //   {
-      //     if (date.getHours() > 6 && date.getHours() < 20) {
-      //       return document.documentElement.classList.remove("dark");
-      //     }
-      //     document.documentElement.classList.add("dark");
-      //   }
-      //   break;
       default:
         break;
     }

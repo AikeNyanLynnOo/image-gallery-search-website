@@ -3,8 +3,6 @@
 import {
   neutralWhite,
   primary,
-  primaryBgDark,
-  primaryDark,
   primaryTeal,
   secondaryTeal,
 } from "@/lib/theme/colors";

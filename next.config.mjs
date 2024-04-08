@@ -19,6 +19,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "source.unsplash.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
         hostname: `${process.env.NEXT_PUBLIC_IMAGE_STORAGE}`,
         pathname: "**",
       },

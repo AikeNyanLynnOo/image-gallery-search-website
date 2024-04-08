@@ -39,7 +39,6 @@ export const LandingSectionSearchInput = (props) => {
   return (
     <OutlinedInput
       onFocus={closeIconControl && closeIconControl.handleInputFocus}
-      // onBlur={closeIconControl && closeIconControl.handleInputBlur}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
           handleGo();
@@ -79,7 +78,6 @@ export const LandingSectionSearchInput = (props) => {
         backgroundColor: neutralWhite,
         "&.MuiOutlinedInput-root .MuiOutlinedInput-input": {
           alignSelf: (!multiline && "center") || "initial",
-          // border: "1px solid red",
           mx: 3,
         },
         "& .MuiInputAdornment-root": {

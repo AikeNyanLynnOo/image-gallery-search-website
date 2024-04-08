@@ -1,6 +1,5 @@
 import { clsx } from "clsx";
-import { useContext, useMemo } from "react";
-import { ModeContext } from "../ModeWrapper";
+import { useMemo } from "react";
 
 export const CustomChip = ({
   children,
@@ -9,8 +8,6 @@ export const CustomChip = ({
   customStyles,
   href,
 }) => {
-  //   const { mode, changeMode } = useContext(ModeContext);
-
   const chipClasses = useMemo(() => {
     return clsx({
       "cursor-pointer": href,

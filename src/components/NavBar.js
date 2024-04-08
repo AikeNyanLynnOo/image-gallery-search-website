@@ -1,22 +1,15 @@
 "use client";
-import { useCallback, useContext, useEffect, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { clsx } from "clsx";
-import { SwitchBtn } from "./SwitchBtn";
 import { NavItem } from "./atoms/NavItemComponent";
-import { Button, Icon, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { ModeContext } from "./ModeWrapper";
 import Image from "next/image";
 import { ModeDropDown } from "./dropdowns/ModeDropDown";
 import { ResponsiveContainer } from "./ResponsiveContainer";
 import ButtonWithIcon from "./atoms/ButtonWithIcon";
-import {
-  neutralWhite,
-  primary,
-  primaryDark,
-  primaryTeal,
-} from "@/lib/theme/colors";
+import { neutralWhite, primaryTeal } from "@/lib/theme/colors";
 import Link from "next/link";
-// import { CustomLogo } from "../atoms/CustomLogo";
 
 export const NavBar = ({
   children,
@@ -24,10 +17,6 @@ export const NavBar = ({
   customMenuIconClasses,
 }) => {
   const { mode, changeMode } = useContext(ModeContext);
-
-  const handleSwitch = () => {
-    changeMode("dark");
-  };
 
   const navClasses = useMemo(() => {
     return clsx({
@@ -47,8 +36,6 @@ export const NavBar = ({
   return (
     <ResponsiveContainer
       customClasses={{
-        // "border-b": true,
-        // "shadow-sm": true,
         "sm:px-7": true,
         "md:px-5": true,
         "lg:px-28": false,
@@ -79,8 +66,6 @@ export const NavBar = ({
             variant="outlined"
             customStyles={{
               "&.MuiButton-outlined": {
-                // border: `1px solid ${mode === "dark" ? primaryDark : primary}`,
-                // color: mode === "dark" ? primaryDark : primary,
                 border: "none",
                 color: neutralWhite,
                 px: 5,
@@ -95,7 +80,6 @@ export const NavBar = ({
             iconPosition={"start"}
             customIconStyles={{
               fontSize: 16,
-              // color: mode === "dark" ? primaryDark : primary,
               color: neutralWhite,
             }}
           />

@@ -42,7 +42,6 @@ export const OrderByDropDown = ({ orderBy, changeOrderBy, customClasses }) => {
         variant="outlined"
         customStyles={{
           "&.MuiButton-outlined": {
-            // border: `0.5px solid ${mode === "dark" ? primaryDark : primary}`,
             border: `0.5px solid ${primaryTeal}`,
             color: primary,
             px: 3,
@@ -76,9 +75,7 @@ export const OrderByDropDown = ({ orderBy, changeOrderBy, customClasses }) => {
           },
         }}
         open={open}
-        onChange={(val) => {
-          console.log("value>>", val);
-        }}
+        onChange={(val) => {}} // for later version
         onClose={() => handleClose()}
         MenuListProps={{
           "aria-labelledby": "basic-button",
@@ -88,7 +85,6 @@ export const OrderByDropDown = ({ orderBy, changeOrderBy, customClasses }) => {
           onClick={() => handleClose("relevant")}
           sx={{
             py: 2,
-            // justifyContent: "center",
             backgroundColor:
               orderBy === "relevant" ? primaryBgDark : neutralWhite,
           }}
@@ -99,7 +95,6 @@ export const OrderByDropDown = ({ orderBy, changeOrderBy, customClasses }) => {
           onClick={() => handleClose("latest")}
           sx={{
             py: 2,
-            // justifyContent: "center",
             backgroundColor:
               orderBy === "relevant" ? primaryBgDark : neutralWhite,
           }}

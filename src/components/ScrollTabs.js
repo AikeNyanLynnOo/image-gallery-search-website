@@ -13,18 +13,13 @@ export const ScrollTabs = ({ tabs }) => {
         [`& .${tabsClasses.scrollButtons}`]: {
           "&.Mui-disabled": { opacity: 0.5 },
         },
-        // backgroundColor : "blue",
         ".MuiTabs-indicator": {
           display: "none",
         },
         "& .MuiTab-root": {
           textTransform: "capitalize",
-          // color: "#ffffff",
           borderRadius: "10px",
           backgroundColor: neutralWhite,
-          // color: neutral[10],
-          // border: `1px solid ${neutral[10]}`,
-          // mr: 6,
           mr: 3,
           p: 0,
         },

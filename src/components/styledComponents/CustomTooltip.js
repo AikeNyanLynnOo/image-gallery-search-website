@@ -17,14 +17,11 @@ export const CustomTooltip = styled(({ className, ...props }) => (
   return {
     [`& .${tooltipClasses.tooltip}`]: {
       backgroundColor: mode === "light" ? neutralWhite : bgOverlay800,
-      //   backgroundColor: primaryBgDark,
-      // boxShadow: theme.shadows[1],
       padding: 10,
       borderRadius: "8px",
     },
     "& .MuiTooltip-arrow": {
       color: mode === "light" ? neutralWhite : bgOverlay800,
-      //   color: primaryBgDark,
     },
   };
 });

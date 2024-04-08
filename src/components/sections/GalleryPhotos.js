@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { BeatLoader } from "react-spinners";
 import React, { useContext, useEffect, useState } from "react";
 import { useCallback } from "react";
 import { ResponsiveContainer } from "../ResponsiveContainer";
@@ -45,6 +46,12 @@ import {
   resetPhoto,
 } from "@/lib/features/photo/photoSlice";
 import useLightbox from "../customHooks.js/useLightBox";
+import { CustomLightBoxSlide } from "../customComponents/CustomLightBoxSlide";
+
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CloseIcon from "@mui/icons-material/Close";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
 export const GalleryPhotos = ({
   totalCount,
@@ -69,6 +76,7 @@ export const GalleryPhotos = ({
   const { page, photos, total, total_pages, isSuccess, loading, error } =
     useSelector((state) => state.photo);
 
+  const photoState = useSelector((state) => state.photo);
   const [orderBy, setOrderBy] = useState(
     searchParams.get("order_by") || "relevant"
   );
@@ -99,7 +107,7 @@ export const GalleryPhotos = ({
 
   const getTitleVariant = useCallback((xl, lg, md, sm) => {
     if (xl) {
-      //isScreenLargerThan1536
+      // isScreenLargerThan1536
       return "headline4Regular";
     } else if (lg) {
       // isScreenLargerThan1200
@@ -117,26 +125,26 @@ export const GalleryPhotos = ({
 
   const { mode, changeMode } = useContext(ModeContext);
 
-  const fetchData = ({ restart, collection }) => {
-    const params = {
-      query: searchTerm,
-      per_page: 10,
-      collection: collection || "",
-      order_by: orderBy,
-    };
-
-    console.log("Searching...", JSON.stringify(params));
-    dispatch(
-      getPhotosRequest({
-        params,
-        ENV: {
-          API_URL: process.env.NEXT_PUBLIC_API_URL,
-          ACCESS_ID: process.env.NEXT_PUBLIC_ACCESS_ID,
-        },
-        restart,
-      })
-    );
-  };
+  const fetchData = useCallback(
+    ({ restart, collection }) => {
+      dispatch(
+        getPhotosRequest({
+          params: {
+            query: searchTerm,
+            per_page: 10,
+            collection: collection || "",
+            order_by: orderBy,
+          },
+          ENV: {
+            API_URL: process.env.NEXT_PUBLIC_API_URL,
+            ACCESS_ID: process.env.NEXT_PUBLIC_ACCESS_ID,
+          },
+          restart,
+        })
+      );
+    },
+    [dispatch, orderBy, searchTerm]
+  );
 
   const createQueryString = useCallback(
     (name, value) => {
@@ -150,7 +158,9 @@ export const GalleryPhotos = ({
   const handleSearch = async () => {
     if (searchTerm.trim().length) {
       router.push(`/search_results?${createQueryString("query", searchTerm)}`);
-      fetchData({ restart: true });
+      fetchData({
+        restart: true,
+      });
     }
   };
 
@@ -164,48 +174,31 @@ export const GalleryPhotos = ({
     }
   };
 
-  const handleScroll = useCallback((e) => {
-    const scrollHeight = e.target.documentElement.scrollHeight;
-    const currentHeight =
-      e.target.documentElement.scrollTop + window.innerHeight;
-    if (currentHeight + 1 >= scrollHeight) {
-      fetchData({ restart: false });
-    }
-  }, []);
-
-  // useEffects
-
-  //   useEffect(() => {
-  //     console.log("Setting>>>", {
-  //       total: totalCount,
-  //       totalPages: totalPagesCount,
-  //       photos: results,
-  //     });
-  //     dispatch(
-  //       getPhotosSuccess({
-  //         total: totalCount,
-  //         totalPages: totalPagesCount,
-  //         photos: results,
-  //         page: 1,
-  //       })
-  //     );
-  //   }, [totalCount, totalPagesCount, results]);
+  const handleScroll = useCallback(
+    (e) => {
+      const scrollHeight = e.target.documentElement.scrollHeight;
+      const currentHeight =
+        e.target.documentElement.scrollTop + window.innerHeight;
+      if (currentHeight + 1 >= scrollHeight) {
+        fetchData({ restart: false });
+      }
+    },
+    [fetchData]
+  );
 
   useEffect(() => {
     fetchData({ restart: true, collection: searchParams.get("collection") });
-  }, []);
+  }, [fetchData, searchParams]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   const { openLightbox, renderLightbox } = useLightbox();
   return (
     <ResponsiveContainer
       customClasses={{
-        // "border-b": true,
-        // "shadow-sm": true,
         "sm:px-7": false,
         "md:px-16": false,
         "lg:px-28": false,
@@ -223,7 +216,6 @@ export const GalleryPhotos = ({
           position: "sticky",
           top: 64,
           zIndex: 20,
-          //   backgroundColor: mode === "dark" ? bgDark100 : neutralWhite,
           backgroundColor: "inherit",
         }}
       >
@@ -235,15 +227,32 @@ export const GalleryPhotos = ({
           lg={7}
           sx={{
             mb: 5,
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 5,
           }}
         >
           <Typography
             component={"h2"}
             variant={getTitleVariant(xl, lg, md, sm)}
           >
-            <span className="font-semibold">{numberWithCommas(total)}</span>{" "}
+            <span className="font-semibold mr-2">
+              {numberWithCommas(total)}
+            </span>
             results found
           </Typography>
+          {searchParams.get("query") && (
+            <Typography
+              component={"h3"}
+              variant={getTitleVariant(xl, lg, md, sm)}
+            >
+              for
+              <span className="font-semibold ml-2">
+                {`"${searchParams.get("query")}"`}
+              </span>
+            </Typography>
+          )}
         </Grid>
         <Grid
           item
@@ -305,7 +314,7 @@ export const GalleryPhotos = ({
             photos.length > 0 &&
             photos.map((photo, index) => (
               <ImageOverlayWithText
-                handleClick={openLightbox}
+                handleClick={() => openLightbox(index)}
                 handle
                 key={index}
                 imgSrc={photo.urls.regular}
@@ -316,7 +325,6 @@ export const GalleryPhotos = ({
                   group: true,
                 }}
                 customImgStyles={{
-                  maxHeight: "500px",
                   minHeight: "350px",
                   width: "100%",
                 }}
@@ -470,7 +478,41 @@ export const GalleryPhotos = ({
         </ResponsiveGallery>
 
         {/* light box */}
-        {renderLightbox({ slides: prepareSlides() })}
+        {renderLightbox({
+          slides: prepareSlides(photos),
+          render: {
+            slide: CustomLightBoxSlide,
+            iconPrev: () => (
+              <ArrowBackIosIcon
+                sx={{
+                  color: primaryTeal,
+                }}
+              />
+            ),
+            iconNext: () => (
+              <ArrowForwardIosIcon
+                sx={{
+                  color: primaryTeal,
+                }}
+              />
+            ),
+            iconClose: () => (
+              <CloseIcon
+                sx={{
+                  color: primaryTeal,
+                }}
+              />
+            ),
+            iconLoading: () => <BeatLoader color={primaryTeal} size={15} />,
+            iconDownload: () => (
+              <CloudDownloadIcon
+                sx={{
+                  color: primaryTeal,
+                }}
+              />
+            ),
+          },
+        })}
       </div>
     </ResponsiveContainer>
   );

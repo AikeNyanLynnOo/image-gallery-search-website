@@ -23,7 +23,6 @@ export const SomethingWentWrong = ({
       return;
     }
     if (isReload) {
-      // console.log("refreshing");
       router.refresh();
       return;
     }
@@ -68,10 +67,8 @@ export const SomethingWentWrong = ({
           padding: "12px 20px",
           fontWeight: "bold",
           backgroundColor: primaryTeal,
-          // borderColor: primary,
           "&:hover": {
             backgroundColor: secondaryTeal,
-            // borderColor: primary,
           },
         }}
         startIcon={

@@ -16,7 +16,6 @@ export const Footer = ({ customStyles }) => {
   return (
     <ResponsiveContainer
       customClasses={{
-        // "shadow-sm": true,
         "sm:px-7": false,
         "md:px-16": false,
         "lg:px-28": false,
@@ -106,10 +105,6 @@ export const Footer = ({ customStyles }) => {
             py: 6,
             px: 0,
           }}
-        //   textAlign={{
-        //     xs: "center",
-        //     md: "left",
-        //   }}
         >
           <CustomTypography
             variant="subheadline3Regular"
@@ -134,10 +129,6 @@ export const Footer = ({ customStyles }) => {
             py: 6,
             px: 0,
           }}
-        //   textAlign={{
-        //     xs: "center",
-        //     md: "left",
-        //   }}
         >
           <CustomTypography
             variant="subheadline3Regular"
@@ -169,10 +160,6 @@ export const Footer = ({ customStyles }) => {
             py: 6,
             px: 0,
           }}
-        //   textAlign={{
-        //     xs: "center",
-        //     md: "left",
-        //   }}
         >
           <CustomTypography
             variant="subheadline3Regular"

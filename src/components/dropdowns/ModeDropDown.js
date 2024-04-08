@@ -2,7 +2,6 @@ import { Button, Icon, IconButton, Menu, MenuItem } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
 import { ModeContext } from "../ModeWrapper";
 import { neutralWhite, primaryBgDark, primaryDark } from "@/lib/theme/colors";
 
@@ -36,7 +35,6 @@ export const ModeDropDown = ({ customClasses }) => {
           />
         )}
         {mode === "light" && <LightModeOutlinedIcon />}
-        {/* {mode === "system" && <SettingsSuggestOutlinedIcon />} */}
       </IconButton>
       <Menu
         id="mode-menu"
@@ -51,9 +49,7 @@ export const ModeDropDown = ({ customClasses }) => {
           },
         }}
         open={open}
-        onChange={(val) => {
-          console.log("value>>", val);
-        }}
+        onChange={(val) => {}} // for next version
         onClose={() => handleClose()}
         MenuListProps={{
           "aria-labelledby": "basic-button",
@@ -75,14 +71,6 @@ export const ModeDropDown = ({ customClasses }) => {
         >
           <LightModeOutlinedIcon />
         </MenuItem>
-        {/* <MenuItem
-          onClick={() => handleClose("system")}
-          sx={{
-            backgroundColor: mode === "system" ? primaryBgDark : neutralWhite,
-          }}
-        >
-          <SettingsSuggestOutlinedIcon />
-        </MenuItem> */}
       </Menu>
     </div>
   );
