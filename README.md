@@ -3,6 +3,21 @@
 1. npm install && npm run build
 2. npm start
 
+## Techs & Best Practices Covered
+
+* NextJS App router
+* NextJS custom Error page / Not found page
+* Serverside rendering & client side rendering
+* Custom Hooks, Custom MUI styled components
+* Custom Image Component (with loading state,image error handling, optimization)
+* Redux, Redux-saga, Redux-toolkit
+* React Context
+* Axios
+* Material UI
+* Tailwind
+
+- Useful packages (react-spinners, react-responsive-masonry, yet-another-react-lightbox, clsx)
+
 ## Tasks Covered 
 
 - ✅ To create a responsive image gallery
