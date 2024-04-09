@@ -8,8 +8,9 @@
 * NextJS App router
 * NextJS custom Error page / Not found page
 * Serverside rendering & client side rendering
-* Custom Hooks, Custom MUI styled components
+* React Hooks(useMemo, useCallback), Custom Hooks, Custom MUI styled components
 * Custom Image Component (with loading state,image error handling, optimization)
+* Pagination, fetch data on scroll (infinite scroll)
 * Redux, Redux-saga, Redux-toolkit
 * React Context
 * Axios
