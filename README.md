@@ -18,52 +18,52 @@
 - Searchable user uploaded images (next version)
 
 ## home page
-- nav bar (logo, upload, switch & sticky) ✅
-- landing section (background, search box, suggested tags) ✅
-- suggested image topics & collections ✅
-- pagination ✅
-- footer ✅
-- back-to-top btn ✅
+- Nav bar (logo, upload, switch & sticky) ✅
+- Landing section (background, search box, suggested tags) ✅
+- Suggested image topics & collections ✅
+- Pagination ✅
+- Footer ✅
+- Back-to-top btn ✅
 
 Collection
 - Cover photo (background)
-- likes (hover)
-- user profile image (name with tooltip) (hover)
-- last updated (hover)
-- total photos (hover)
+- Likes (hover)
+- User profile image (name with tooltip) (hover)
+- Last updated (hover)
+- Total photos (hover)
 
 ## search result page
 
 ## routes
-- search_results?query=""&order_by=relevant/latest
-- search_results?collection=""&order_by=relevant/latest
+1. search_results?query=""&order_by=relevant/latest
+2. search_results?collection=""&order_by=relevant/latest
 
-- nav bar (logo, upload, switch & sticky) ✅
+- Nav bar (logo, upload, switch & sticky) ✅
 - Order by, search, result counts (sticky) ✅
-- search result images responsive view ✅
-- infinite scroll (load more when scroll) / load on btn click ✅
-- back-to-top btn ✅
+- Search result images responsive view ✅
+- Infinite scroll (load more when scroll) / load on btn click ✅
+- Back-to-top btn ✅
 
 # gallery view
-- show light box on click
+- Show light box on click
 
 # light box details
 
 <!-- functions -->
-- download ✅
-- share to social (facebook, pinterest, x) (next version)
-- copy link (next version)
+- Download ✅
+- Share to social (facebook, pinterest, x) (next version)
+- Copy link (next version)
 
 <!-- details -->
-- views ✅
-- downloads ✅
-- likes ✅
-- user (profile_img, name) ✅
+- Views ✅
+- Downloads ✅
+- Likes ✅
+- User (profile_img, name) ✅
 
 # APIs I used & supported by unsplash
-- list photos (editorial' feed) , load more with page no & per_page
-- search photos by (custom query or topics)
-- list topics
-- list a topics's photos
-- list collections
-- list a collection's photos
+- List photos (editorial' feed) , load more with page no & per_page
+- Search photos by (custom query or topics)
+- List topics
+- List a topics's photos
+- List collections
+- List a collection's photos
