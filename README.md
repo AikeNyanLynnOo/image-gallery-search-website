@@ -34,7 +34,6 @@ Collection
 
 ## search result page
 
-## routes
 1. search_results?query=""&order_by=relevant/latest
 2. search_results?collection=""&order_by=relevant/latest
 
@@ -44,10 +43,10 @@ Collection
 - Infinite scroll (load more when scroll) / load on btn click ✅
 - Back-to-top btn ✅
 
-# gallery view
+## gallery view
 - Show light box on click
 
-# light box details
+## light box details
 
 <!-- functions -->
 - Download ✅
@@ -60,7 +59,7 @@ Collection
 - Likes ✅
 - User (profile_img, name) ✅
 
-# APIs I used & supported by unsplash
+## APIs I used & supported by unsplash
 - List photos (editorial' feed) , load more with page no & per_page
 - Search photos by (custom query or topics)
 - List topics
