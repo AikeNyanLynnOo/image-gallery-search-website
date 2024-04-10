@@ -52,7 +52,6 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-
 export const GalleryPhotos = ({
   totalCount,
   totalPagesCount,
@@ -310,7 +309,7 @@ export const GalleryPhotos = ({
 
       <div className="px-0 min-h-screen">
         <ResponsiveGallery>
-          {photos &&
+          {(photos &&
             photos.length > 0 &&
             photos.map((photo, index) => (
               <ImageOverlayWithText
@@ -474,7 +473,11 @@ export const GalleryPhotos = ({
                   </Typography>
                 </div>
               </ImageOverlayWithText>
-            ))}
+            ))) || (
+            <p className="absolute top-0 bottom-0 h-4/6 w-full flex justify-center items-center backdrop-blur-md">
+              <BeatLoader color={primaryTeal} size={8} />
+            </p>
+          )}
         </ResponsiveGallery>
 
         {/* light box */}

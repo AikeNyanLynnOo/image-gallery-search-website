@@ -12,6 +12,7 @@ import { CustomTypography } from "./CustomTypography";
 import { Divider } from "@mui/material";
 import { bgOverlay300, bgOverlay600, primaryTeal } from "@/lib/theme/colors";
 import { numberWithCommas } from "@/lib/helpers/helperFunctions";
+import { neutral } from "tailwindcss/colors";
 
 function isNextJsImage(slide) {
   return (
@@ -59,6 +60,9 @@ export const CustomLightBoxSlide = ({ slide, offset, rect }) => {
       }}
       style={{
         objectFit: "cover",
+        borderRadius: "9px",
+        overflow: "hidden",
+        border: `1px solid ${primaryTeal}`,
       }}
       customImgClasses="rounded-lg overflow-hidden"
       loaderSize={15}
@@ -104,6 +108,9 @@ export const CustomLightBoxSlide = ({ slide, offset, rect }) => {
             "px-3": true,
             "py-2": true,
             "rounded-md": true,
+            "text-primary-100": false,
+            "dark:text-neutralWhite-100": false,
+            "text-white": true,
           }}
         >
           {slide.orginalData.user.username || ""}
@@ -135,6 +142,9 @@ export const CustomLightBoxSlide = ({ slide, offset, rect }) => {
             "px-2": true,
             "py-1": true,
             "rounded-md": true,
+            "text-primary-100": false,
+            "dark:text-neutralWhite-100": false,
+            "text-white": true,
           }}
         >
           Likes:{" "}
@@ -157,6 +167,9 @@ export const CustomLightBoxSlide = ({ slide, offset, rect }) => {
               "px-2": true,
               "py-1": true,
               "rounded-md": true,
+              "text-primary-100": false,
+              "dark:text-neutralWhite-100": false,
+              "text-white": true,
             }}
           >
             Views:{" "}
@@ -180,6 +193,9 @@ export const CustomLightBoxSlide = ({ slide, offset, rect }) => {
               "px-2": true,
               "py-1": true,
               "rounded-md": true,
+              "text-primary-100": false,
+              "dark:text-neutralWhite-100": false,
+              "text-white": true,
             }}
           >
             Downloads:{" "}
