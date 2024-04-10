@@ -14,8 +14,8 @@
 * Redux, Redux-saga, Redux-toolkit
 * React Context
 * Axios
-* Material UI
-* Tailwind
+* Material UI & CSS in JS
+* Tailwind & Pure CSS, CSS Transitions, CSS Animations
 
 - Useful packages (react-spinners, react-responsive-masonry, yet-another-react-lightbox, clsx)
 
