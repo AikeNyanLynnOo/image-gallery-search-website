@@ -133,7 +133,7 @@ export const LandingSectionWithImage = ({
             position: "absolute",
             left: "50%",
             bottom: "60%",
-            width: `${calculateSpacing(xl, lg, md, sm)}%`,
+            width: "100%",
             transform: "translateX(-50%)",
             color: neutralWhite,
           }}
@@ -155,30 +155,41 @@ export const LandingSectionWithImage = ({
           }}
         />
 
-        <LandingSectionSearchInput
-          //   minHeight={30}
-          inputValue={searchTerm}
-          placeholder={"Placeholder"}
-          type={"text"}
-          textChange={handleChange}
-          customInputStyles={{
+        <Box
+          width={{
+            xs: "100%",
+            sm: "90%",
+            md: "60%",
+            lg: "50%",
+          }}
+          sx={{
             position: "absolute",
             left: "50%",
             top: "50%",
-            width: `${calculateSpacing(xl, lg, md, sm)}%`,
             transform: "translate(-50%,-50%)",
           }}
-          //   fullWidth
-          handleClearInput={handleClearInput}
-          closeIconControl={{
-            handleInputFocus: handleInputFocus,
-            handleInputBlur: handleInputBlur,
-            showCloseIcon: showCloseIcon,
-          }}
-          source={source}
-          changeSource={changeSource}
-          handleGo={handleSearch}
-        />
+        >
+          <LandingSectionSearchInput
+            //   minHeight={30}
+            inputValue={searchTerm}
+            placeholder={"Placeholder"}
+            type={"text"}
+            textChange={handleChange}
+            customInputStyles={{
+              width: "100%",
+            }}
+            //   fullWidth
+            handleClearInput={handleClearInput}
+            closeIconControl={{
+              handleInputFocus: handleInputFocus,
+              handleInputBlur: handleInputBlur,
+              showCloseIcon: showCloseIcon,
+            }}
+            source={source}
+            changeSource={changeSource}
+            handleGo={handleSearch}
+          />
+        </Box>
         <Box
           sx={{
             display: "flex",
