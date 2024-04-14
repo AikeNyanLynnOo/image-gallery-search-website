@@ -322,6 +322,7 @@ export const GalleryPhotos = ({
                   "h-56": true,
                   "rounded-xl": true,
                   group: true,
+                  "cursor-pointer": true,
                 }}
                 customImgStyles={{
                   minHeight: "350px",
