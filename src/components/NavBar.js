@@ -2,7 +2,15 @@
 import { useContext, useMemo } from "react";
 import { clsx } from "clsx";
 import { NavItem } from "./atoms/NavItemComponent";
-import { Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { ModeContext } from "./ModeWrapper";
 import Image from "next/image";
 import { ModeDropDown } from "./dropdowns/ModeDropDown";
@@ -10,6 +18,8 @@ import { ResponsiveContainer } from "./ResponsiveContainer";
 import ButtonWithIcon from "./atoms/ButtonWithIcon";
 import { neutralWhite, primaryTeal } from "@/lib/theme/colors";
 import Link from "next/link";
+import CloseIcon from "@mui/icons-material/Close";
+import { useState } from "react";
 
 export const NavBar = ({
   children,
@@ -17,6 +27,14 @@ export const NavBar = ({
   customMenuIconClasses,
 }) => {
   const { mode, changeMode } = useContext(ModeContext);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const navClasses = useMemo(() => {
     return clsx({
@@ -62,6 +80,7 @@ export const NavBar = ({
         <div className="flex gap-x-5 items-center">
           <ModeDropDown />
           <ButtonWithIcon
+            handleClick={handleClickOpen}
             buttonText={"Upload"}
             variant="outlined"
             customStyles={{
@@ -85,6 +104,46 @@ export const NavBar = ({
           />
         </div>
       </nav>
+
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <DialogTitle sx={{ m: 0, py: 2 }} id="customized-dialog-title">
+          Upcoming feature
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          <Typography>
+            This feature is under development. We&apos;ll be right back.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            autoFocus
+            onClick={handleClose}
+            sx={{
+              backgroundColor: primaryTeal,
+              borderRadius: 2,
+            }}
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ResponsiveContainer>
   );
 };
