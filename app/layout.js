@@ -141,6 +141,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <title>
+          Responsive Image Gallery
+        </title>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
