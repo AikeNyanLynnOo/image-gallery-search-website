@@ -2,7 +2,7 @@ import {
   getCollections,
   getRandomPhoto,
   getTopics,
-} from "@/lib/helpers/apiFunctions";
+} from "@/lib/helpers/unsplashApiFunctions";
 import { NavBar } from "@/src/components/NavBar";
 import { GalleryPagination } from "@/src/components/GalleryPagination";
 import { LandingSectionWithImage } from "@/src/components/sections/LandingSectionWithImage";
