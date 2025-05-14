@@ -120,16 +120,17 @@ export const LandingSectionSearchInput = (props) => {
           </IconButton>
         </InputAdornment>
       }
-      startAdornment={
-        <InputAdornment position="start">
-          <SourceDropDown
-            source={source}
-            changeSource={changeSource}
-            dropDownTextVariant={dropDownTextVariant}
-            customStyles={customStartAdornmentStyles}
-          />
-        </InputAdornment>
-      }
+      // commented cuz currently only one image source API (own API)
+      // startAdornment={
+      //   <InputAdornment position="start">
+      //     <SourceDropDown
+      //       source={source}
+      //       changeSource={changeSource}
+      //       dropDownTextVariant={dropDownTextVariant}
+      //       customStyles={customStartAdornmentStyles}
+      //     />
+      //   </InputAdornment>
+      // }
     />
   );
 };

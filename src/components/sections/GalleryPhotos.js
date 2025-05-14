@@ -41,8 +41,8 @@ import { LandingSectionSearchInput } from "../inputs/LandingSectionSearchInput";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getPhotosRequest,
-  getPhotosSuccess,
+  getImagesRequest,
+  getImagesSuccess,
   resetPhoto,
 } from "@/lib/features/photo/photoSlice";
 import useLightbox from "../customHooks.js/useLightBox";
@@ -127,7 +127,7 @@ export const GalleryPhotos = ({
   const fetchData = useCallback(
     ({ restart, collection }) => {
       dispatch(
-        getPhotosRequest({
+        getImagesRequest({
           params: {
             query: searchTerm,
             per_page: 10,
