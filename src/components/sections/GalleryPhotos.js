@@ -52,6 +52,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CloseIcon from "@mui/icons-material/Close";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import { UploadedWithinDropDown } from "../dropdowns/UploadedWithinDropDown";
 export const GalleryPhotos = ({
   totalCount,
   totalPagesCount,
@@ -75,8 +76,10 @@ export const GalleryPhotos = ({
   const { page, photos, total, total_pages, isSuccess, loading, error } =
     useSelector((state) => state.photo);
 
-  const [sortBy, setSortBy] = useState(
-    searchParams.get("sortBy") || "downloads"
+  const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "");
+
+  const [uploadedWithin, setUploadedWithin] = useState(
+    searchParams.get("uploadedWithin") || ""
   );
 
   const [showCloseIcon, setShowCloseIcon] = useState(false);
@@ -124,7 +127,7 @@ export const GalleryPhotos = ({
       collection,
       topic,
       keyword,
-      dateRange,
+      uploadedWithin,
       sortBy,
       page,
       limit,
@@ -135,7 +138,7 @@ export const GalleryPhotos = ({
             collection,
             topic,
             keyword,
-            dateRange,
+            uploadedWithin,
             sortBy,
             page,
             limit,
@@ -168,6 +171,14 @@ export const GalleryPhotos = ({
     fetchData({ restart: true });
   };
 
+  const changeUploadedWithin = (updateVal) => {
+    setUploadedWithin(updateVal);
+    router.push(
+      `/search_results?${createQueryString("uploadedWithin", updateVal)}`
+    );
+    fetchData({ restart: true });
+  };
+
   const handleScroll = useCallback(
     (e) => {
       const scrollHeight = e.target.documentElement.scrollHeight;
@@ -181,14 +192,14 @@ export const GalleryPhotos = ({
   );
 
   useEffect(() => {
-    const { collection, topic, keyword, dateRange, sortBy, page, limit } =
+    const { collection, topic, keyword, uploadedWithin, sortBy, page, limit } =
       Object.fromEntries(searchParams.entries());
     fetchData({
       restart: true,
       collection: collection || "",
       topic: topic || "",
       keyword: keyword || "",
-      dateRange: dateRange || "",
+      uploadedWithin: uploadedWithin || "",
       sortBy: sortBy || "",
       page: page || 1,
       limit: limit || 10,
@@ -227,9 +238,9 @@ export const GalleryPhotos = ({
         <Grid
           item
           xs={12}
-          sm={4}
-          md={5}
-          lg={7}
+          md={4}
+          lg={6}
+          xl={7}
           sx={{
             mb: 5,
             display: "flex",
@@ -262,11 +273,12 @@ export const GalleryPhotos = ({
         <Grid
           item
           xs={12}
-          sm={8}
-          md={7}
-          lg={5}
+          md={8}
+          lg={6}
+          xl={5}
           sx={{
             display: "flex",
+            flexWrap: "wrap",
           }}
           justifyContent={{
             xs: "start",
@@ -276,16 +288,19 @@ export const GalleryPhotos = ({
             xs: 1,
             sm: 3,
           }}
+          rowGap={{
+            xs: 2,
+          }}
         >
           <LandingSectionSearchInput
             inputValue={keyword}
-            placeholder={"Placeholder"}
+            placeholder={"Search any keyword"}
             type={"text"}
             textChange={handleChange}
             customInputStyles={{
               flex: 1,
               height: 40,
-              minWidth: 100,
+              minWidth: 200,
               border: `0.5px solid ${primaryTeal}`,
               "& .MuiInputAdornment-positionEnd": {
                 mr: 0.3,
@@ -308,6 +323,10 @@ export const GalleryPhotos = ({
           />
 
           <SortByDropDown sortBy={sortBy} changeSortBy={changeSortBy} />
+          <UploadedWithinDropDown
+            uploadedWithin={uploadedWithin}
+            changeUploadedWithin={changeUploadedWithin}
+          />
         </Grid>
       </Grid>
 

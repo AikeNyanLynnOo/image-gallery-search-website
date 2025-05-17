@@ -8,24 +8,28 @@ import { Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
 import ButtonWithIcon from "../atoms/ButtonWithIcon";
 
-export const SortByDropDown = ({ sortBy, changeSortBy, customClasses }) => {
+export const UploadedWithinDropDown = ({
+  uploadedWithin,
+  changeUploadedWithin,
+  customClasses,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (sortBy) => {
+  const handleClose = (uploadedWithin) => {
     setAnchorEl(null);
-    if (!sortBy) {
+    if (!uploadedWithin) {
       return;
     }
-    changeSortBy(sortBy);
+    changeUploadedWithin(uploadedWithin);
   };
   return (
     <div>
       <ButtonWithIcon
         handleClick={handleClick}
-        buttonText={sortBy || "Sort by"}
+        buttonText={uploadedWithin || "Uploaded Within"}
         variant="outlined"
         customStyles={{
           "&.MuiButton-outlined": {
@@ -69,32 +73,44 @@ export const SortByDropDown = ({ sortBy, changeSortBy, customClasses }) => {
         }}
       >
         <MenuItem
-          onClick={() => handleClose("downloads")}
+          onClick={() => handleClose("today")}
           sx={{
             py: 2,
             backgroundColor:
-              sortBy === "downloads" ? primaryBgDark : neutralWhite,
+              uploadedWithin === "today" ? primaryBgDark : neutralWhite,
           }}
         >
-          <Typography variant="btnXsRegular">Most Downloads</Typography>
+          <Typography variant="btnXsRegular">Today</Typography>
         </MenuItem>
         <MenuItem
-          onClick={() => handleClose("likes")}
+          onClick={() => handleClose("3days")}
           sx={{
             py: 2,
-            backgroundColor: sortBy === "likes" ? primaryBgDark : neutralWhite,
+            backgroundColor:
+              uploadedWithin === "3days" ? primaryBgDark : neutralWhite,
           }}
         >
-          <Typography variant="btnXsRegular">Most Likes</Typography>
+          <Typography variant="btnXsRegular">Within 3 days</Typography>
         </MenuItem>
         <MenuItem
-          onClick={() => handleClose("views")}
+          onClick={() => handleClose("week")}
           sx={{
             py: 2,
-            backgroundColor: sortBy === "views" ? primaryBgDark : neutralWhite,
+            backgroundColor:
+              uploadedWithin === "week" ? primaryBgDark : neutralWhite,
           }}
         >
-          <Typography variant="btnXsRegular">Most Views</Typography>
+          <Typography variant="btnXsRegular">Within this week</Typography>
+        </MenuItem>
+        <MenuItem
+          onClick={() => handleClose("month")}
+          sx={{
+            py: 2,
+            backgroundColor:
+              uploadedWithin === "month" ? primaryBgDark : neutralWhite,
+          }}
+        >
+          <Typography variant="btnXsRegular">Within this month</Typography>
         </MenuItem>
       </Menu>
     </div>
