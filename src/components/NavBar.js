@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { clsx } from "clsx";
 import { NavItem } from "./atoms/NavItemComponent";
 import {
@@ -24,17 +24,29 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { BorderColor } from "@mui/icons-material";
 import { AuthModal } from "./molecules/authModal";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRequest } from "@/lib/features/auth/authSlice";
 
 export const NavBar = ({
   children,
   customNavClasses,
   customMenuIconClasses,
 }) => {
+  // redux
+  const { loading, isSuccess, error } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
   const { mode, changeMode } = useContext(ModeContext);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("signup");
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // form fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleClickOpen = (active) => {
     setActive(active);
@@ -58,6 +70,18 @@ export const NavBar = ({
       ...customNavClasses,
     });
   }, [customNavClasses]);
+
+  const handleSubmit = useCallback(() => {
+    if (active === "signup") {
+      return;
+    }
+    dispatch(
+      loginRequest({
+        email,
+        password,
+      })
+    );
+  }, [dispatch, active, email, password, firstName, lastName]);
 
   return (
     <ResponsiveContainer
@@ -169,7 +193,7 @@ export const NavBar = ({
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={true}
         fullScreen={fullScreen}
       >
         <DialogTitle
@@ -192,7 +216,18 @@ export const NavBar = ({
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <AuthModal active={active} setActive={setActive} />
+          <AuthModal
+            active={active}
+            setActive={setActive}
+            firstName={firstName}
+            setFirstName={setFirstName}
+            lastName={lastName}
+            setLastName={setLastName}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+          />
         </DialogContent>
         <DialogActions
           sx={{
@@ -205,9 +240,27 @@ export const NavBar = ({
           }}
         >
           {/* Submit Button */}
-          <button className="w-full py-2 px-4 bg-primaryTeal-100 text-white font-medium rounded-full hover:bg-secondaryTeal-100 transition">
-            {active === "signup" ? "Join" : "Log in"}
-          </button>
+          <ButtonWithIcon
+            handleClick={handleSubmit}
+            buttonText={
+              active === "signup"
+                ? (loading.isPending && "Joining...") || "Join"
+                : (loading.isPending && "Logging in...") || "Log in"
+            }
+            variant="outlined"
+            customStyles={{
+              width: "100%",
+              "&.MuiButton-outlined": {
+                border: "none",
+                color: neutralWhite,
+                px: 5,
+                py: 2,
+                borderRadius: 10,
+                backgroundColor: primaryTeal,
+              },
+            }}
+            textVariant={"btnSMedium"}
+          />
 
           {/* Forgot Password Link (only for login) */}
           {active === "login" && (

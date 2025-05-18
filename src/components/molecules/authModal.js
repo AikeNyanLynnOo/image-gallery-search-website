@@ -3,15 +3,23 @@
 import { useState } from "react";
 import { InputGroup } from "../inputs/InputGroup";
 import { primaryTeal } from "@/lib/theme/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRequest } from "@/lib/features/auth/authSlice";
 
-export const AuthModal = ({ active, setActive }) => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userNameOrEmail, setUserNameOrEmail] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export const AuthModal = ({
+  active,
+  setActive,
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
+  email,
+  setEmail,
+  password,
+  setPassword,
+}) => {
+  // redux
+  const { loading, isSuccess, error } = useSelector((state) => state.auth);
 
   const handleChange = ({ type, val }) => {
     switch (type) {
@@ -31,11 +39,6 @@ export const AuthModal = ({ active, setActive }) => {
       case "password":
         {
           setPassword(val);
-        }
-        break;
-      case "userNameOrEmail":
-        {
-          setUserNameOrEmail(val);
         }
         break;
       default:
@@ -186,14 +189,14 @@ export const AuthModal = ({ active, setActive }) => {
         ) : (
           <div className="space-y-2">
             <InputGroup
-              label="Username or Email"
+              label="Email"
               isRequired
-              inputValue={userNameOrEmail}
+              inputValue={email}
               placeholder={"johndoe@gmail.com"}
               type={"text"}
               textChange={(val) =>
                 handleChange({
-                  type: "userNameOrEmail",
+                  type: "email",
                   val,
                 })
               }

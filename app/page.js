@@ -9,7 +9,8 @@ import {
   getPublicImages,
   getRandomImage,
   getTopics,
-} from "@/lib/helpers/apiFunctions";
+} from "@/lib/features/photo/photoApiFunctions";
+
 import { RandomImages } from "@/src/components/sections/RandomImages";
 
 export default async function Home({ params, searchParams }) {

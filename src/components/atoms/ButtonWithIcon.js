@@ -10,6 +10,7 @@ export default function ButtonWithIcon({
   textVariant,
   customStyles,
   customIconStyles,
+  ...buttonProps
 }) {
   return (
     <Button
@@ -25,6 +26,7 @@ export default function ButtonWithIcon({
         },
         ...customStyles,
       }}
+      {...buttonProps}
     >
       {iconPosition === "start" && (
         <Icon
