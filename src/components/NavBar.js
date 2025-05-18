@@ -10,6 +10,8 @@ import {
   DialogTitle,
   IconButton,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { ModeContext } from "./ModeWrapper";
 import Image from "next/image";
@@ -21,6 +23,7 @@ import Link from "next/link";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { BorderColor } from "@mui/icons-material";
+import { AuthModal } from "./molecules/authModal";
 
 export const NavBar = ({
   children,
@@ -29,8 +32,12 @@ export const NavBar = ({
 }) => {
   const { mode, changeMode } = useContext(ModeContext);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("signup");
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (active) => {
+    setActive(active);
     setOpen(true);
   };
   const handleClose = () => {
@@ -85,25 +92,23 @@ export const NavBar = ({
             <Image src={"/logo.png"} width={32} height={32} alt="logo" />
           </NavItem>
         </div>
-        <div className="flex gap-x-5 items-center">
+        <div className="flex gap-x-2 items-center">
           <ModeDropDown />
           <ButtonWithIcon
-            handleClick={handleClickOpen}
-            buttonText={"Sign in"}
+            handleClick={() => handleClickOpen("login")}
+            buttonText={"Log in"}
             variant="outlined"
             customStyles={{
+              ml: 1,
               "&.MuiButton-outlined": {
-                // border: "none",
                 color: primaryTeal,
                 borderColor: primaryTeal,
                 px: 5,
                 py: 2,
                 borderRadius: 10,
-                // backgroundColor: primaryTeal,
               },
             }}
             textVariant={"btnSMedium"}
-            // icon={"file_upload_outlined"}
             icon={"person"}
             iconPosition={"start"}
             customIconStyles={{
@@ -111,6 +116,30 @@ export const NavBar = ({
               color: primaryTeal,
             }}
           />
+
+          <ButtonWithIcon
+            handleClick={() => handleClickOpen("signup")}
+            buttonText={"Join"}
+            variant="outlined"
+            customStyles={{
+              "&.MuiButton-outlined": {
+                border: "none",
+                color: neutralWhite,
+                px: 5,
+                py: 2,
+                borderRadius: 10,
+                backgroundColor: primaryTeal,
+              },
+            }}
+            textVariant={"btnSMedium"}
+            icon={"person_outlined"}
+            iconPosition={"start"}
+            customIconStyles={{
+              fontSize: 16,
+              color: neutralWhite,
+            }}
+          />
+
           {/* <ButtonWithIcon
             handleClick={handleClickOpen}
             buttonText={"Upload"}
@@ -141,12 +170,14 @@ export const NavBar = ({
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        fullScreen={fullScreen}
       >
         <DialogTitle
           sx={{ m: 0, py: 3, borderBottom: "1px solid #DDDDDD" }}
           id="customized-dialog-title"
         >
-          Upcoming feature
+          {(active === "signup" && "Sign up to upload images") ||
+            "Login to view you images"}
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -161,29 +192,34 @@ export const NavBar = ({
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <Typography>
-            This feature is under development. We&apos;ll be right back.
-          </Typography>
+          <AuthModal active={active} setActive={setActive} />
         </DialogContent>
         <DialogActions
           sx={{
-            px: 3,
+            display: "flex",
+            flexDirection: "column",
+            rowGap: 3,
+            px: 6,
+            pb: 6,
+            pt: 3,
           }}
         >
-          <Button
-            variant="contained"
-            autoFocus
-            onClick={handleClose}
-            sx={{
-              backgroundColor: primaryTeal,
-              borderRadius: 2,
-              "&:hover": {
-                backgroundColor: primaryTeal,
-              },
-            }}
-          >
-            OK
-          </Button>
+          {/* Submit Button */}
+          <button className="w-full py-2 px-4 bg-primaryTeal-100 text-white font-medium rounded-full hover:bg-secondaryTeal-100 transition">
+            {active === "signup" ? "Join" : "Log in"}
+          </button>
+
+          {/* Forgot Password Link (only for login) */}
+          {active === "login" && (
+            <div className="text-center">
+              <a
+                href="#"
+                className="text-secondaryTeal-100 hover:underline text-sm"
+              >
+                Forgot password?
+              </a>
+            </div>
+          )}
         </DialogActions>
       </Dialog>
     </ResponsiveContainer>
