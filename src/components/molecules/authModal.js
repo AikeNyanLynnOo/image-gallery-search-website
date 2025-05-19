@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { InputGroup } from "../inputs/InputGroup";
 import { primaryTeal } from "@/lib/theme/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "@/lib/features/auth/authSlice";
+import { InputGroup } from "../inputs/InputGroup";
+import { updateError } from "@/lib/features/auth/authSlice";
+import { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export const AuthModal = ({
   active,
@@ -19,26 +20,74 @@ export const AuthModal = ({
   setPassword,
 }) => {
   // redux
-  const { loading, isSuccess, error } = useSelector((state) => state.auth);
+  const { error } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const handleChange = ({ type, val }) => {
+    dispatch(
+      updateError({
+        error: {
+          general: {
+            message: null,
+          },
+        },
+      })
+    );
     switch (type) {
       case "first_name":
         {
           setFirstName(val);
+          dispatch(
+            updateError({
+              error: {
+                firstName: {
+                  message: null,
+                },
+              },
+            })
+          );
         }
         break;
-      case "last_name": {
-        setLastName(val);
-      }
+      case "last_name":
+        {
+          setLastName(val);
+          dispatch(
+            updateError({
+              error: {
+                lastName: {
+                  message: null,
+                },
+              },
+            })
+          );
+        }
+        break;
       case "email":
         {
           setEmail(val);
+          dispatch(
+            updateError({
+              error: {
+                email: {
+                  message: null,
+                },
+              },
+            })
+          );
         }
         break;
       case "password":
         {
           setPassword(val);
+          dispatch(
+            updateError({
+              error: {
+                password: {
+                  message: null,
+                },
+              },
+            })
+          );
         }
         break;
       default:
@@ -48,7 +97,7 @@ export const AuthModal = ({
   return (
     <div className="sm:min-w-[450px] sm:max-w-[450px] mb-3 mx-auto">
       {/* Tabs */}
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-6 leading">
         <button
           onClick={() => setActive("signup")}
           className={`text-lg flex-1 font-medium px-4 py-2 ${
@@ -136,6 +185,7 @@ export const AuthModal = ({
                     border: `0.5px solid ${primaryTeal}`,
                     borderRadius: 2,
                   }}
+                  helperText={error.firstName.message || ""}
                 />
               </div>
 
@@ -159,6 +209,7 @@ export const AuthModal = ({
                     border: `0.5px solid ${primaryTeal}`,
                     borderRadius: 2,
                   }}
+                  helperText={error.lastName.message || ""}
                 />
               </div>
             </div>
@@ -183,6 +234,7 @@ export const AuthModal = ({
                   border: `0.5px solid ${primaryTeal}`,
                   borderRadius: 2,
                 }}
+                helperText={error.email.message || ""}
               />
             </div>
           </>

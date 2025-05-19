@@ -12,6 +12,7 @@ import { ModeWrapper } from "@/src/components/ModeWrapper";
 import { typoSystem } from "@/lib/theme/typoSystem";
 import { primary } from "@/lib/theme/colors";
 import { StoreProvider } from "./StoreProvider";
+import { Toaster } from "react-hot-toast";
 
 const metadata = {
   title: "Gallery App by Aike",
@@ -141,9 +142,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>
-          Responsive Image Gallery
-        </title>
+        <title>Responsive Image Gallery</title>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -156,6 +155,16 @@ export default function RootLayout({ children }) {
               <ThemeProvider theme={theme}>
                 <CssBaseline />
                 {children}
+                {/* Toast */}
+                <Toaster
+                  position="top-center"
+                  reverseOrder={false}
+                  toastOptions={{
+                    className: "text-sm",
+                    duration: 4000,
+                    removeDelay: 500,
+                  }}
+                />
               </ThemeProvider>
             </StyledEngineProvider>
           </ModeWrapper>

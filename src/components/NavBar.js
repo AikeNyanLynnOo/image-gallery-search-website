@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import { clsx } from "clsx";
 import { NavItem } from "./atoms/NavItemComponent";
 import {
@@ -25,15 +25,25 @@ import { useState } from "react";
 import { BorderColor } from "@mui/icons-material";
 import { AuthModal } from "./molecules/authModal";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "@/lib/features/auth/authSlice";
+import {
+  loginRequest,
+  resetAuthState,
+  signupRequest,
+  updateError,
+  updateSuccess,
+} from "@/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 export const NavBar = ({
   children,
   customNavClasses,
   customMenuIconClasses,
 }) => {
+  const router = useRouter();
   // redux
-  const { loading, isSuccess, error } = useSelector((state) => state.auth);
+  const { loading, isLoginSuccess, isSignupSuccess, error } = useSelector(
+    (state) => state.auth
+  );
 
   console.log("ERROR>>", error);
 
@@ -51,10 +61,12 @@ export const NavBar = ({
   const [password, setPassword] = useState("");
 
   const handleClickOpen = (active) => {
+    dispatch(resetAuthState());
     setActive(active);
     setOpen(true);
   };
   const handleClose = () => {
+    dispatch(resetAuthState());
     setOpen(false);
   };
 
@@ -75,6 +87,14 @@ export const NavBar = ({
 
   const handleSubmit = useCallback(() => {
     if (active === "signup") {
+      dispatch(
+        signupRequest({
+          firstName,
+          lastName,
+          email,
+          password,
+        })
+      );
       return;
     }
     dispatch(
@@ -84,6 +104,27 @@ export const NavBar = ({
       })
     );
   }, [dispatch, active, email, password, firstName, lastName]);
+
+  const resendVerifyEmail = () => {
+    // dispatch
+    // send verify email again request
+  };
+
+  // useEffects
+
+  useEffect(() => {
+    console.log("is login success>>", isLoginSuccess);
+    console.log("is signup success>>", isLoginSuccess);
+    if (isLoginSuccess || isSignupSuccess) {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+    }
+    if (isLoginSuccess) {
+      router.push("/user");
+    }
+  }, [isLoginSuccess, isSignupSuccess]);
 
   return (
     <ResponsiveContainer
@@ -165,46 +206,25 @@ export const NavBar = ({
               color: neutralWhite,
             }}
           />
-
-          {/* <ButtonWithIcon
-            handleClick={handleClickOpen}
-            buttonText={"Upload"}
-            variant="outlined"
-            customStyles={{
-              "&.MuiButton-outlined": {
-                border: "none",
-                color: neutralWhite,
-                px: 5,
-                py: 2,
-                borderRadius: 10,
-                backgroundColor: primaryTeal,
-              },
-            }}
-            textVariant={"btnSMedium"}
-            // icon={"file_upload_outlined"}
-            icon={"add_photo_alternate_outlined"}
-            iconPosition={"start"}
-            customIconStyles={{
-              fontSize: 16,
-              color: neutralWhite,
-            }}
-          /> */}
         </div>
       </nav>
 
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={true}
+        open={open}
         fullScreen={fullScreen}
       >
-        <DialogTitle
-          sx={{ m: 0, py: 3, borderBottom: "1px solid #DDDDDD" }}
-          id="customized-dialog-title"
-        >
-          {(active === "signup" && "Sign up to upload images") ||
-            "Login to view you images"}
-        </DialogTitle>
+        {!isSignupSuccess && (
+          <DialogTitle
+            sx={{ m: 0, py: 3, borderBottom: "1px solid #DDDDDD" }}
+            id="customized-dialog-title"
+          >
+            {(active === "signup" && "Sign up to upload images") ||
+              "Login to view you images"}
+          </DialogTitle>
+        )}
+
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -218,64 +238,91 @@ export const NavBar = ({
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <AuthModal
-            active={active}
-            setActive={setActive}
-            firstName={firstName}
-            setFirstName={setFirstName}
-            lastName={lastName}
-            setLastName={setLastName}
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-          />
-        </DialogContent>
-        <DialogActions
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            rowGap: 3,
-            px: 6,
-            pb: 6,
-            pt: 3,
-          }}
-        >
-          {/* Submit Button */}
-          <ButtonWithIcon
-            handleClick={handleSubmit}
-            buttonText={
-              active === "signup"
-                ? (loading.isPending && "Joining...") || "Join"
-                : (loading.isPending && "Logging in...") || "Log in"
-            }
-            variant="outlined"
-            customStyles={{
-              width: "100%",
-              "&.MuiButton-outlined": {
-                border: "none",
-                color: neutralWhite,
-                px: 5,
-                py: 2,
-                borderRadius: 10,
-                backgroundColor: primaryTeal,
-              },
-            }}
-            textVariant={"btnSMedium"}
-          />
-
-          {/* Forgot Password Link (only for login) */}
-          {active === "login" && (
+          {(!isSignupSuccess && (
+            <AuthModal
+              active={active}
+              setActive={setActive}
+              firstName={firstName}
+              setFirstName={setFirstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+            />
+          )) || (
             <div className="text-center">
-              <a
-                href="#"
-                className="text-secondaryTeal-100 hover:underline text-sm"
-              >
-                Forgot password?
-              </a>
+              <p className="mb-4 text-base">
+                Confirmation Email is sent to your email. Please check your
+                inbox including the spam folder.
+              </p>
+              <ButtonWithIcon
+                handleClick={resendVerifyEmail}
+                buttonText={"Resend Email"}
+                variant="outlined"
+                customStyles={{
+                  mx: "auto",
+                  "&.MuiButton-outlined": {
+                    color: primaryTeal,
+                    borderColor: primaryTeal,
+                    px: 5,
+                    py: 2,
+                    borderRadius: 10,
+                  },
+                }}
+                textVariant={"btnSMedium"}
+              />
             </div>
           )}
-        </DialogActions>
+        </DialogContent>
+        {!isSignupSuccess && (
+          <DialogActions
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              rowGap: 3,
+              px: 6,
+              pb: 6,
+              pt: 3,
+            }}
+          >
+            {/* Submit Button */}
+            <ButtonWithIcon
+              handleClick={handleSubmit}
+              buttonText={
+                active === "signup"
+                  ? (loading.isPending && "Joining...") || "Join"
+                  : (loading.isPending && "Logging in...") || "Log in"
+              }
+              variant="outlined"
+              customStyles={{
+                width: "100%",
+                "&.MuiButton-outlined": {
+                  border: "none",
+                  color: neutralWhite,
+                  px: 5,
+                  py: 2,
+                  borderRadius: 10,
+                  backgroundColor: primaryTeal,
+                },
+              }}
+              textVariant={"btnSMedium"}
+            />
+
+            {/* Forgot Password Link (only for login) */}
+            {active === "login" && (
+              <div className="text-center">
+                <a
+                  href="#"
+                  className="text-secondaryTeal-100 hover:underline text-sm"
+                >
+                  Forgot password?
+                </a>
+              </div>
+            )}
+          </DialogActions>
+        )}
       </Dialog>
     </ResponsiveContainer>
   );
