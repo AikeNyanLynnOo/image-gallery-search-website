@@ -5,6 +5,7 @@ export const InputGroup = ({
   isRequired = false,
   helperText,
   customLabelClasses,
+  customHelperTextClasses,
   ...inputProps
 }) => {
   return (
@@ -13,6 +14,11 @@ export const InputGroup = ({
         {isRequired && "* "} {label || "Input Label"}
       </span>
       <CustomInput {...inputProps} />
+      {helperText && (
+        <span className={`text-xs text-red-400 ${customHelperTextClasses}`}>
+          {helperText}
+        </span>
+      )}
     </label>
   );
 };

@@ -35,6 +35,8 @@ export const NavBar = ({
   // redux
   const { loading, isSuccess, error } = useSelector((state) => state.auth);
 
+  console.log("ERROR>>", error);
+
   const dispatch = useDispatch();
   const { mode, changeMode } = useContext(ModeContext);
   const [open, setOpen] = useState(false);

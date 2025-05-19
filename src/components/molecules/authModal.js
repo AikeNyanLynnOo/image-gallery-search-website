@@ -207,6 +207,7 @@ export const AuthModal = ({
                 border: `0.5px solid ${primaryTeal}`,
                 borderRadius: 2,
               }}
+              helperText={error.email.message || ""}
             />
           </div>
         )}
@@ -231,6 +232,7 @@ export const AuthModal = ({
               border: `0.5px solid ${primaryTeal}`,
               borderRadius: 2,
             }}
+            helperText={error.password.message || ""}
           />
         </div>
       </div>
