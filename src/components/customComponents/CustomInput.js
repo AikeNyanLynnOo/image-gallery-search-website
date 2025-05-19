@@ -14,10 +14,8 @@ import ButtonWithIcon from "../atoms/ButtonWithIcon";
 import { ModeContext } from "../ModeWrapper";
 import { SourceDropDown } from "../dropdowns/SourceDropDown";
 
-export const LandingSectionSearchInput = (props) => {
+export const CustomInput = (props) => {
   const {
-    source,
-    changeSource,
     handleGo,
     type,
     placeholder,
@@ -34,19 +32,29 @@ export const LandingSectionSearchInput = (props) => {
     customStartAdornmentStyles,
   } = props;
 
-  const { mode, changeMode } = useContext(ModeContext);
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <OutlinedInput
       onFocus={closeIconControl && closeIconControl.handleInputFocus}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
-          handleGo();
+          handleGo && handleGo();
         }
       }}
       readOnly={disabled}
       placeholder={placeholder}
-      type={type}
+      type={type === "password" ? (showPassword ? "text" : "password") : type}
       value={inputValue}
       fullWidth
       multiline={multiline}
@@ -77,6 +85,7 @@ export const LandingSectionSearchInput = (props) => {
         },
         backgroundColor: neutralWhite,
         "&.MuiOutlinedInput-root .MuiOutlinedInput-input": {
+          pl: 1,
           alignSelf: (!multiline && "center") || "initial",
           mx: 3,
         },
@@ -89,7 +98,7 @@ export const LandingSectionSearchInput = (props) => {
         },
 
         "& .MuiInputAdornment-positionEnd": {
-          mr: 1,
+          mr: 5,
         },
         ...customInputStyles,
       }}
@@ -99,6 +108,23 @@ export const LandingSectionSearchInput = (props) => {
       }}
       endAdornment={
         <InputAdornment position="end">
+          {type === "password" && (
+            <IconButton
+              aria-label={
+                showPassword ? "hide the password" : "display the password"
+              }
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              onMouseUp={handleMouseUpPassword}
+              edge="end"
+            >
+              {showPassword ? (
+                <Icon style={{ fontSize: 16 }}>visibility_off</Icon>
+              ) : (
+                <Icon style={{ fontSize: 16 }}>visibility</Icon>
+              )}
+            </IconButton>
+          )}
           {closeIconControl &&
             closeIconControl.showCloseIcon &&
             inputValue &&
@@ -107,30 +133,8 @@ export const LandingSectionSearchInput = (props) => {
                 <Icon style={{ fontSize: 16 }}>clear</Icon>
               </IconButton>
             )}
-          <IconButton
-            onClick={handleGo}
-            sx={{
-              ml: 3,
-              "&.MuiIconButton-root:hover .MuiIcon-root": {
-                color: primaryTeal,
-              },
-            }}
-          >
-            <Icon style={{ fontSize: 22 }}>search</Icon>
-          </IconButton>
         </InputAdornment>
       }
-      // commented cuz currently only one image source API (own API)
-      // startAdornment={
-      //   <InputAdornment position="start">
-      //     <SourceDropDown
-      //       source={source}
-      //       changeSource={changeSource}
-      //       dropDownTextVariant={dropDownTextVariant}
-      //       customStyles={customStartAdornmentStyles}
-      //     />
-      //   </InputAdornment>
-      // }
     />
   );
 };

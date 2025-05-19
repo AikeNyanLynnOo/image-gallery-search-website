@@ -1,44 +1,31 @@
 import {
-  Button,
-  Icon,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
-import { Fragment, useContext, useState } from "react";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
-import { ModeContext } from "../ModeWrapper";
-import {
   neutralWhite,
   primary,
   primaryBgDark,
-  primaryDark,
   primaryTeal,
 } from "@/lib/theme/colors";
+import { Menu, MenuItem, Typography } from "@mui/material";
+import { useState } from "react";
 import ButtonWithIcon from "../atoms/ButtonWithIcon";
 
-export const OrderByDropDown = ({ orderBy, changeOrderBy, customClasses }) => {
-  const { mode, changeMode } = useContext(ModeContext);
+export const SortByDropDown = ({ sortBy, changeSortBy, customClasses }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (orderBy) => {
+  const handleClose = (sortBy) => {
     setAnchorEl(null);
-    if (!orderBy) {
+    if (!sortBy) {
       return;
     }
-    changeOrderBy(orderBy);
+    changeSortBy(sortBy);
   };
   return (
     <div>
       <ButtonWithIcon
         handleClick={handleClick}
-        buttonText={orderBy}
+        buttonText={sortBy || "Sort by"}
         variant="outlined"
         customStyles={{
           "&.MuiButton-outlined": {
@@ -82,24 +69,32 @@ export const OrderByDropDown = ({ orderBy, changeOrderBy, customClasses }) => {
         }}
       >
         <MenuItem
-          onClick={() => handleClose("relevant")}
+          onClick={() => handleClose("downloads")}
           sx={{
             py: 2,
             backgroundColor:
-              orderBy === "relevant" ? primaryBgDark : neutralWhite,
+              sortBy === "downloads" ? primaryBgDark : neutralWhite,
           }}
         >
-          <Typography variant="btnXsRegular">Relevant</Typography>
+          <Typography variant="btnXsRegular">Most Downloads</Typography>
         </MenuItem>
         <MenuItem
-          onClick={() => handleClose("latest")}
+          onClick={() => handleClose("likes")}
           sx={{
             py: 2,
-            backgroundColor:
-              orderBy === "relevant" ? primaryBgDark : neutralWhite,
+            backgroundColor: sortBy === "likes" ? primaryBgDark : neutralWhite,
           }}
         >
-          <Typography variant="btnXsRegular">Latest</Typography>
+          <Typography variant="btnXsRegular">Most Likes</Typography>
+        </MenuItem>
+        <MenuItem
+          onClick={() => handleClose("views")}
+          sx={{
+            py: 2,
+            backgroundColor: sortBy === "views" ? primaryBgDark : neutralWhite,
+          }}
+        >
+          <Typography variant="btnXsRegular">Most Views</Typography>
         </MenuItem>
       </Menu>
     </div>

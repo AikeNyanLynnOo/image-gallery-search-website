@@ -172,7 +172,7 @@ export const LandingSectionWithImage = ({
           <LandingSectionSearchInput
             //   minHeight={30}
             inputValue={searchTerm}
-            placeholder={"Placeholder"}
+            placeholder={"Search your desired image"}
             type={"text"}
             textChange={handleChange}
             customInputStyles={{
@@ -204,10 +204,10 @@ export const LandingSectionWithImage = ({
         >
           {topics &&
             topics.length > 0 &&
-            topics.slice(0, 10).map((topics, index) => (
-              <Link key={index} href={`/search_results?query=${topics.slug}`}>
+            topics.slice(0, 10).map((topic, index) => (
+              <Link key={index} href={`/search_results?topic=${topic._id}`}>
                 <ButtonWithIcon
-                  buttonText={topics.title}
+                  buttonText={topic.name}
                   variant="outlined"
                   customStyles={{
                     "&.MuiButton-outlined": {

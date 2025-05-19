@@ -23,11 +23,11 @@ import {
 import { CustomTooltip } from "../styledComponents/CustomTooltip";
 import { CustomTypography } from "../customComponents/CustomTypography";
 
-export const PopularCollections = ({
-  collections,
+export const RandomImages = ({
+  images,
   customStyles,
   children,
-  customCollectionCardStyles,
+  customImageCardStyles,
 }) => {
   const theme = useTheme();
   const xl = useMediaQuery(theme.breakpoints.up("xl"));
@@ -78,19 +78,18 @@ export const PopularCollections = ({
           variant={getTitleVariant(xl, lg, md, sm)}
           textAlign={"center"}
         >
-          Suggested collections for you
+          Suggested pictures for you
         </Typography>
       </Grid>
 
       <div className="px-0">
         <ResponsiveGallery>
-          {collections &&
-            collections.length > 0 &&
-            collections.map((collection, index) => (
+          {images &&
+            images.length > 0 &&
+            images.map((image, index) => (
               <ImageOverlayWithText
-                linkHref={`/search_results?collection=${collection.id}`}
                 key={index}
-                imgSrc={collection.cover_photo.urls.regular}
+                imgSrc={image.url}
                 customClasses={{
                   "w-full": true,
                   "h-56": true,
@@ -121,7 +120,7 @@ export const PopularCollections = ({
                   }}
                   variant={"btnXsSemibold"}
                 >
-                  Updated : {formatISOtoDate(collection.last_collected_at, "/")}
+                  Updated : {formatISOtoDate(image.uploadedAt, "/")}
                 </CustomTypography>
                 <Typography
                   sx={{
@@ -137,7 +136,7 @@ export const PopularCollections = ({
                   }}
                   variant={"btnSRegular"}
                 >
-                  {collection.title}
+                  {image.title}
                 </Typography>
 
                 <div
@@ -160,7 +159,7 @@ export const PopularCollections = ({
                             textAlign: "center",
                           }}
                         >
-                          {collection.user.username || ""}
+                          {image.user.profile.displayName || ""}
                         </CustomTypography>
                         <Divider
                           sx={{
@@ -176,9 +175,10 @@ export const PopularCollections = ({
                             textTransform: "capitalize",
                           }}
                         >
-                          {collection.user.total_collections || ""} collections
+                          {image.user.totalCollections || 0} collections
                         </CustomTypography>
-                        <CustomTypography
+                        {/* commented for now */}
+                        {/* <CustomTypography
                           component="p"
                           variant="btnXsRegular"
                           sx={{
@@ -188,7 +188,7 @@ export const PopularCollections = ({
                         >
                           {numberWithCommas(collection.user.total_likes) || ""}{" "}
                           likes
-                        </CustomTypography>
+                        </CustomTypography> */}
                       </div>
                     }
                     placement="top-end"
@@ -198,7 +198,7 @@ export const PopularCollections = ({
                   >
                     <div>
                       <Image
-                        src={collection.user.profile_image.medium}
+                        src={image.user.profile.avatar || ""}
                         alt="user"
                         height={50}
                         width={50}
@@ -219,7 +219,7 @@ export const PopularCollections = ({
                     variant={"subheadline2Regular"}
                     className="tracking-in-expand"
                   >
-                    {numberWithCommas(collection.total_photos)} Photos
+                    {numberWithCommas(image.likes)} Likes
                   </Typography>
                 </div>
               </ImageOverlayWithText>

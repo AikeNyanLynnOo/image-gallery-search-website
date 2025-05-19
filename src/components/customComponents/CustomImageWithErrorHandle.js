@@ -12,6 +12,7 @@ export const CustomImageWithErrorHandle = (props) => {
     customStyles,
     customClasses,
     customImgClasses,
+    src,
     ...propsForImg
   } = props;
   const [imageError, setImageError] = useState(false);
@@ -19,10 +20,11 @@ export const CustomImageWithErrorHandle = (props) => {
 
   useEffect(() => {
     setIsImgLoading(true);
-  }, [propsForImg.src]);
+  }, []);
 
   useEffect(() => {
     setImageError(false);
+    setIsImgLoading(false);
   }, [propsForImg.src]);
 
   const wrapperClasses = useMemo(() => {
@@ -44,21 +46,22 @@ export const CustomImageWithErrorHandle = (props) => {
         </p>
       )}
 
-      <Image
-        {...propsForImg}
-        onLoadingComplete={(img) => {
-          setIsImgLoading(false);
-        }}
-        className={customImgClasses}
-        placeholder="blur"
-        blurDataURL={
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8eOtWPQAIjwMmbBCS2AAAAABJRU5ErkJggg=="
-        }
-        alt="img"
-        onError={(e) => {
-          setImageError(true);
-        }}
-      />
+      {src && (
+        <Image
+          src={src}
+          className={customImgClasses}
+          placeholder="blur"
+          blurDataURL={
+            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8eOtWPQAIjwMmbBCS2AAAAABJRU5ErkJggg=="
+          }
+          alt="img"
+          onError={(e) => {
+            setImageError(true);
+          }}
+          {...propsForImg}
+        />
+      )}
+
       {children}
     </div>
   );

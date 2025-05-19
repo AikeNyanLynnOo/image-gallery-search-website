@@ -25,33 +25,34 @@ export const ScrollTabs = ({ tabs }) => {
         },
       }}
     >
-      {tabs.map((topics, index) => (
-        <Tab
-          key={index}
-          label={
-            <ImageOverlayWithText
-              linkHref={`/search_results?query=${topics.slug}`}
-              text={topics.title}
-              imgSrc={topics.cover_photo.urls.regular}
-              textVariant={"btnMMedium"}
-              customClasses={{
-                "h-auto": false,
-                "h-20": true,
-                group: true,
-              }}
-            >
-              <div className="bounce-in-top text-center h-full w-full hidden group-hover:flex items-center text-white bg-overlay-800 justify-center absolute top-0 bottom-0 z-0">
-                <Typography
-                  variant={"subheadline3Regular"}
-                  className="text-focus-in"
-                >
-                  {numberWithCommas(topics.total_photos)} Photos
-                </Typography>
-              </div>
-            </ImageOverlayWithText>
-          }
-        />
-      ))}
+      {tabs &&
+        tabs.map((topic, index) => (
+          <Tab
+            key={index}
+            label={
+              <ImageOverlayWithText
+                linkHref={`/search_results?topic=${topic._id}`}
+                text={topic.name}
+                imgSrc={(topic.cover_image && topic.cover_image.url) || ""}
+                textVariant={"btnMMedium"}
+                customClasses={{
+                  "h-auto": false,
+                  "h-20": true,
+                  group: true,
+                }}
+              >
+                <div className="bounce-in-top text-center h-full w-full hidden group-hover:flex items-center text-white bg-overlay-800 justify-center absolute top-0 bottom-0 z-0">
+                  <Typography
+                    variant={"subheadline3Regular"}
+                    className="text-focus-in"
+                  >
+                    {numberWithCommas(topic.total_images)} Photos
+                  </Typography>
+                </div>
+              </ImageOverlayWithText>
+            }
+          />
+        ))}
     </Tabs>
   );
 };
