@@ -88,8 +88,8 @@ export function MobileNav() {
                 className="flex items-center gap-2 font-semibold text-primary-100 dark:text-primaryDark-100"
                 onClick={() => setOpen(false)}
               >
-                <ImageIcon className="h-6 w-6 text-primaryTeal-100" />
-                <span>ImageHub</span>
+                <Image src={"/logo.png"} width={32} height={32} alt="logo" />
+                <span>Gallery</span>
               </Link>
               <button
                 onClick={() => setOpen(false)}

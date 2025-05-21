@@ -10,6 +10,7 @@ export default function ImagesPage() {
         description="Manage your uploaded images"
       />
       <div className="grid gap-6">
+        <ImageUploader />
         <ImagesList />
       </div>
     </div>

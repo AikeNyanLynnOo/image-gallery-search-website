@@ -92,7 +92,7 @@ export function DashboardSidebar() {
         <div className="space-y-1">
           <ThemeToggle />
           <Link
-            href="/dashboard/images"
+            href="/dashboard/images/upload"
             className="flex w-full items-center gap-3 rounded-md bg-primaryTeal-100 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-secondaryTeal-100"
           >
             <Upload className="h-5 w-5" />
