@@ -113,8 +113,6 @@ export const NavBar = ({
   // useEffects
 
   useEffect(() => {
-    console.log("is login success>>", isLoginSuccess);
-    console.log("is signup success>>", isLoginSuccess);
     if (isLoginSuccess || isSignupSuccess) {
       setFirstName("");
       setLastName("");
