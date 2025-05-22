@@ -84,7 +84,7 @@ export function HomeHero() {
             <div className="relative grid grid-cols-12 grid-rows-6 gap-4 h-[600px]">
               <div className="col-span-7 row-span-4 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
+                  src="/placeholder.svg?height=900&width=600&text=Autumn+Forest"
                   alt="Mountain landscape"
                   className="w-full h-full object-cover"
                   width={400}
@@ -93,7 +93,7 @@ export function HomeHero() {
               </div>
               <div className="col-span-5 row-span-3 col-start-8 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
+                  src="/placeholder.svg?height=1000&width=600&text=Tropical+Beach"
                   alt="Ocean waves"
                   className="w-full h-full object-cover"
                   width={400}
@@ -102,7 +102,7 @@ export function HomeHero() {
               </div>
               <div className="col-span-5 row-span-3 col-start-8 row-start-4 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
+                  src="/placeholder.svg?height=950&width=600&text=Waterfall"
                   alt="Forest path"
                   className="w-full h-full object-cover"
                   width={400}
@@ -111,7 +111,7 @@ export function HomeHero() {
               </div>
               <div className="col-span-7 row-span-2 row-start-5 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
+                  src="/placeholder.svg?height=800&width=800&text=Urban+Street"
                   alt="City skyline"
                   className="w-full h-full object-cover"
                   width={400}
