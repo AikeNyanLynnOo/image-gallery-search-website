@@ -80,7 +80,7 @@ export function TrendingTopics() {
             Trending Topics
           </h2>
           <p className="text-primary-100/70 dark:text-primaryDark-100/70">
-            Explore what's popular right now in the community
+            Explore what&apos;s popular right now in the community
           </p>
         </div>
         <div className="flex items-center gap-3 mt-4 md:mt-0">

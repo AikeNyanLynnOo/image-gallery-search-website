@@ -476,7 +476,12 @@ export function CollectionDialog({ isOpen, onClose, onSave }: any) {
                     ? "border-primaryTeal-100 dark:border-primaryTeal-100"
                     : "border-gray-200 dark:border-dark-100 hover:border-gray-300 dark:hover:border-dark-100/70"
                 }`}
+                role="button"
                 onClick={() => handleSelectLibraryImage(image)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    handleSelectLibraryImage(image);
+                }}
               >
                 <div className="aspect-video w-full overflow-hidden">
                   <Image

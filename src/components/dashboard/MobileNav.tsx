@@ -120,7 +120,13 @@ export function MobileNav() {
                 </Link>
               ))}
               <div className="mt-4 border-t border-gray-200 dark:border-dark-100 pt-4">
-                <div onClick={() => setOpen(false)}>
+                <div
+                  onClick={() => setOpen(false)}
+                  role="button"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") setOpen(false);
+                  }}
+                >
                   <ThemeToggle />
                 </div>
                 <Link

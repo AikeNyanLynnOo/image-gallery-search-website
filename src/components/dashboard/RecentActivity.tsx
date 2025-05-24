@@ -27,12 +27,14 @@ export function RecentActivity() {
       title: "Created 'Landscapes' topic",
       timestamp: "3 days ago",
     },
-  ]
+  ];
 
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-200 shadow-sm">
       <div className="border-b border-gray-200 dark:border-dark-100 p-4">
-        <h2 className="font-semibold text-primary-100 dark:text-primaryDark-100">Recent Activity</h2>
+        <h2 className="font-semibold text-primary-100 dark:text-primaryDark-100">
+          Recent Activity
+        </h2>
       </div>
       <div className="p-4">
         <div className="space-y-4">
@@ -52,13 +54,17 @@ export function RecentActivity() {
                 </div>
               )}
               <div className="flex-1">
-                <p className="text-sm font-medium text-primary-100 dark:text-primaryDark-100">{activity.title}</p>
-                <p className="text-xs text-primary-100/70 dark:text-primaryDark-100/70">{activity.timestamp}</p>
+                <p className="text-sm font-medium text-primary-100 dark:text-primaryDark-100">
+                  {activity.title}
+                </p>
+                <p className="text-xs text-primary-100/70 dark:text-primaryDark-100/70">
+                  {activity.timestamp}
+                </p>
               </div>
             </div>
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -39,28 +39,28 @@ export function HomeFooter() {
             </p>
             <div className="mt-6 flex space-x-5">
               <a
-                href="#"
+                href="##"
                 className="text-primary-100/60 dark:text-primaryDark-100/60 hover:text-primaryTeal-100 dark:hover:text-primaryTeal-100 transition-colors"
               >
                 <span className="sr-only">Instagram</span>
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="##"
                 className="text-primary-100/60 dark:text-primaryDark-100/60 hover:text-primaryTeal-100 dark:hover:text-primaryTeal-100 transition-colors"
               >
                 <span className="sr-only">Twitter</span>
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="##"
                 className="text-primary-100/60 dark:text-primaryDark-100/60 hover:text-primaryTeal-100 dark:hover:text-primaryTeal-100 transition-colors"
               >
                 <span className="sr-only">Facebook</span>
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="##"
                 className="text-primary-100/60 dark:text-primaryDark-100/60 hover:text-primaryTeal-100 dark:hover:text-primaryTeal-100 transition-colors"
               >
                 <span className="sr-only">GitHub</span>
