@@ -44,8 +44,8 @@ export function TopicsHero() {
           </h1>
 
           <p className="text-lg text-primary-100/70 dark:text-primaryDark-100/70 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Browse our curated topics to find exactly what you're looking for.
-            From landscapes to abstract art, we've organized the best images by
+            Browse our curated topics to find exactly what you&apos;re looking for.
+            From landscapes to abstract art, we&apos;ve organized the best images by
             subject.
           </p>
 

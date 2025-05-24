@@ -79,7 +79,7 @@ export function Modal({
   }, [isOpen]);
 
   // Handle backdrop click
-  const handleBackdropClick = (event: React.MouseEvent) => {
+  const handleBackdropClick = (event: any) => {
     if (closeOnBackdropClick && event.target === event.currentTarget) {
       onClose();
     }
@@ -106,12 +106,18 @@ export function Modal({
       `}
       onClick={handleBackdropClick}
       role="dialog"
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          handleBackdropClick(e); // your close function
+        }
+      }}
       aria-modal="true"
       aria-labelledby={title ? "modal-title" : undefined}
     >
       <div
         ref={modalRef}
         tabIndex={-1}
+        role="button"
         className={`
           relative w-full ${sizeClasses[size]}
           bg-neutralWhite-100 dark:bg-dark-200

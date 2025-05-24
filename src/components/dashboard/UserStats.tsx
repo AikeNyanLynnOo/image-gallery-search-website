@@ -1,5 +1,5 @@
-import { FolderKanban, Hash, ImageIcon, Bookmark } from "lucide-react"
-import Link from "next/link"
+import { FolderKanban, Hash, ImageIcon, Bookmark } from "lucide-react";
+import Link from "next/link";
 
 export function UserStats() {
   // Mock stats data
@@ -28,12 +28,14 @@ export function UserStats() {
       icon: Bookmark,
       href: "/dashboard/favorites",
     },
-  ]
+  ];
 
   return (
     <div className="col-span-2 overflow-hidden rounded-lg border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-200 shadow-sm md:col-span-1">
       <div className="border-b border-gray-200 dark:border-dark-100 p-4">
-        <h2 className="font-semibold text-primary-100 dark:text-primaryDark-100">Stats</h2>
+        <h2 className="font-semibold text-primary-100 dark:text-primaryDark-100">
+          Stats
+        </h2>
       </div>
       <div className="p-4">
         <div className="grid grid-cols-2 gap-4">
@@ -46,12 +48,16 @@ export function UserStats() {
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 text-primaryTeal-100">
                 <stat.icon className="h-4 w-4" />
               </div>
-              <div className="text-xl font-semibold text-primary-100 dark:text-primaryDark-100">{stat.value}</div>
-              <div className="text-xs text-primary-100/70 dark:text-primaryDark-100/70">{stat.title}</div>
+              <div className="text-xl font-semibold text-primary-100 dark:text-primaryDark-100">
+                {stat.value}
+              </div>
+              <div className="text-xs text-primary-100/70 dark:text-primaryDark-100/70">
+                {stat.title}
+              </div>
             </Link>
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }

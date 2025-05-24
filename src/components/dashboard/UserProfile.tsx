@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Edit, MapPin, Globe } from "lucide-react"
+import Link from "next/link";
+import { Edit, MapPin, Globe } from "lucide-react";
 
 export function UserProfile() {
   // Mock user data
@@ -11,24 +11,32 @@ export function UserProfile() {
     location: "San Francisco, CA",
     website: "johndoe.com",
     avatar: "/placeholder.svg?height=100&width=100",
-  }
+  };
 
   return (
     <div className="col-span-2 overflow-hidden rounded-lg border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-200 shadow-sm md:col-span-1">
       <div className="flex flex-row items-center gap-4 p-4 pb-2">
         <div className="relative h-16 w-16 overflow-hidden rounded-full bg-gray-100 dark:bg-dark-100">
-          <img src={user.avatar || "/placeholder.svg"} alt={user.displayName} className="h-full w-full object-cover" />
+          <img
+            src={user.avatar || "/placeholder.svg"}
+            alt={user.displayName}
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="grid gap-0.5">
           <h3 className="text-lg font-semibold text-primary-100 dark:text-primaryDark-100">
             {user.firstName} {user.lastName}
           </h3>
-          <p className="text-sm text-primary-100/70 dark:text-primaryDark-100/70">@{user.displayName}</p>
+          <p className="text-sm text-primary-100/70 dark:text-primaryDark-100/70">
+            @{user.displayName}
+          </p>
         </div>
       </div>
       <div className="p-4 pb-2">
         <div className="grid gap-4">
-          <p className="text-sm text-primary-100 dark:text-primaryDark-100">{user.bio}</p>
+          <p className="text-sm text-primary-100 dark:text-primaryDark-100">
+            {user.bio}
+          </p>
           <div className="grid gap-2">
             {user.location && (
               <div className="flex items-center gap-2 text-sm text-primary-100/70 dark:text-primaryDark-100/70">
@@ -62,5 +70,5 @@ export function UserProfile() {
         </Link>
       </div>
     </div>
-  )
+  );
 }

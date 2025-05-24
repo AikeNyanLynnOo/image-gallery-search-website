@@ -206,7 +206,7 @@ export function ImageGrid() {
           </button>
         ) : (
           <p className="text-primary-100/70 dark:text-primaryDark-100/70">
-            You've reached the end of the results
+            You&apos;ve reached the end of the results
           </p>
         )}
       </div>

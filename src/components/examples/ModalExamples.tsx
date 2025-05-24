@@ -233,8 +233,8 @@ export function ModalExamples() {
                 Storage Warning
               </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                You're using 95% of your storage space. Consider upgrading your
-                plan or removing some files to continue uploading.
+                You&apos;re using 95% of your storage space. Consider upgrading
+                your plan or removing some files to continue uploading.
               </p>
               <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3">
                 <div className="flex justify-between text-sm mb-1">
@@ -282,8 +282,8 @@ export function ModalExamples() {
                 Delete Image Collection
               </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Are you sure you want to delete "Nature Photography"? This will
-                permanently remove 24 images and cannot be undone.
+                Are you sure you want to delete &quot;Nature Photography&quot;?
+                This will permanently remove 24 images and cannot be undone.
               </p>
               <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-3">
                 <p className="text-sm text-red-800 dark:text-red-400">

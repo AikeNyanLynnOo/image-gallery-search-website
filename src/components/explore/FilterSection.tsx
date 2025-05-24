@@ -384,10 +384,10 @@ export function FilterSection() {
                 {selectedTime === "week"
                   ? "This Week"
                   : selectedTime === "month"
-                  ? "This Month"
-                  : selectedTime === "year"
-                  ? "This Year"
-                  : selectedTime}
+                    ? "This Month"
+                    : selectedTime === "year"
+                      ? "This Year"
+                      : selectedTime}
               </span>
               <button
                 onClick={() => setSelectedTime("all")}
