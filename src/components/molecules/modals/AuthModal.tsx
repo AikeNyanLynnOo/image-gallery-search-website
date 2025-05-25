@@ -1,12 +1,12 @@
-import { AuthFormWithTabs } from "../AuthFormwithTabs";
-import { X } from "lucide-react";
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   loginRequest,
   resetAuthState,
   signupRequest,
 } from "@/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthFormWithTabs } from "../AuthFormwithTabs";
 import { Modal, ModalContent, ModalFooter } from "./CustomModal";
 
 export default function AuthModal({
@@ -23,14 +23,23 @@ export default function AuthModal({
   password,
   setPassword,
 }: any) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { loading, isLoginSuccess, isSignupSuccess, error } = useSelector(
     (state: any) => state.auth
   );
 
+  const resetForm = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+  };
+
   const handleClose = () => {
-    dispatch(resetAuthState(null));
     console.log("closing");
+    dispatch(resetAuthState(null));
+    resetForm();
     setOpen(false);
   };
   const resendVerifyEmail = () => {
@@ -58,10 +67,19 @@ export default function AuthModal({
     );
   }, [dispatch, active, email, password, firstName, lastName]);
 
+  //   start useEffects
+  useEffect(() => {
+    console.log("Is login success>>", isLoginSuccess);
+    if (isLoginSuccess) {
+      router.push("/dashboard");
+      dispatch(resetAuthState(null));
+    }
+  }, [isLoginSuccess, router]);
+
   return (
     <Modal
       isOpen={open}
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
       title={
         (active === "signup" && "Sign up to upload images") ||
         "Login to view you images"

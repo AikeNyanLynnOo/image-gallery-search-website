@@ -16,24 +16,13 @@ import { ModeContext } from "../ModeWrapper";
 import { ThemeToggleDropdown } from "../atoms/ThemeToggleDropdown";
 import { ThemeToggleMobile } from "../atoms/ThemeToggleMobile";
 import Image from "next/image";
-// import {
-//   Dialog,
-//   DialogActions,
-//   DialogContent,
-//   DialogTitle,
-//   IconButton,
-//   useMediaQuery,
-//   useTheme,
-// } from "@mui/material";
 import ButtonWithIcon from "../atoms/ButtonWithIcon";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { deleteCookie } from "cookies-next";
+import { makeRequest } from "@/lib/helpers/makeRequest";
 
-import { neutralWhite, primaryTeal } from "@/lib/theme/colors";
-import {
-  loginRequest,
-  resetAuthState,
-  signupRequest,
-} from "@/lib/features/auth/authSlice";
+import { resetAuthState } from "@/lib/features/auth/authSlice";
 import {
   Button,
   Modal,
@@ -42,12 +31,18 @@ import {
 } from "../molecules/modals/CustomModal";
 import { AuthFormWithTabs } from "../molecules/AuthFormwithTabs";
 import AuthModal from "../molecules/modals/AuthModal";
+
+const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN || "";
+const REFRESH_TOKEN = process.env.NEXT_PUBLIC_REFRESH_TOKEN || "";
+const base_url = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
+
 export function Navbar({ showAuth = true }: any) {
   // redux
   const dispatch = useDispatch();
   const { loading, isLoginSuccess, isSignupSuccess, error } = useSelector(
     (state: any) => state.auth
   );
+  const { isAuthenticated, user } = useAuth();
   const { mode, changeMode } = useContext(ModeContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -68,9 +63,6 @@ export function Navbar({ showAuth = true }: any) {
     setActive(active);
     setOpen(true);
   };
-
-  // Simulate authenticated state - in a real app, this would come from your auth system
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -131,6 +123,28 @@ export function Navbar({ showAuth = true }: any) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      // Call logout API to invalidate tokens on the server
+      await makeRequest({
+        method: "POST",
+        url: `${base_url}/auth/logout`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      // Clear tokens from cookies regardless of API call success
+      deleteCookie(ACCESS_TOKEN);
+      deleteCookie(REFRESH_TOKEN);
+      setUserDropdownOpen(false);
+      // Optionally redirect to home page
+      window.location.href = "/";
+    }
+  };
 
   return (
     <header
@@ -208,7 +222,9 @@ export function Navbar({ showAuth = true }: any) {
                       <div className="w-8 h-8 rounded-full bg-primaryTeal-100/10 flex items-center justify-center">
                         <User className="h-4 w-4 text-primaryTeal-100" />
                       </div>
-                      <span>John Doe</span>
+                      <span>
+                        {user && user.profile && user.profile.displayName}
+                      </span>
                     </button>
                     {userDropdownOpen && (
                       <div
@@ -241,10 +257,7 @@ export function Navbar({ showAuth = true }: any) {
                         </Link>
                         <div className="my-1 border-t border-gray-200 dark:border-dark-100"></div>
                         <button
-                          onClick={() => {
-                            setIsAuthenticated(false);
-                            setUserDropdownOpen(false);
-                          }}
+                          onClick={handleLogout}
                           className="flex w-full items-center gap-2 px-3 py-2 text-sm rounded-md text-red-500 hover:bg-gray-100 dark:hover:bg-dark-200"
                         >
                           <LogOut className="h-4 w-4" />
@@ -318,10 +331,7 @@ export function Navbar({ showAuth = true }: any) {
                     </Link>
                     <div className="my-1 border-t border-gray-200 dark:border-dark-100"></div>
                     <button
-                      onClick={() => {
-                        setIsAuthenticated(false);
-                        setUserDropdownOpen(false);
-                      }}
+                      onClick={handleLogout}
                       className="flex w-full items-center gap-2 px-3 py-2 text-sm rounded-md text-red-500 hover:bg-gray-100 dark:hover:bg-dark-200"
                     >
                       <LogOut className="h-4 w-4" />

@@ -5,7 +5,7 @@ const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN || "";
 const REFRESH_TOKEN = process.env.NEXT_PUBLIC_REFRESH_TOKEN || "";
 
 // api
-import { signup, login } from "./authApiFunctions";
+import { signup, login, refreshToken } from "./authApiFunctions";
 
 // actions
 import {
@@ -17,6 +17,10 @@ import {
   signupLoading,
   signupSuccess,
   signupFail,
+  refreshTokenRequest,
+  refreshTokenLoading,
+  refreshTokenSuccess,
+  refreshTokenFail,
 } from "./authSlice";
 import { setCookie } from "cookies-next";
 import { extractMessage } from "@/lib/helpers/helperFunctions";
@@ -26,6 +30,7 @@ import toast from "react-hot-toast";
 export const authSagas = [
   takeLatest(loginRequest.type as any, watchLoginRequest),
   takeLatest(signupRequest.type as any, watchSignupRequest),
+  takeLatest(refreshTokenRequest.type as any, watchRefreshTokenRequest),
 ];
 
 function* watchLoginRequest({ payload }: any) {
@@ -51,6 +56,7 @@ function* watchLoginRequest({ payload }: any) {
         maxAge: 7 * 60 * 60 * 24, // 7 days
       } as any);
 
+      toast.success(message);
       yield put(loginSuccess(null));
     } else {
       yield put(
@@ -172,6 +178,55 @@ function* watchSignupRequest({ payload }: any) {
     // fail
     yield put(
       signupFail({
+        error: {
+          general: "Unknown Error",
+        },
+      })
+    );
+  }
+}
+
+function* watchRefreshTokenRequest({ payload }: any) {
+  try {
+    yield put(refreshTokenLoading(null));
+
+    // preventing long loading
+    // fallback after 10s
+    const { response, timeout } = yield race({
+      response: call(refreshToken, payload),
+      timeout: delay(TIMEOUT_SEC * 1000),
+    });
+    const { status, statusText, success, message, data } = response;
+
+    if (success) {
+      // success
+      // put user feedback
+      setCookie(ACCESS_TOKEN, data.accessToken, {
+        maxAge: 1 * 60 * 60, // 1 hour
+      } as any);
+      setCookie(REFRESH_TOKEN, data.refreshToken, {
+        maxAge: 7 * 60 * 60 * 24, // 7 days
+      } as any);
+
+      // wont show toast for token refresh success
+      // toast.success(message);
+      yield put(refreshTokenSuccess(null));
+    } else {
+      yield put(
+        refreshTokenFail({
+          error: {
+            general: {
+              message: data.errors.general || message || "",
+            },
+          },
+        })
+      );
+    }
+  } catch (e) {
+    // put some user feedback
+    // fail
+    yield put(
+      refreshTokenFail({
         error: {
           general: "Unknown Error",
         },
