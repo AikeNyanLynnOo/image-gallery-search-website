@@ -5,6 +5,7 @@ interface HomeState {
   heroImages: any[];
   featuredImages: any[];
   popularCollections: any[];
+  searchResults: any[];
   loading: {
     isPending: boolean | null;
     isComplete: boolean | null;
@@ -20,6 +21,7 @@ const initialState: HomeState = {
   heroImages: [],
   featuredImages: [],
   popularCollections: [],
+  searchResults: [],
   loading: {
     isPending: null,
     isComplete: true,
@@ -76,6 +78,45 @@ export const homeSlice = createSlice({
         },
       };
     },
+    searchHomePageRequest(state, action) {
+      // run middleware
+    },
+    searchHomePageLoading(state, action) {
+      return {
+        ...state,
+        loading: {
+          isPending: true,
+          isComplete: false,
+        },
+      };
+    },
+    searchHomePageSuccess(state, action) {
+      return {
+        ...state,
+        loading: {
+          isPending: false,
+          isComplete: true,
+        },
+        searchResults: action.payload,
+        isSuccess: true,
+        error: {
+          message: null,
+        },
+      };
+    },
+    searchHomePageFail(state, action) {
+      return {
+        ...state,
+        loading: {
+          isPending: false,
+          isComplete: true,
+        },
+        isSuccess: false,
+        error: {
+          message: action.payload.message || null,
+        },
+      };
+    },
     resetHome(state, action) {
       return {
         ...state,
@@ -87,6 +128,7 @@ export const homeSlice = createSlice({
         heroImages: [],
         featuredImages: [],
         popularCollections: [],
+        searchResults: [],
         isSuccess: null,
         error: {
           message: null,
@@ -101,6 +143,10 @@ export const {
   getHomeDataLoading,
   getHomeDataSuccess,
   getHomeDataFail,
+  searchHomePageRequest,
+  searchHomePageLoading,
+  searchHomePageSuccess,
+  searchHomePageFail,
   resetHome,
 } = homeSlice.actions;
-export default homeSlice.reducer; 
+export default homeSlice.reducer;

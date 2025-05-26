@@ -11,9 +11,11 @@ import { PlatformFeatures } from "@/components/home/PlatformFeatures";
 import { PopularCollections } from "@/components/home/PopularCollections";
 import { Testimonials } from "@/components/home/Testimonials";
 import Link from "next/link";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 export default function HomePage() {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     dispatch(getHomeDataRequest(null));
@@ -41,13 +43,21 @@ export default function HomePage() {
               work and getting discovered every day.
             </p>
             <div className="flex flex-col sm:flex-row gap-5 justify-center">
+              {!isAuthenticated && (
+                <Link
+                  href="/signup"
+                  className="inline-flex justify-center rounded-lg bg-primaryTeal-100 px-8 py-4 text-base font-medium text-white shadow-lg transition-all hover:bg-secondaryTeal-100 hover:shadow-primaryTeal-100/20 dark:hover:shadow-primaryTeal-100/10 hover:translate-y-[-2px]"
+                >
+                  Sign Up for Free
+                </Link>
+              )}
+
               <Link
-                href="/signup"
-                className="inline-flex justify-center rounded-lg bg-primaryTeal-100 px-8 py-4 text-base font-medium text-white shadow-lg transition-all hover:bg-secondaryTeal-100 hover:shadow-primaryTeal-100/20 dark:hover:shadow-primaryTeal-100/10 hover:translate-y-[-2px]"
+                href="/explore"
+                className="inline-flex justify-center rounded-lg border-2 border-primaryTeal-100 bg-transparent px-8 py-4 text-base font-medium text-primaryTeal-100 shadow-sm transition-all hover:bg-primaryTeal-100/5 dark:hover:bg-primaryTeal-100/10 hover:shadow-lg hover:shadow-primaryTeal-100/10 dark:hover:shadow-primaryTeal-100/5 hover:translate-y-[-2px]"
               >
-                Sign Up for Free
+                Explore Images
               </Link>
-              <Link href="/explore">Explore Images</Link>
             </div>
           </div>
         </section>

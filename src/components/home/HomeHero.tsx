@@ -3,12 +3,13 @@ import { ArrowRight, Search } from "lucide-react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useAuth } from "@/lib/hooks/useAuth";
+import { AutocompleteSearch } from "./AutoCompleteSearch";
 
 export function HomeHero() {
-  const { topics, heroImages } = useSelector((state: any) => state.home);
+  const { heroImages } = useSelector((state: any) => state.home);
   const { isAuthenticated } = useAuth();
   return (
-    <section className="relative overflow-hidden pt-20 pb-32 sm:pt-24 sm:pb-40">
+    <section className="relative overflow-y-visible pt-20 pb-32 sm:pt-24 sm:pb-40">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-primaryTeal-100/5 via-primaryTeal-100/3 to-transparent dark:from-primaryTeal-100/10 dark:via-primaryTeal-100/5 dark:to-transparent"></div>
       <div className="absolute top-1/4 right-0 w-72 h-72 bg-primaryTeal-100/10 dark:bg-primaryTeal-100/5 rounded-full blur-3xl"></div>
@@ -47,7 +48,7 @@ export function HomeHero() {
             </div>
 
             <div className="mt-12 relative max-w-md">
-              <div className="absolute inset-0 bg-primaryTeal-100/5 dark:bg-primaryTeal-100/10 rounded-xl blur"></div>
+              {/* <div className="absolute inset-0 bg-primaryTeal-100/5 dark:bg-primaryTeal-100/10 rounded-xl blur"></div>
               <div className="relative bg-neutralWhite-100/80 dark:bg-dark-100/80 backdrop-blur-md rounded-xl border border-gray-200/50 dark:border-dark-100/50 shadow-xl">
                 <div className="flex items-center p-4">
                   <Search className="h-5 w-5 text-primary-100/40 dark:text-primaryDark-100/40 mr-3" />
@@ -70,7 +71,8 @@ export function HomeHero() {
                       </Link>
                     ))}
                 </div>
-              </div>
+              </div> */}
+              <AutocompleteSearch />
             </div>
           </div>
           <div className="relative hidden lg:block">
