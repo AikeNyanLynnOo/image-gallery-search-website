@@ -9,17 +9,20 @@ import createSagaMiddleware from "@redux-saga/core";
 import { photoSlice } from "./photo/photoSlice";
 import { authSlice } from "./auth/authSlice";
 import { userSlice } from "./user/userSlice";
+import { homeSlice } from "./home/homeSlice";
 
 // generator functions
 import { photoSagas } from "./photo/photoSaga";
 import { authSagas } from "./auth/authSaga";
 import { userSagas } from "./user/userSaga";
+import { homeSagas } from "./home/homeSaga";
 
 function* rootSaga() {
   yield all([
     ...photoSagas,
     ...authSagas,
     ...userSagas,
+    ...homeSagas,
     // add more sagas
   ]);
 }
@@ -37,6 +40,7 @@ export const makeStore = () => {
       [photoSlice.name]: photoSlice.reducer,
       [authSlice.name]: authSlice.reducer,
       [userSlice.name]: userSlice.reducer,
+      [homeSlice.name]: homeSlice.reducer,
     },
     devTools: devMode,
     middleware: (() => {

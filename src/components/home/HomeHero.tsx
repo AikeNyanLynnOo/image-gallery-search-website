@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { ArrowRight, Search } from "lucide-react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 export function HomeHero() {
+  const { topics, heroImages } = useSelector((state: any) => state.home);
+  const { isAuthenticated } = useAuth();
   return (
     <section className="relative overflow-hidden pt-20 pb-32 sm:pt-24 sm:pb-40">
       {/* Background elements */}
@@ -24,12 +28,15 @@ export function HomeHero() {
             </p>
             <div className="flex flex-col sm:flex-row gap-5">
               {/* Dont show join button if already authenticated */}
-              <Link
-                href="/signup"
-                className="inline-flex items-center justify-center rounded-lg bg-primaryTeal-100 px-6 py-4 text-base font-medium text-white shadow-lg transition-all hover:bg-secondaryTeal-100 hover:shadow-primaryTeal-100/20 dark:hover:shadow-primaryTeal-100/10 hover:translate-y-[-2px]"
-              >
-                Join Impressa
-              </Link>
+              {!isAuthenticated && (
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center justify-center rounded-lg bg-primaryTeal-100 px-6 py-4 text-base font-medium text-white shadow-lg transition-all hover:bg-secondaryTeal-100 hover:shadow-primaryTeal-100/20 dark:hover:shadow-primaryTeal-100/10 hover:translate-y-[-2px]"
+                >
+                  Join Impressa
+                </Link>
+              )}
+
               <Link
                 href="/explore"
                 className="inline-flex items-center justify-center rounded-lg border-2 border-primaryTeal-100 bg-transparent px-6 py-4 text-base font-medium text-primaryTeal-100 shadow-sm transition-all hover:bg-primaryTeal-100/5 dark:hover:bg-primaryTeal-100/10 hover:shadow-lg hover:shadow-primaryTeal-100/10 dark:hover:shadow-primaryTeal-100/5 hover:translate-y-[-2px]"
@@ -51,30 +58,17 @@ export function HomeHero() {
                   />
                 </div>
                 <div className="px-4 pb-4 flex flex-wrap gap-2">
-                  <Link
-                    href="/explore?topic=nature"
-                    className="inline-flex rounded-full px-3 py-1 text-xs font-medium bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 text-primaryTeal-100 hover:bg-primaryTeal-100/20 dark:hover:bg-primaryTeal-100/30 transition-colors"
-                  >
-                    Nature
-                  </Link>
-                  <Link
-                    href="/explore?topic=architecture"
-                    className="inline-flex rounded-full px-3 py-1 text-xs font-medium bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 text-primaryTeal-100 hover:bg-primaryTeal-100/20 dark:hover:bg-primaryTeal-100/30 transition-colors"
-                  >
-                    Architecture
-                  </Link>
-                  <Link
-                    href="/explore?topic=travel"
-                    className="inline-flex rounded-full px-3 py-1 text-xs font-medium bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 text-primaryTeal-100 hover:bg-primaryTeal-100/20 dark:hover:bg-primaryTeal-100/30 transition-colors"
-                  >
-                    Travel
-                  </Link>
-                  <Link
-                    href="/explore?topic=minimalism"
-                    className="inline-flex rounded-full px-3 py-1 text-xs font-medium bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 text-primaryTeal-100 hover:bg-primaryTeal-100/20 dark:hover:bg-primaryTeal-100/30 transition-colors"
-                  >
-                    Minimalism
-                  </Link>
+                  {topics &&
+                    topics.length > 0 &&
+                    topics.map((topic: any, index: number) => (
+                      <Link
+                        key={index}
+                        href={`/explore?topic=${topic._id}`}
+                        className="inline-flex rounded-full px-3 py-1 text-xs font-medium bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 text-primaryTeal-100 hover:bg-primaryTeal-100/20 dark:hover:bg-primaryTeal-100/30 transition-colors"
+                      >
+                        {topic.name}
+                      </Link>
+                    ))}
                 </div>
               </div>
             </div>
@@ -84,8 +78,14 @@ export function HomeHero() {
             <div className="relative grid grid-cols-12 grid-rows-6 gap-4 h-[600px]">
               <div className="col-span-7 row-span-4 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
-                  alt="Mountain landscape"
+                  src={
+                    (heroImages && heroImages[0] && heroImages[0].url) ||
+                    "/placeholder.svg"
+                  }
+                  alt={
+                    (heroImages && heroImages[0] && heroImages[0].title) ||
+                    "stunning hero"
+                  }
                   className="w-full h-full object-cover"
                   width={400}
                   height={500}
@@ -93,8 +93,14 @@ export function HomeHero() {
               </div>
               <div className="col-span-5 row-span-3 col-start-8 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
-                  alt="Ocean waves"
+                  src={
+                    (heroImages && heroImages[1] && heroImages[1].url) ||
+                    "/placeholder.svg"
+                  }
+                  alt={
+                    (heroImages && heroImages[1] && heroImages[1].title) ||
+                    "stunning hero"
+                  }
                   className="w-full h-full object-cover"
                   width={400}
                   height={500}
@@ -102,8 +108,14 @@ export function HomeHero() {
               </div>
               <div className="col-span-5 row-span-3 col-start-8 row-start-4 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
-                  alt="Forest path"
+                  src={
+                    (heroImages && heroImages[2] && heroImages[2].url) ||
+                    "/placeholder.svg"
+                  }
+                  alt={
+                    (heroImages && heroImages[2] && heroImages[2].title) ||
+                    "stunning hero"
+                  }
                   className="w-full h-full object-cover"
                   width={400}
                   height={500}
@@ -111,8 +123,14 @@ export function HomeHero() {
               </div>
               <div className="col-span-7 row-span-2 row-start-5 overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/placeholder.svg"
-                  alt="City skyline"
+                  src={
+                    (heroImages && heroImages[3] && heroImages[3].url) ||
+                    "/placeholder.svg"
+                  }
+                  alt={
+                    (heroImages && heroImages[3] && heroImages[3].title) ||
+                    "stunning hero"
+                  }
                   className="w-full h-full object-cover"
                   width={400}
                   height={500}

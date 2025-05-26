@@ -1,35 +1,18 @@
 "use client";
 
-import {
-  BookOpen,
-  Grid,
-  ImageIcon,
-  LogOut,
-  Menu,
-  Settings,
-  User,
-  X,
-} from "lucide-react";
+import { makeRequest } from "@/lib/helpers/makeRequest";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { deleteCookie } from "cookies-next";
+import { BookOpen, Grid, LogOut, Menu, User, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ModeContext } from "../ModeWrapper";
 import { ThemeToggleDropdown } from "../atoms/ThemeToggleDropdown";
 import { ThemeToggleMobile } from "../atoms/ThemeToggleMobile";
-import Image from "next/image";
-import ButtonWithIcon from "../atoms/ButtonWithIcon";
-import { useDispatch, useSelector } from "react-redux";
-import { useAuth } from "@/lib/hooks/useAuth";
-import { deleteCookie } from "cookies-next";
-import { makeRequest } from "@/lib/helpers/makeRequest";
 
 import { resetAuthState } from "@/lib/features/auth/authSlice";
-import {
-  Button,
-  Modal,
-  ModalContent,
-  ModalFooter,
-} from "../molecules/modals/CustomModal";
-import { AuthFormWithTabs } from "../molecules/AuthFormwithTabs";
 import AuthModal from "../molecules/modals/AuthModal";
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_ACCESS_TOKEN || "";
@@ -39,11 +22,8 @@ const base_url = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 export function Navbar({ showAuth = true }: any) {
   // redux
   const dispatch = useDispatch();
-  const { loading, isLoginSuccess, isSignupSuccess, error } = useSelector(
-    (state: any) => state.auth
-  );
+
   const { isAuthenticated, user } = useAuth();
-  const { mode, changeMode } = useContext(ModeContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
@@ -165,7 +145,7 @@ export function Navbar({ showAuth = true }: any) {
               <div className="absolute -inset-1 bg-primaryTeal-100 dark:bg-neutral-200 rounded-full blur-md opacity-10 dark:opacity-60 animate-pulse" />
               <Image
                 src={"/logo.png"}
-                className="h-8 w-8"
+                className="h-8 w-8 object-contain"
                 width={32}
                 height={32}
                 alt="logo"
@@ -197,7 +177,7 @@ export function Navbar({ showAuth = true }: any) {
           </nav>
 
           {/* Right side actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-3">
             {/* Theme Toggle Dropdown */}
             <ThemeToggleDropdown
               themeDropdownOpen={themeDropdownOpen}
@@ -219,9 +199,20 @@ export function Navbar({ showAuth = true }: any) {
                       }}
                       className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-100 transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-full bg-primaryTeal-100/10 flex items-center justify-center">
-                        <User className="h-4 w-4 text-primaryTeal-100" />
-                      </div>
+                      {(user && user.profile && user.profile.avatar && (
+                        <Image
+                          src={user.profile.avatar}
+                          alt="user-profile"
+                          width={24}
+                          height={24}
+                          className="rounded-full border"
+                        />
+                      )) || (
+                        <div className="w-8 h-8 rounded-full bg-primaryTeal-100/10 flex items-center justify-center">
+                          <User className="h-4 w-4 text-primaryTeal-100" />
+                        </div>
+                      )}
+
                       <span>
                         {user && user.profile && user.profile.displayName}
                       </span>
@@ -296,9 +287,19 @@ export function Navbar({ showAuth = true }: any) {
                   }}
                   className="flex items-center justify-center rounded-md p-2 text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-100"
                 >
-                  <div className="w-8 h-8 rounded-full bg-primaryTeal-100/10 flex items-center justify-center">
-                    <User className="h-4 w-4 text-primaryTeal-100" />
-                  </div>
+                  {(user && user.profile && user.profile.avatar && (
+                    <Image
+                      src={user.profile.avatar}
+                      alt="user-profile"
+                      width={24}
+                      height={24}
+                      className="rounded-full boder"
+                    />
+                  )) || (
+                    <div className="w-8 h-8 rounded-full bg-primaryTeal-100/10 flex items-center justify-center">
+                      <User className="h-4 w-4 text-primaryTeal-100" />
+                    </div>
+                  )}
                 </button>
                 {userDropdownOpen && (
                   <div
@@ -366,7 +367,7 @@ export function Navbar({ showAuth = true }: any) {
         <div
           className={`md:hidden absolute left-0 right-0 bg-neutralWhite-100 dark:bg-dark-100 bg-neutralWhite-100/90 dark:bg-dark-200/90 backdrop-blur-lg shadow-sm border-b border-gray-200/50 dark:border-dark-100/50`}
         >
-          <div className="space-y-1 px-4 pb-5 pt-2">
+          <div className="space-y-1 pb-5 pt-2 container mx-auto px-4">
             <Link
               href="/explore"
               className="block rounded-md px-3 py-2 text-base font-medium text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-100 hover:text-primaryTeal-100 dark:hover:text-primaryTeal-100"
