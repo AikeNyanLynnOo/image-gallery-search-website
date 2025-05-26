@@ -12,4 +12,19 @@ export const getHomeData = async () => {
     },
   });
   return res;
-}; 
+};
+
+export const searchHomePage = async ({ query }: { query: string }) => {
+  const res = await makeRequest({
+    method: "GET",
+    maxBodyLength: Infinity,
+    url: `${base_url}/home/search`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: {
+      query,
+    },
+  });
+  return res;
+};
