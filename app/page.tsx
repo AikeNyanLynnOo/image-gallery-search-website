@@ -1,13 +1,24 @@
+"use client";
+
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getHomeDataRequest } from "@/lib/features/home/homeSlice";
 import { FeaturedImages } from "@/components/home/FeaturedImages";
+import { HomeFooter } from "@/components/home/HomeFooter";
 import { HomeHero } from "@/components/home/HomeHero";
-import { PopularCollections } from "@/components/home/PopularCollections";
-import { Testimonials } from "@/components/home/Testimonials";
 import { Navbar } from "@/components/home/NavBar";
 import { PlatformFeatures } from "@/components/home/PlatformFeatures";
+import { PopularCollections } from "@/components/home/PopularCollections";
+import { Testimonials } from "@/components/home/Testimonials";
 import Link from "next/link";
-import { HomeFooter } from "@/components/home/HomeFooter";
 
 export default function HomePage() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getHomeDataRequest(null));
+  }, [dispatch]);
+
   return (
     <div className="min-h-screen bg-neutralWhite-100 dark:bg-dark-200">
       <Navbar />
@@ -36,12 +47,7 @@ export default function HomePage() {
               >
                 Sign Up for Free
               </Link>
-              <Link
-                href="/explore"
-                className="inline-flex justify-center rounded-lg border-2 border-primaryTeal-100 bg-transparent px-8 py-4 text-base font-medium text-primaryTeal-100 shadow-sm transition-all hover:bg-primaryTeal-100/5 dark:hover:bg-primaryTeal-100/10 hover:shadow-lg hover:shadow-primaryTeal-100/10 dark:hover:shadow-primaryTeal-100/5 hover:translate-y-[-2px]"
-              >
-                Explore Images
-              </Link>
+              <Link href="/explore">Explore Images</Link>
             </div>
           </div>
         </section>

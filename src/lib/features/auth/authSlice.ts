@@ -11,6 +11,7 @@ interface AuthState {
   };
   isLoginSuccess: boolean;
   isSignupSuccess: boolean;
+  isTokenRefreshSuccess: boolean;
   error: {
     general: ErrorField;
     firstName: ErrorField;
@@ -27,6 +28,7 @@ const initialState: AuthState = {
   },
   isLoginSuccess: false,
   isSignupSuccess: false,
+  isTokenRefreshSuccess: false,
   error: {
     general: {
       message: null,
@@ -174,6 +176,7 @@ export const authSlice = createSlice({
         },
         isLoginSuccess: false,
         isSignupSuccess: false,
+        isTokenRefreshSuccess: false,
         error: {
           general: {
             message: null,
@@ -193,6 +196,59 @@ export const authSlice = createSlice({
         },
       };
     },
+    refreshTokenRequest(state, action) {
+      // run middleware
+    },
+    refreshTokenLoading(state, action) {
+      return {
+        ...state,
+        loading: {
+          isPending: true,
+          isComplete: false,
+        },
+      };
+    },
+    refreshTokenSuccess(state, action) {
+      return {
+        ...state,
+        loading: {
+          isPending: false,
+          isComplete: true,
+        },
+        isTokenRefreshSuccess: true,
+        error: {
+          general: {
+            message: null,
+          },
+          firstName: {
+            message: null,
+          },
+          lastName: {
+            message: null,
+          },
+          email: {
+            message: null,
+          },
+          password: {
+            message: null,
+          },
+        },
+      };
+    },
+    refreshTokenFail(state, action) {
+      return {
+        ...state,
+        loading: {
+          isPending: false,
+          isComplete: true,
+        },
+        isTokenRefreshSuccess: false,
+        error: {
+          ...state.error,
+          ...action.payload.error,
+        },
+      };
+    },
   },
 });
 
@@ -205,6 +261,10 @@ export const {
   signupLoading,
   signupSuccess,
   signupFail,
+  refreshTokenRequest,
+  refreshTokenLoading,
+  refreshTokenSuccess,
+  refreshTokenFail,
   updateError,
   resetAuthState,
 } = authSlice.actions;

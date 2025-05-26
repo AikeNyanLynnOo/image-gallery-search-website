@@ -1,43 +1,45 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 export function PopularCollections() {
+  const { popularCollections } = useSelector((state: any) => state.home);
   // Mock collections data
-  const collections = [
-    {
-      id: 1,
-      title: "Nature",
-      description: "Beautiful landscapes and natural wonders",
-      imageCount: 124,
-      coverImage: "/placeholder.svg",
-      backgroundStyle: "bg-gradient-to-br from-green-500/90 to-emerald-600/90",
-    },
-    {
-      id: 2,
-      title: "Architecture",
-      description: "Modern and classic architectural designs",
-      imageCount: 86,
-      coverImage: "/placeholder.svg",
-      backgroundStyle: "bg-gradient-to-br from-blue-500/90 to-purple-600/90",
-    },
-    {
-      id: 3,
-      title: "Travel",
-      description: "Inspiring destinations from around the world",
-      imageCount: 152,
-      coverImage: "/placeholder.svg",
-      backgroundStyle: "bg-gradient-to-br from-orange-500/90 to-red-600/90",
-    },
-    {
-      id: 4,
-      title: "Minimalism",
-      description: "Clean, simple, and minimal compositions",
-      imageCount: 78,
-      coverImage: "/placeholder.svg",
-      backgroundStyle: "bg-gradient-to-br from-gray-700/90 to-gray-900/90",
-    },
-  ];
+  // const collections = [
+  //   {
+  //     id: 1,
+  //     title: "Nature",
+  //     description: "Beautiful landscapes and natural wonders",
+  //     imageCount: 124,
+  //     coverImage: "/placeholder.svg",
+  //     backgroundStyle: "bg-gradient-to-br from-green-500/90 to-emerald-600/90",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Architecture",
+  //     description: "Modern and classic architectural designs",
+  //     imageCount: 86,
+  //     coverImage: "/placeholder.svg",
+  //     backgroundStyle: "bg-gradient-to-br from-blue-500/90 to-purple-600/90",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Travel",
+  //     description: "Inspiring destinations from around the world",
+  //     imageCount: 152,
+  //     coverImage: "/placeholder.svg",
+  //     backgroundStyle: "bg-gradient-to-br from-orange-500/90 to-red-600/90",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Minimalism",
+  //     description: "Clean, simple, and minimal compositions",
+  //     imageCount: 78,
+  //     coverImage: "/placeholder.svg",
+  //     backgroundStyle: "bg-gradient-to-br from-gray-700/90 to-gray-900/90",
+  //   },
+  // ];
 
   return (
     <section className="py-20 sm:py-28 relative overflow-hidden">
@@ -68,43 +70,74 @@ export function PopularCollections() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {collections.map((collection) => (
-            <Link
-              key={collection.id}
-              href={`/collections/${collection.id}`}
-              className="group overflow-hidden rounded-xl border border-gray-200 dark:border-dark-100 shadow-lg hover:shadow-xl transition-all duration-500 hover:translate-y-[-5px]"
-            >
-              <div className="relative">
-                <Image
-                  src={collection.coverImage || "/placeholder.svg"}
-                  alt={collection.title}
-                  className="aspect-[16/9] w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  width={500}
-                  height={500}
-                />
-                <div
-                  className={`absolute inset-0 ${collection.backgroundStyle} opacity-90 group-hover:opacity-95 transition-opacity`}
-                >
-                  <div className="absolute inset-0 flex flex-col justify-end p-8">
-                    <h3 className="text-3xl font-bold text-white drop-shadow-sm mb-2">
-                      {collection.title}
-                    </h3>
-                    <p className="text-lg text-white/90 drop-shadow-sm mb-4">
-                      {collection.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-white/80 text-sm font-medium">
-                        {collection.imageCount} images
-                      </span>
-                      <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm group-hover:bg-white/30 transition-colors">
-                        <ArrowRight className="h-5 w-5 text-white transform group-hover:translate-x-0.5 transition-transform" />
-                      </span>
+          {popularCollections &&
+            popularCollections.map((collection: any, index: number) => (
+              <Link
+                key={index}
+                href={`/collections/${collection._id}`}
+                className="group overflow-hidden rounded-xl border border-gray-200 dark:border-dark-100 shadow-lg hover:shadow-xl transition-all duration-500 hover:translate-y-[-5px]"
+              >
+                <div className="relative">
+                  <Image
+                    src={
+                      (collection.coverImage && collection.coverImage.url) ||
+                      "/placeholder.svg"
+                    }
+                    alt={
+                      (collection.coverImage && collection.coverImage.title) ||
+                      ""
+                    }
+                    className="aspect-[16/9] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    width={500}
+                    height={500}
+                  />
+                  <div
+                    className={`absolute inset-0 ${collection.backgroundStyle || ""} opacity-90 group-hover:opacity-95 transition-opacity`}
+                  >
+                    <div className="absolute inset-0 flex flex-col justify-between p-8">
+                      {/* Creator Info at Top */}
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={
+                            collection.user.profile.avatar || "/placeholder.svg"
+                          }
+                          alt={collection.user.profile.displayName || ""}
+                          className="w-10 h-10 rounded-full border-2 border-white/30 object-cover"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-1">
+                            <span className="text-white font-medium text-sm truncate">
+                              {collection.user.profile.displayName ||
+                                `${collection.user.profile.firstName} ${collection.user.profile.lastName}`}
+                            </span>
+                          </div>
+                          <span className="text-white/80 text-xs">
+                            {collection.user.profile.bio || ""}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-3xl font-bold text-white drop-shadow-sm mb-2">
+                          {collection.name}
+                        </h3>
+                        <p className="text-lg text-white/90 drop-shadow-sm mb-4">
+                          {collection.description}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-white/80 text-sm font-medium">
+                            {collection.totalImages} images
+                          </span>
+                          <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm group-hover:bg-white/30 transition-colors">
+                            <ArrowRight className="h-5 w-5 text-white transform group-hover:translate-x-0.5 transition-transform" />
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
         </div>
       </div>
     </section>

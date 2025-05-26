@@ -1,4 +1,4 @@
-import { Camera, Users, FolderKanban, Hash, Shield, Zap } from "lucide-react";
+import { Camera, FolderKanban, Hash, Shield, Users, Zap } from "lucide-react";
 
 export function PlatformFeatures() {
   const features = [

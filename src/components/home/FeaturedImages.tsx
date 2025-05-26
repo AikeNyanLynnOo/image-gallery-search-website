@@ -2,67 +2,69 @@
 
 import { useState } from "react";
 import { Heart, Eye, Download, ArrowRight, ArrowLeft } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export function FeaturedImages() {
+  const { featuredImages } = useSelector((state: any) => state.home);
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Mock featured images data
-  const featuredImages = [
-    {
-      id: 1,
-      title: "Mountain Sunset",
-      photographer: "Jane Smith",
-      src: "/placeholder.svg?height=400&width=600&text=Mountain+Sunset",
-      likes: 1245,
-      views: 18720,
-      downloads: 432,
-    },
-    {
-      id: 2,
-      title: "Ocean Waves",
-      photographer: "Michael Johnson",
-      src: "/placeholder.svg?height=400&width=600&text=Ocean+Waves",
-      likes: 892,
-      views: 12450,
-      downloads: 278,
-    },
-    {
-      id: 3,
-      title: "Forest Path",
-      photographer: "Emily Davis",
-      src: "/placeholder.svg?height=400&width=600&text=Forest+Path",
-      likes: 756,
-      views: 9870,
-      downloads: 189,
-    },
-    {
-      id: 4,
-      title: "City Skyline",
-      photographer: "David Wilson",
-      src: "/placeholder.svg?height=400&width=600&text=City+Skyline",
-      likes: 2150,
-      views: 34210,
-      downloads: 782,
-    },
-    {
-      id: 5,
-      title: "Desert Landscape",
-      photographer: "Sarah Brown",
-      src: "/placeholder.svg?height=400&width=600&text=Desert+Landscape",
-      likes: 678,
-      views: 9820,
-      downloads: 195,
-    },
-    {
-      id: 6,
-      title: "Autumn Forest",
-      photographer: "Robert Taylor",
-      src: "/placeholder.svg?height=400&width=600&text=Autumn+Forest",
-      likes: 1432,
-      views: 21560,
-      downloads: 521,
-    },
-  ];
+  // const featuredImages = [
+  //   {
+  //     id: 1,
+  //     title: "Mountain Sunset",
+  //     photographer: "Jane Smith",
+  //     src: "/placeholder.svg?height=400&width=600&text=Mountain+Sunset",
+  //     likes: 1245,
+  //     views: 18720,
+  //     downloads: 432,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Ocean Waves",
+  //     photographer: "Michael Johnson",
+  //     src: "/placeholder.svg?height=400&width=600&text=Ocean+Waves",
+  //     likes: 892,
+  //     views: 12450,
+  //     downloads: 278,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Forest Path",
+  //     photographer: "Emily Davis",
+  //     src: "/placeholder.svg?height=400&width=600&text=Forest+Path",
+  //     likes: 756,
+  //     views: 9870,
+  //     downloads: 189,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "City Skyline",
+  //     photographer: "David Wilson",
+  //     src: "/placeholder.svg?height=400&width=600&text=City+Skyline",
+  //     likes: 2150,
+  //     views: 34210,
+  //     downloads: 782,
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Desert Landscape",
+  //     photographer: "Sarah Brown",
+  //     src: "/placeholder.svg?height=400&width=600&text=Desert+Landscape",
+  //     likes: 678,
+  //     views: 9820,
+  //     downloads: 195,
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Autumn Forest",
+  //     photographer: "Robert Taylor",
+  //     src: "/placeholder.svg?height=400&width=600&text=Autumn+Forest",
+  //     likes: 1432,
+  //     views: 21560,
+  //     downloads: 521,
+  //   },
+  // ];
 
   const formatNumber = (num: number) => {
     if (num >= 1000) {
@@ -85,11 +87,6 @@ export function FeaturedImages() {
 
   return (
     <section className="py-20 sm:py-28 relative overflow-hidden">
-      {/* <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-neutralWhite-100 to-transparent dark:from-dark-200 dark:to-transparent z-10"></div>
-      <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-neutralWhite-100 to-transparent dark:from-dark-200 dark:to-transparent z-10"></div>
-      <div className="absolute -top-40 -right-40 w-80 h-80 bg-primaryTeal-100/5 dark:bg-primaryTeal-100/10 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondaryTeal-100/5 dark:bg-secondaryTeal-100/10 rounded-full blur-3xl"></div> */}
-
       <div className="container relative mx-auto px-4 z-20">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
           <div>
@@ -130,14 +127,14 @@ export function FeaturedImages() {
                 >
                   {featuredImages
                     .slice(pageIndex * 3, pageIndex * 3 + 3)
-                    .map((image) => (
+                    .map((image: any, index: number) => (
                       <div
-                        key={image.id}
+                        key={index}
                         className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-200 shadow-lg hover:shadow-xl transition-all duration-500"
                       >
                         <div className="aspect-[4/3] w-full overflow-hidden">
                           <img
-                            src={image.src || "/placeholder.svg"}
+                            src={image.url || "/placeholder.svg"}
                             alt={image.title}
                             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                           />
@@ -156,7 +153,9 @@ export function FeaturedImages() {
                               {image.title}
                             </h3>
                             <p className="text-white/80 mb-4">
-                              by {image.photographer}
+                              by{" "}
+                              {(image && image.user.profile.displayName) ||
+                                `${image.user.profile.firstName} ${image.user.profile.lastName}`}
                             </p>
                             <button className="inline-flex items-center rounded-lg bg-primaryTeal-100 px-4 py-2 text-sm font-medium text-white shadow-md transition-all hover:bg-secondaryTeal-100 hover:shadow-lg hover:shadow-primaryTeal-100/20">
                               <Download className="h-4 w-4" />

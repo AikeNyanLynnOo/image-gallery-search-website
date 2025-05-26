@@ -51,3 +51,22 @@ export const signup = async ({
   });
   return res;
 };
+
+export const refreshToken = async ({
+  refreshToken,
+}: {
+  refreshToken: string;
+}) => {
+  const res = await makeRequest({
+    method: "POST",
+    maxBodyLength: Infinity,
+    url: `${base_url}/auth/refresh-token`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      refreshToken,
+    },
+  });
+  return res;
+};
