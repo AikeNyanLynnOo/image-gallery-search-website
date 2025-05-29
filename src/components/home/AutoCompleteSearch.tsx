@@ -37,7 +37,15 @@ const popularTags = [
   "Portrait",
 ];
 
-export function AutocompleteSearch() {
+export function AutocompleteSearch({
+  showPopularTags = true,
+  showResultsCount = true,
+  className,
+}: {
+  showPopularTags?: boolean;
+  showResultsCount?: boolean;
+  className?: string;
+}) {
   const { topics } = useSelector((state: any) => state.home);
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -180,9 +188,9 @@ export function AutocompleteSearch() {
       <div className="absolute inset-0 bg-primaryTeal-100/5 dark:bg-primaryTeal-100/10 rounded-xl blur"></div>
 
       {/* Search container */}
-      <div className="relative bg-neutralWhite-100/80 dark:bg-dark-100/80 backdrop-blur-md rounded-xl border border-gray-200/50 dark:border-dark-100/50 shadow-xl">
+      <div className="relative z-20 bg-neutralWhite-100/80 dark:bg-dark-100/80 backdrop-blur-md rounded-xl border border-gray-200/50 dark:border-dark-100/50 shadow-lg">
         {/* Search input */}
-        <div className="flex items-center p-4">
+        <div className="flex items-center px-4 py-3">
           <Search className="h-5 w-5 text-primaryTeal-100 mr-3 flex-shrink-0" />
           <input
             ref={inputRef}
@@ -194,12 +202,15 @@ export function AutocompleteSearch() {
             placeholder="Search images, collections, topics, or users..."
             className="w-full flex-1 bg-transparent text-primary-100 dark:text-primaryDark-100 placeholder-primary-100/50 dark:placeholder-primaryDark-100/50 focus:outline-none"
           />
-          {query && searchResults && searchResults.length > 0 && (
-            <span className="text-xs line-clamp-1 w-fit mr-1">
-              {searchResults.length} Result
-              {(searchResults.length > 1 && "s") || ""}
-            </span>
-          )}
+          {showResultsCount &&
+            query &&
+            searchResults &&
+            searchResults.length > 0 && (
+              <span className="text-xs line-clamp-1 w-fit mr-1 text-black dark:text-neutralWhite-100">
+                {searchResults.length} Result
+                {(searchResults.length > 1 && "s") || ""}
+              </span>
+            )}
           {query && (
             <button
               onClick={clearSearch}
@@ -210,7 +221,7 @@ export function AutocompleteSearch() {
           )}
         </div>
         {/* Popular tags (when not searching) */}
-        {!query && (
+        {!query && showPopularTags && (
           <div className="px-4 pb-4 flex flex-wrap gap-2">
             {topics &&
               topics.map((topic: any, index: number) => (
@@ -227,7 +238,7 @@ export function AutocompleteSearch() {
 
         {/* Results dropdown */}
         {isOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-neutralWhite-100 dark:bg-dark-100 rounded-xl border border-gray-200/50 dark:border-dark-100/50 shadow-xl">
+          <div className="absolute w-full z-20 top-full left-0 right-0 mt-2 bg-neutralWhite-100 dark:bg-dark-100 rounded-xl border border-gray-200/50 dark:border-dark-100/50 shadow-lg">
             {query ? (
               <>
                 {loading.isPending ? (
@@ -235,19 +246,19 @@ export function AutocompleteSearch() {
                     Searching...
                   </div>
                 ) : searchResults.length > 0 ? (
-                  <div className="max-h-[200px] overflow-y-auto">
+                  <div className="max-h-[200px] overflow-y-auto overflow-x-hidden">
                     {searchResults.map(
                       (result: SearchResult, index: number) => (
                         <button
                           key={result.id}
                           onClick={() => handleResultClick(result)}
-                          className={`w-full flex items-center p-4 hover:bg-gray-100 dark:hover:bg-dark-200 ${
+                          className={`w-full flex gap-x-2 justify-between items-center p-4 hover:bg-gray-100 dark:hover:bg-dark-200 ${
                             index === selectedIndex
                               ? "bg-gray-100 dark:bg-dark-200"
                               : ""
                           }`}
                         >
-                          <div className="flex-shrink-0 mr-3">
+                          <div className="flex-none">
                             {result.avatar ? (
                               <img
                                 src={result.avatar}
@@ -266,8 +277,8 @@ export function AutocompleteSearch() {
                               </div>
                             )}
                           </div>
-                          <div className="flex-1 text-left">
-                            <div className="text-primary-100 dark:text-primaryDark-100 font-medium">
+                          <div className="flex-1 sm:max-w-[80%] text-left">
+                            <div className="text-primary-100 dark:text-primaryDark-100 font-medium sm:truncate max-w-full">
                               {result.title}
                             </div>
                             {result.subtitle && (
@@ -276,7 +287,7 @@ export function AutocompleteSearch() {
                               </div>
                             )}
                           </div>
-                          <div className="ml-3 text-primary-100/50 dark:text-primaryDark-100/50">
+                          <div className="flex-none text-primary-100/50 dark:text-primaryDark-100/50">
                             {getResultIcon(result.type)}
                           </div>
                         </button>

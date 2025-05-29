@@ -9,10 +9,10 @@ export default function ExplorePage() {
     <div className="min-h-screen bg-neutralWhite-100 dark:bg-dark-200">
       <Navbar />
       <main>
-        <ExploreHero />
-        <div className="container mx-auto px-4 py-12">
-          <TrendingTopics />
-          <FilterSection />
+        {/* <ExploreHero /> */}
+        <FilterSection />
+        <div className="container mx-auto px-4">
+          {/* <TrendingTopics /> */}
           <ImageGrid />
         </div>
       </main>

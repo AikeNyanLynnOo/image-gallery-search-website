@@ -153,15 +153,6 @@ export function ImageGrid() {
 
   return (
     <section>
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-primary-100 dark:text-primaryDark-100 mb-2">
-          Discover Amazing Images
-        </h2>
-        <p className="text-primary-100/70 dark:text-primaryDark-100/70">
-          Browse through our curated collection of high-quality images
-        </p>
-      </div>
-
       {/* Masonry grid */}
       <MasonryWrapper>
         {(images && images.length === 0 && <div>Loading...</div>) ||
