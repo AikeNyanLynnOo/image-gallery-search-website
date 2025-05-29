@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-const colors = require("tailwindcss/colors");
+import colors from "tailwindcss/colors";
 
 import {
   primary,
@@ -29,8 +29,6 @@ module.exports = {
       },
     },
     colors: {
-      transparent: "transparent",
-      current: "currentColor",
       ...colors,
       primary: {
         100: primary,
