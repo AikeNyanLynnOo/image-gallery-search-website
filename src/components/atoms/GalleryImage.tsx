@@ -24,11 +24,14 @@ export default function MasonryImage({
   downloads,
 }: MasonryImageProps) {
   return (
-    <div className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-200 shadow-md hover:shadow-xl transition-all duration-500">
+    <a
+      href={src || ""}
+      className="block group min-h-[210px] relative overflow-hidden rounded-xl border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-200 shadow-md hover:shadow-xl transition-all duration-500"
+    >
       <img
         src={src || "/placeholder.svg"}
         alt={alt || ""}
-        className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        className="h-auto min-h-[210px] w-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-between">
@@ -46,22 +49,22 @@ export default function MasonryImage({
           <h3 className="text-xl font-bold text-white mb-1">{title}</h3>
           <p className="text-white/80 mb-4">by {owner}</p>
           <div className="flex gap-2">
-            <button className="flex-1 inline-flex items-center justify-center rounded-lg bg-primaryTeal-100 px-4 py-2 text-sm font-medium text-white shadow-md transition-all hover:bg-secondaryTeal-100 hover:shadow-lg hover:shadow-primaryTeal-100/20">
-              <Download className="mr-2 h-4 w-4" />
-              Download
+            <button className="inline-flex items-center justify-center rounded-lg bg-primaryTeal-100 px-4 py-2 text-sm font-medium text-white shadow-md transition-all hover:bg-secondaryTeal-100 hover:shadow-lg hover:shadow-primaryTeal-100/20">
+              <Download className="h-4 w-4" />
+              {/* Download */}
             </button>
             <Link
               href={`/images/${id}`}
               className="inline-flex items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/30"
             >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              View
+              <ExternalLink className="h-4 w-4" />
+              {/* View */}
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-black/60 px-4 py-3 text-sm text-white backdrop-blur-sm">
+      <div className="absolute bottom-0 left-0 right-0 opacity-0 group-hover:opacity-100 flex items-center justify-between bg-black/60 px-4 py-3 text-sm text-white backdrop-blur-sm">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
             <Eye className="h-4 w-4" />
@@ -77,6 +80,6 @@ export default function MasonryImage({
           </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
