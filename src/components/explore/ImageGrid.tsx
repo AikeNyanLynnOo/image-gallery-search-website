@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Heart, Download, Eye, Plus, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -138,69 +138,97 @@ export function ImageGrid() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [images, setImages] = useState<any[]>([]);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastImageElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
   useEffect(() => {
-    setTimeout(() => {
-      setImages(mockImages);
-    }, 3000);
-  }, [mockImages]);
+    const fetchImages = async () => {
+      setLoading(true);
+      try {
+        // Simulate API call with mock data
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const newImages = mockImages.slice((page - 1) * 6, page * 6);
 
-  const loadMore = () => {
-    if (!loading && hasMore) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
+        if (newImages.length === 0) {
+          setHasMore(false);
+        } else {
+          setImages((prevImages) => [...prevImages, ...newImages]);
+        }
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, [page]);
 
   return (
     <section>
       {/* Masonry grid */}
       <MasonryWrapper>
-        {(images && images.length === 0 && <div>Loading...</div>) ||
-          images.map((image, index) => <MasonryImage key={index} {...image} />)}
+        {images.map((image, index) => (
+          <div
+            key={image.id}
+            ref={index === images.length - 1 ? lastImageElementRef : null}
+          >
+            <MasonryImage {...image} />
+          </div>
+        ))}
       </MasonryWrapper>
 
-      {/* Load more button */}
-      <div className="mt-12 text-center">
-        {hasMore ? (
-          <button
-            onClick={loadMore}
-            disabled={loading}
-            className="inline-flex items-center justify-center rounded-lg bg-primaryTeal-100 px-6 py-3 text-base font-medium text-white shadow-md transition-all hover:bg-secondaryTeal-100 hover:shadow-lg hover:shadow-primaryTeal-100/20 disabled:opacity-70"
-          >
-            {loading ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Loading...
-              </>
-            ) : (
-              "Load More"
-            )}
-          </button>
-        ) : (
+      {/* Loading indicator */}
+      {loading && (
+        <div className="mt-8 pb-10 text-center">
+          <div className="inline-flex items-center justify-center">
+            <svg
+              className="animate-spin h-5 w-5 text-primaryTeal-100"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <span className="ml-2 text-primary-100/70 dark:text-primaryDark-100/70">
+              Loading more images...
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* End of results message */}
+      {!hasMore && images.length > 0 && (
+        <div className="mt-8 pb-20 text-center">
           <p className="text-primary-100/70 dark:text-primaryDark-100/70">
             You&apos;ve reached the end of the results
           </p>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -1,8 +1,6 @@
-import { ImageGrid } from "@/components/explore/ImageGrid";
-import { ExploreHero } from "@/components/explore/ExploreHero";
 import { FilterSection } from "@/components/explore/FilterSection";
+import { ImageGrid } from "@/components/explore/ImageGrid";
 import { Navbar } from "@/components/home/NavBar";
-import { TrendingTopics } from "@/components/explore/TrendingTopics";
 
 export default function ExplorePage() {
   return (
