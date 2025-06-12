@@ -179,17 +179,28 @@ export function ImageGrid() {
 
   return (
     <section>
+      {/* No images message */}
+      {images.length === 0 && !loading?.isPending && (
+        <div className="mt-8 pb-20 text-center">
+          <p className="text-primary-100/70 dark:text-primaryDark-100/70">
+            No images found. Try adjusting your filters or search criteria.
+          </p>
+        </div>
+      )}
+
       {/* Masonry grid */}
-      <MasonryWrapper>
-        {images.map((image: any, index: number) => (
-          <div
-            key={image.id}
-            ref={index === images.length - 1 ? lastImageElementRef : null}
-          >
-            <MasonryImage {...image} />
-          </div>
-        ))}
-      </MasonryWrapper>
+      {images.length > 0 && (
+        <MasonryWrapper>
+          {images.map((image: any, index: number) => (
+            <div
+              key={image.id}
+              ref={index === images.length - 1 ? lastImageElementRef : null}
+            >
+              <MasonryImage {...image} />
+            </div>
+          ))}
+        </MasonryWrapper>
+      )}
 
       {/* Loading indicator */}
       {loading && loading.isPending && (
@@ -223,7 +234,7 @@ export function ImageGrid() {
       )}
 
       {/* End of results message */}
-      {!hasNextPage && images.length > 0 && (
+      {!hasNextPage && images.length > 0 && loading && !loading.isPending && (
         <div className="mt-8 pb-20 text-center">
           <p className="text-primary-100/70 dark:text-primaryDark-100/70">
             You&apos;ve reached the end of the results

@@ -6,30 +6,27 @@ import {
   SlidersHorizontalIcon,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AutocompleteSearch } from "../home/AutoCompleteSearch";
+import {
+  getExploreDataRequest,
+  setSortBy,
+  setTopic,
+  setUploadedWithin,
+} from "@/lib/features/explore/exploreSlice";
 
 export function FilterSection() {
-  const {
-    filterOptions,
-    suggestedTopics,
-    loading,
-    filters,
-    setUploadedWithin,
-    setSortBy,
-    setTopic,
-  } = useSelector((state: any) => state.explore);
+  const dispatch = useDispatch();
+  const { filterOptions, suggestedTopics, filters } = useSelector(
+    (state: any) => state.explore
+  );
 
   const { uploadedWithin, sortBy, topic } = filters || {};
 
   const [showFilters, setShowFilters] = useState(false);
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const categoriesRef = useRef<any>(null);
-
-  // const [selectedTime, setSelectedTime] = useState("all");
-  // const [selectedSort, setSelectedSort] = useState("likes");
-  // const [selectedTopic, setSelectedTopic] = useState("");
 
   // Check if categories container has overflow
   useEffect(() => {
@@ -60,11 +57,28 @@ export function FilterSection() {
     }
   };
 
+  const applyFilters = useCallback(() => {
+    dispatch(
+      getExploreDataRequest({
+        page: 1,
+        limit: 10,
+        uploadedWithin: uploadedWithin === "all" ? "" : uploadedWithin,
+        sortBy: sortBy || "",
+        topic: topic === "all" ? "" : topic,
+        restart: true,
+      })
+    );
+  }, [dispatch, uploadedWithin, sortBy, topic]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
   // Update the resetFilters function to also reset the new state variables
   const resetFilters = () => {
-    setTopic("all");
-    setSortBy("likes");
-    setUploadedWithin("all");
+    dispatch(setTopic("all"));
+    dispatch(setSortBy("likes"));
+    dispatch(setUploadedWithin("all"));
   };
 
   return (
@@ -121,7 +135,7 @@ export function FilterSection() {
               (t: any, index: number) => (
                 <button
                   key={index}
-                  onClick={() => setTopic(t.value)}
+                  onClick={() => dispatch(setTopic(t.value))}
                   className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
                     topic === t.value
                       ? "bg-primaryTeal-100 text-white"
@@ -145,7 +159,7 @@ export function FilterSection() {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={() => setUploadedWithin("all")}
+                    onClick={() => dispatch(setUploadedWithin("all"))}
                     className={`px-3 py-1.5 rounded-md text-sm ${
                       uploadedWithin === "all"
                         ? "bg-primaryTeal-100 text-white"
@@ -160,7 +174,7 @@ export function FilterSection() {
                     filterOptions.time.map((t: any, index: number) => (
                       <button
                         key={index}
-                        onClick={() => setUploadedWithin(t.value)}
+                        onClick={() => dispatch(setUploadedWithin(t.value))}
                         className={`px-3 py-1.5 rounded-md text-sm ${
                           uploadedWithin === t.value
                             ? "bg-primaryTeal-100 text-white"
@@ -183,7 +197,7 @@ export function FilterSection() {
                     filterOptions.sortBy.map((option: any, index: number) => (
                       <button
                         key={index}
-                        onClick={() => setSortBy(option.value)}
+                        onClick={() => dispatch(setSortBy(option.value))}
                         className={`px-3 py-1.5 rounded-md text-sm ${
                           sortBy === option.value
                             ? "bg-primaryTeal-100 text-white"
@@ -199,15 +213,9 @@ export function FilterSection() {
             <div className="flex flex-col sm:flex-row sm:justify-end gap-3 mt-4 pt-3 border-t border-gray-200 dark:border-dark-100">
               <button
                 onClick={resetFilters}
-                className="px-4 py-2 text-sm font-medium text-primary-100 dark:text-primaryDark-100 hover:text-primaryTeal-100 dark:hover:text-primaryTeal-100"
-              >
-                Reset
-              </button>
-              <button
-                onClick={() => setShowFilters(false)}
                 className="px-4 py-2 rounded-md bg-primaryTeal-100 text-sm font-medium text-white shadow-md transition-all hover:bg-secondaryTeal-100"
               >
-                Apply
+                Reset
               </button>
             </div>
           </div>
@@ -230,7 +238,7 @@ export function FilterSection() {
                   {suggestedTopics.find((t: any) => t.value === topic)?.name}
                 </span>
                 <button
-                  onClick={() => setTopic("all")}
+                  onClick={() => dispatch(setTopic("all"))}
                   aria-label="Remove category filter"
                   className="ml-1 hover:bg-primaryTeal-100/20 rounded-full p-0.5"
                 >
@@ -250,7 +258,7 @@ export function FilterSection() {
                     )?.name}
                 </span>
                 <button
-                  onClick={() => setUploadedWithin("all")}
+                  onClick={() => dispatch(setUploadedWithin("all"))}
                   aria-label="Remove time filter"
                   className="ml-1 hover:bg-primaryTeal-100/20 rounded-full p-0.5"
                 >
@@ -270,7 +278,7 @@ export function FilterSection() {
                     )?.name}
                 </span>
                 <button
-                  onClick={() => setSortBy("most_likes")}
+                  onClick={() => dispatch(setSortBy("likes"))}
                   aria-label="Remove sort filter"
                   className="ml-1 hover:bg-primaryTeal-100/20 rounded-full p-0.5"
                 >
