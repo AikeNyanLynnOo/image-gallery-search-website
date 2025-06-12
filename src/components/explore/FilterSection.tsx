@@ -1,65 +1,35 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import {
-  Filter,
-  X,
-  Check,
   ChevronLeft,
   ChevronRight,
-  Search,
   SlidersHorizontalIcon,
+  X,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { AutocompleteSearch } from "../home/AutoCompleteSearch";
 
 export function FilterSection() {
+  const {
+    filterOptions,
+    suggestedTopics,
+    loading,
+    filters,
+    setUploadedWithin,
+    setSortBy,
+    setTopic,
+  } = useSelector((state: any) => state.explore);
+
+  const { uploadedWithin, sortBy, topic } = filters || {};
+
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedOrientation, setSelectedOrientation] = useState("all");
-  const [selectedColor, setSelectedColor] = useState("");
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const categoriesRef = useRef<any>(null);
 
-  // Add two new state variables after the existing state declarations
-  const [selectedTime, setSelectedTime] = useState("all");
-  const [selectedSort, setSelectedSort] = useState("trending");
-
-  // Mock categories
-  const categories = [
-    { id: "all", name: "All" },
-    { id: "nature", name: "Nature" },
-    { id: "architecture", name: "Architecture" },
-    { id: "travel", name: "Travel" },
-    { id: "people", name: "People" },
-    { id: "animals", name: "Animals" },
-    { id: "food", name: "Food & Drink" },
-    { id: "art", name: "Art" },
-    { id: "technology", name: "Technology" },
-    { id: "abstract", name: "Abstract" },
-    { id: "black-white", name: "Black & White" },
-  ];
-
-  // Mock orientations
-  const orientations = [
-    { id: "all", name: "All Orientations" },
-    { id: "landscape", name: "Landscape" },
-    { id: "portrait", name: "Portrait" },
-    { id: "square", name: "Square" },
-  ];
-
-  // Mock colors
-  const colors = [
-    { id: "red", color: "bg-red-500" },
-    { id: "orange", color: "bg-orange-500" },
-    { id: "yellow", color: "bg-yellow-500" },
-    { id: "green", color: "bg-green-500" },
-    { id: "blue", color: "bg-blue-500" },
-    { id: "purple", color: "bg-purple-500" },
-    { id: "pink", color: "bg-pink-500" },
-    { id: "gray", color: "bg-gray-500" },
-    { id: "black", color: "bg-black" },
-    { id: "white", color: "bg-white border border-gray-200" },
-  ];
+  // const [selectedTime, setSelectedTime] = useState("all");
+  // const [selectedSort, setSelectedSort] = useState("likes");
+  // const [selectedTopic, setSelectedTopic] = useState("");
 
   // Check if categories container has overflow
   useEffect(() => {
@@ -92,11 +62,9 @@ export function FilterSection() {
 
   // Update the resetFilters function to also reset the new state variables
   const resetFilters = () => {
-    setSelectedCategory("all");
-    setSelectedOrientation("all");
-    setSelectedColor("");
-    setSelectedTime("all");
-    setSelectedSort("trending");
+    setTopic("all");
+    setSortBy("likes");
+    setUploadedWithin("all");
   };
 
   return (
@@ -149,19 +117,21 @@ export function FilterSection() {
             className="flex items-center overflow-x-auto scrollbar-hide space-x-2 py-2 px-2 -mx-2 scroll-smooth"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
-                  selectedCategory === category.id
-                    ? "bg-primaryTeal-100 text-white"
-                    : "bg-gray-100 dark:bg-dark-100 text-primary-100 dark:text-primaryDark-100 hover:bg-gray-200 dark:hover:bg-dark-100/70"
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
+            {[{ name: "All", value: "all" }, ...suggestedTopics].map(
+              (t: any, index: number) => (
+                <button
+                  key={index}
+                  onClick={() => setTopic(t.value)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
+                    topic === t.value
+                      ? "bg-primaryTeal-100 text-white"
+                      : "bg-gray-100 dark:bg-dark-100 text-primary-100 dark:text-primaryDark-100 hover:bg-gray-200 dark:hover:bg-dark-100/70"
+                  }`}
+                >
+                  {t.name}
+                </button>
+              )
+            )}
           </div>
         </div>
 
@@ -175,55 +145,31 @@ export function FilterSection() {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={() => setSelectedTime("all")}
+                    onClick={() => setUploadedWithin("all")}
                     className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedTime === "all"
+                      uploadedWithin === "all"
                         ? "bg-primaryTeal-100 text-white"
                         : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
                     }`}
                   >
                     All Time
                   </button>
-                  <button
-                    onClick={() => setSelectedTime("today")}
-                    className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedTime === "today"
-                        ? "bg-primaryTeal-100 text-white"
-                        : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
-                    }`}
-                  >
-                    Today
-                  </button>
-                  <button
-                    onClick={() => setSelectedTime("week")}
-                    className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedTime === "week"
-                        ? "bg-primaryTeal-100 text-white"
-                        : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
-                    }`}
-                  >
-                    This Week
-                  </button>
-                  <button
-                    onClick={() => setSelectedTime("month")}
-                    className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedTime === "month"
-                        ? "bg-primaryTeal-100 text-white"
-                        : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
-                    }`}
-                  >
-                    This Month
-                  </button>
-                  <button
-                    onClick={() => setSelectedTime("year")}
-                    className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedTime === "year"
-                        ? "bg-primaryTeal-100 text-white"
-                        : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
-                    }`}
-                  >
-                    This Year
-                  </button>
+                  {filterOptions &&
+                    filterOptions.time &&
+                    filterOptions.time.length > 0 &&
+                    filterOptions.time.map((t: any, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => setUploadedWithin(t.value)}
+                        className={`px-3 py-1.5 rounded-md text-sm ${
+                          uploadedWithin === t.value
+                            ? "bg-primaryTeal-100 text-white"
+                            : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
+                        }`}
+                      >
+                        {t.name}
+                      </button>
+                    ))}
                 </div>
               </div>
               <div>
@@ -231,36 +177,22 @@ export function FilterSection() {
                   Sort By
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => setSelectedSort("trending")}
-                    className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedSort === "trending"
-                        ? "bg-primaryTeal-100 text-white"
-                        : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
-                    }`}
-                  >
-                    Trending
-                  </button>
-                  <button
-                    onClick={() => setSelectedSort("new")}
-                    className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedSort === "new"
-                        ? "bg-primaryTeal-100 text-white"
-                        : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
-                    }`}
-                  >
-                    New
-                  </button>
-                  <button
-                    onClick={() => setSelectedSort("top")}
-                    className={`px-3 py-1.5 rounded-md text-sm ${
-                      selectedSort === "top"
-                        ? "bg-primaryTeal-100 text-white"
-                        : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
-                    }`}
-                  >
-                    Top
-                  </button>
+                  {filterOptions &&
+                    filterOptions.sortBy &&
+                    filterOptions.sortBy.length > 0 &&
+                    filterOptions.sortBy.map((option: any, index: number) => (
+                      <button
+                        key={index}
+                        onClick={() => setSortBy(option.value)}
+                        className={`px-3 py-1.5 rounded-md text-sm ${
+                          sortBy === option.value
+                            ? "bg-primaryTeal-100 text-white"
+                            : "bg-white dark:bg-dark-200 text-primary-100 dark:text-primaryDark-100 border border-gray-200 dark:border-dark-100 hover:border-primaryTeal-100 dark:hover:border-primaryTeal-100"
+                        }`}
+                      >
+                        {option.name}
+                      </button>
+                    ))}
                 </div>
               </div>
             </div>
@@ -283,24 +215,22 @@ export function FilterSection() {
 
         {/* Active filters */}
         {/* Update the active filters condition to include the new filters */}
-        {(selectedCategory !== "all" ||
-          selectedOrientation !== "all" ||
-          selectedColor ||
-          selectedTime !== "all" ||
-          selectedSort !== "trending") && (
+        {(topic !== "all" ||
+          uploadedWithin !== "all" ||
+          sortBy !== "likes") && (
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <span className="text-sm text-primary-100/70 dark:text-primaryDark-100/70">
               Active filters:
             </span>
 
-            {selectedCategory !== "all" && (
+            {topic !== "all" && (
               <div className="flex items-center gap-1 rounded-full bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 px-3 py-1 text-sm text-primaryTeal-100">
                 <span>
-                  Category:{" "}
-                  {categories.find((c) => c.id === selectedCategory)?.name}
+                  Topic:{" "}
+                  {suggestedTopics.find((t: any) => t.value === topic)?.name}
                 </span>
                 <button
-                  onClick={() => setSelectedCategory("all")}
+                  onClick={() => setTopic("all")}
                   aria-label="Remove category filter"
                   className="ml-1 hover:bg-primaryTeal-100/20 rounded-full p-0.5"
                 >
@@ -309,20 +239,18 @@ export function FilterSection() {
               </div>
             )}
 
-            {selectedTime !== "all" && (
+            {uploadedWithin !== "all" && (
               <div className="flex items-center gap-1 rounded-full bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 px-3 py-1 text-sm text-primaryTeal-100">
                 <span>
                   Time:{" "}
-                  {selectedTime === "week"
-                    ? "This Week"
-                    : selectedTime === "month"
-                      ? "This Month"
-                      : selectedTime === "year"
-                        ? "This Year"
-                        : selectedTime}
+                  {filterOptions &&
+                    filterOptions.time &&
+                    filterOptions.time.find(
+                      (option: any) => option.value === uploadedWithin
+                    )?.name}
                 </span>
                 <button
-                  onClick={() => setSelectedTime("all")}
+                  onClick={() => setUploadedWithin("all")}
                   aria-label="Remove time filter"
                   className="ml-1 hover:bg-primaryTeal-100/20 rounded-full p-0.5"
                 >
@@ -331,11 +259,18 @@ export function FilterSection() {
               </div>
             )}
 
-            {selectedSort !== "trending" && (
+            {sortBy !== "likes" && (
               <div className="flex items-center gap-1 rounded-full bg-primaryTeal-100/10 dark:bg-primaryTeal-100/20 px-3 py-1 text-sm text-primaryTeal-100">
-                <span>Sort: {selectedSort === "new" ? "New" : "Top"}</span>
+                <span>
+                  Sort:{" "}
+                  {filterOptions &&
+                    filterOptions.sortBy &&
+                    filterOptions.sortBy.find(
+                      (option: any) => option.value === sortBy
+                    )?.name}
+                </span>
                 <button
-                  onClick={() => setSelectedSort("trending")}
+                  onClick={() => setSortBy("most_likes")}
                   aria-label="Remove sort filter"
                   className="ml-1 hover:bg-primaryTeal-100/20 rounded-full p-0.5"
                 >

@@ -10,12 +10,14 @@ import { photoSlice } from "./photo/photoSlice";
 import { authSlice } from "./auth/authSlice";
 import { userSlice } from "./user/userSlice";
 import { homeSlice } from "./home/homeSlice";
+import { exploreSlice } from "./explore/exploreSlice";
 
 // generator functions
 import { photoSagas } from "./photo/photoSaga";
 import { authSagas } from "./auth/authSaga";
 import { userSagas } from "./user/userSaga";
 import { homeSagas } from "./home/homeSaga";
+import { exploreSagas } from "./explore/exploreSaga";
 
 function* rootSaga() {
   yield all([
@@ -23,9 +25,11 @@ function* rootSaga() {
     ...authSagas,
     ...userSagas,
     ...homeSagas,
+    ...exploreSagas,
     // add more sagas
   ]);
 }
+
 // creating saga middleware
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
@@ -41,6 +45,7 @@ export const makeStore = () => {
       [authSlice.name]: authSlice.reducer,
       [userSlice.name]: userSlice.reducer,
       [homeSlice.name]: homeSlice.reducer,
+      [exploreSlice.name]: exploreSlice.reducer,
     },
     devTools: devMode,
     middleware: (() => {

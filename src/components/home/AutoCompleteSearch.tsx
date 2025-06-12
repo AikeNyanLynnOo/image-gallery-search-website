@@ -252,7 +252,7 @@ export function AutocompleteSearch({
                         <button
                           key={result.id}
                           onClick={() => handleResultClick(result)}
-                          className={`w-full flex gap-x-2 justify-between items-center p-4 hover:bg-gray-100 dark:hover:bg-dark-200 ${
+                          className={`w-full flex gap-x-2 items-center p-4 hover:bg-gray-100 dark:hover:bg-dark-200 ${
                             index === selectedIndex
                               ? "bg-gray-100 dark:bg-dark-200"
                               : ""
@@ -277,7 +277,7 @@ export function AutocompleteSearch({
                               </div>
                             )}
                           </div>
-                          <div className="flex-1 sm:max-w-[80%] text-left">
+                          <div className="flex-1 text-left">
                             <div className="text-primary-100 dark:text-primaryDark-100 font-medium sm:truncate max-w-full">
                               {result.title}
                             </div>

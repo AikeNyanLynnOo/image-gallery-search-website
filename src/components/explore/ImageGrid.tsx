@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Heart, Download, Eye, Plus, ExternalLink } from "lucide-react";
-import Link from "next/link";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import Image from "next/image";
-import MasonryWrapper from "../molecules/MasonryWrapper";
+import {
+  getExploreDataRequest,
+  increasePage,
+} from "@/lib/features/explore/exploreSlice";
+import { useCallback, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import MasonryImage from "../atoms/GalleryImage";
+import MasonryWrapper from "../molecules/MasonryWrapper";
 
 // Mock image data
 const mockImages = [
@@ -134,53 +135,53 @@ const mockImages = [
 ];
 
 export function ImageGrid() {
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [images, setImages] = useState<any[]>([]);
+  const dispatch = useDispatch();
+  const { images, loading, pagination, filters } = useSelector(
+    (state: any) => state.explore
+  );
+  const { currentPage, limit, total, totalPages, hasNextPage } =
+    pagination || {};
+  const { uploadedWithin, sortBy, topic } = filters || {};
+
   const observer = useRef<IntersectionObserver | null>(null);
   const lastImageElementRef = useCallback(
     (node: HTMLDivElement | null) => {
-      if (loading) return;
+      if (loading && loading.isPending) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPage((prevPage) => prevPage + 1);
+        if (entries[0].isIntersecting && hasNextPage) {
+          // increase page and fetch data
+          dispatch(increasePage());
+          dispatch(
+            getExploreDataRequest({
+              page: currentPage + 1,
+              limit: limit || 10,
+              uploadedWithin: uploadedWithin || "",
+              sortBy: sortBy || "",
+              topic: topic || "",
+            })
+          );
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore]
+    [
+      dispatch,
+      loading,
+      currentPage,
+      hasNextPage,
+      limit,
+      uploadedWithin,
+      sortBy,
+      topic,
+    ]
   );
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      setLoading(true);
-      try {
-        // Simulate API call with mock data
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        const newImages = mockImages.slice((page - 1) * 6, page * 6);
-
-        if (newImages.length === 0) {
-          setHasMore(false);
-        } else {
-          setImages((prevImages) => [...prevImages, ...newImages]);
-        }
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, [page]);
 
   return (
     <section>
       {/* Masonry grid */}
       <MasonryWrapper>
-        {images.map((image, index) => (
+        {images.map((image: any, index: number) => (
           <div
             key={image.id}
             ref={index === images.length - 1 ? lastImageElementRef : null}
@@ -191,7 +192,7 @@ export function ImageGrid() {
       </MasonryWrapper>
 
       {/* Loading indicator */}
-      {loading && (
+      {loading && loading.isPending && (
         <div className="mt-8 pb-10 text-center">
           <div className="inline-flex items-center justify-center">
             <svg
@@ -222,7 +223,7 @@ export function ImageGrid() {
       )}
 
       {/* End of results message */}
-      {!hasMore && images.length > 0 && (
+      {!hasNextPage && images.length > 0 && (
         <div className="mt-8 pb-20 text-center">
           <p className="text-primary-100/70 dark:text-primaryDark-100/70">
             You&apos;ve reached the end of the results
