@@ -31,7 +31,7 @@ export function HomeHero() {
               {/* Dont show join button if already authenticated */}
               {!isAuthenticated && (
                 <Link
-                  href="/signup"
+                  href="/auth/signup"
                   className="inline-flex items-center justify-center rounded-lg bg-primaryTeal-100 px-6 py-4 text-base font-medium text-white shadow-lg transition-all hover:bg-secondaryTeal-100 hover:shadow-primaryTeal-100/20 dark:hover:shadow-primaryTeal-100/10 hover:translate-y-[-2px]"
                 >
                   Join Impressa

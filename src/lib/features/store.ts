@@ -11,6 +11,7 @@ import { authSlice } from "./auth/authSlice";
 import { userSlice } from "./user/userSlice";
 import { homeSlice } from "./home/homeSlice";
 import { exploreSlice } from "./explore/exploreSlice";
+import { collectionSlice } from "./collection/collectionSlice";
 
 // generator functions
 import { photoSagas } from "./photo/photoSaga";
@@ -18,6 +19,7 @@ import { authSagas } from "./auth/authSaga";
 import { userSagas } from "./user/userSaga";
 import { homeSagas } from "./home/homeSaga";
 import { exploreSagas } from "./explore/exploreSaga";
+import { collectionSagas } from "./collection/collectionSaga";
 
 function* rootSaga() {
   yield all([
@@ -26,6 +28,7 @@ function* rootSaga() {
     ...userSagas,
     ...homeSagas,
     ...exploreSagas,
+    ...collectionSagas,
     // add more sagas
   ]);
 }
@@ -46,6 +49,7 @@ export const makeStore = () => {
       [userSlice.name]: userSlice.reducer,
       [homeSlice.name]: homeSlice.reducer,
       [exploreSlice.name]: exploreSlice.reducer,
+      [collectionSlice.name]: collectionSlice.reducer,
     },
     devTools: devMode,
     middleware: (() => {

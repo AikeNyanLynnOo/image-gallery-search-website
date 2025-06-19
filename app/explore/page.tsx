@@ -21,6 +21,7 @@ export default function ExplorePage() {
         uploadedWithin: paramsObject.uploadedWithin || "",
         sortBy: paramsObject.sortBy || "",
         topic: paramsObject.topic || "",
+        restart: true,
       })
     );
   }, [dispatch, paramsObject]);

@@ -1,23 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
-  Heart,
-  Eye,
-  ImageIcon,
-  ChevronRight,
-  Filter,
+  getCollectionsDataRequest,
+  setKeyword,
+  setPage,
+  setImageCount,
+  setDateCreated,
+} from "@/lib/features/collection/collectionSlice";
+import { setSortBy } from "@/lib/features/explore/exploreSlice";
+import {
   ArrowUpDown,
+  ChevronRight,
+  Eye,
+  Heart,
+  ImageIcon,
+  SlidersHorizontalIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export function CollectionsGrid() {
-  const [collections, setCollections] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const dispatch = useDispatch();
+  const { filterOptions, collections, pagination, loading, filters } =
+    useSelector((state: any) => state.collection);
+  const { imageCount, dateCreated, sortBy, keyword } = filters || {};
+  const { currentPage, limit, hasNextPage } = pagination || {};
+
   const [showFilters, setShowFilters] = useState(false);
-  const [sortBy, setSortBy] = useState("popular");
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
 
   // Mock collections data
@@ -97,37 +107,19 @@ export function CollectionsGrid() {
   ];
 
   // Load collections when page changes
-  useEffect(() => {
-    setLoading(true);
-
-    // Simulate API call with timeout
-    setTimeout(() => {
-      // In a real app, you would fetch from an API with pagination
-      const newCollections = [...mockCollections].sort(
-        () => 0.5 - Math.random()
-      );
-
-      if (page === 1) {
-        setCollections(newCollections);
-      } else {
-        setCollections((prevCollections) => [
-          ...prevCollections,
-          ...newCollections,
-        ]);
-      }
-
-      // Set hasMore to false after 3 pages for demo purposes
-      if (page >= 3) {
-        setHasMore(false);
-      }
-
-      setLoading(false);
-    }, 1000);
-  }, [page]);
 
   const loadMore = () => {
-    if (!loading && hasMore) {
-      setPage((prevPage) => prevPage + 1);
+    if (loading && !loading.isPending && hasNextPage) {
+      dispatch(
+        getCollectionsDataRequest({
+          page: currentPage + 1,
+          limit: limit || 10,
+          dateCreate: dateCreated || "",
+          sortBy: sortBy || "",
+          imageCount: imageCount === "all" ? "" : imageCount,
+          keyword: keyword || "",
+        })
+      );
     }
   };
 
@@ -151,7 +143,7 @@ export function CollectionsGrid() {
             onClick={() => setShowFilters(!showFilters)}
             className="inline-flex items-center gap-2 rounded-md border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-100 px-3 py-2 text-sm font-medium text-primary-100 dark:text-primaryDark-100 shadow-sm transition-colors hover:border-primaryTeal-100 hover:text-primaryTeal-100 dark:hover:border-primaryTeal-100 dark:hover:text-primaryTeal-100"
           >
-            <Filter className="h-4 w-4" />
+            <SlidersHorizontalIcon className="h-4 w-4" />
             <span>{showFilters ? "Hide Filters" : "Filters"}</span>
           </button>
 
@@ -162,57 +154,36 @@ export function CollectionsGrid() {
             >
               <ArrowUpDown className="h-4 w-4" />
               <span>
-                {sortBy === "popular"
-                  ? "Popular"
-                  : sortBy === "recent"
-                  ? "Recent"
-                  : sortBy === "most-viewed"
-                  ? "Most Viewed"
-                  : "Sort"}
+                {sortBy === "likes"
+                  ? "Likes"
+                  : sortBy === "views"
+                    ? "Views"
+                    : sortBy === "downloads"
+                      ? "Downloads"
+                      : "Sort"}
               </span>
             </button>
 
             {filterDropdownOpen && (
               <div className="absolute right-0 mt-1 w-48 rounded-md bg-neutralWhite-100 dark:bg-dark-100 shadow-lg ring-1 ring-black/5 dark:ring-white/10 p-1 z-50">
-                <button
-                  className={`flex w-full items-center px-3 py-2 text-left text-sm rounded-md ${
-                    sortBy === "popular"
-                      ? "bg-primaryTeal-100/10 text-primaryTeal-100"
-                      : "text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-200"
-                  }`}
-                  onClick={() => {
-                    setSortBy("popular");
-                    setFilterDropdownOpen(false);
-                  }}
-                >
-                  Popular
-                </button>
-                <button
-                  className={`flex w-full items-center px-3 py-2 text-left text-sm rounded-md ${
-                    sortBy === "recent"
-                      ? "bg-primaryTeal-100/10 text-primaryTeal-100"
-                      : "text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-200"
-                  }`}
-                  onClick={() => {
-                    setSortBy("recent");
-                    setFilterDropdownOpen(false);
-                  }}
-                >
-                  Recent
-                </button>
-                <button
-                  className={`flex w-full items-center px-3 py-2 text-left text-sm rounded-md ${
-                    sortBy === "most-viewed"
-                      ? "bg-primaryTeal-100/10 text-primaryTeal-100"
-                      : "text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-200"
-                  }`}
-                  onClick={() => {
-                    setSortBy("most-viewed");
-                    setFilterDropdownOpen(false);
-                  }}
-                >
-                  Most Viewed
-                </button>
+                {filterOptions &&
+                  filterOptions.sortBy &&
+                  filterOptions.sortBy.map((option: any, index: number) => (
+                    <button
+                      key={index}
+                      className={`flex w-full items-center px-3 py-2 text-left text-sm rounded-md ${
+                        sortBy === option.value
+                          ? "bg-primaryTeal-100/10 text-primaryTeal-100"
+                          : "text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-200"
+                      }`}
+                      onClick={() => {
+                        dispatch(setSortBy(option.value));
+                        setFilterDropdownOpen(false);
+                      }}
+                    >
+                      {option.name}
+                    </button>
+                  ))}
               </div>
             )}
           </div>
@@ -225,26 +196,35 @@ export function CollectionsGrid() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-primary-100 dark:text-primaryDark-100">
-                Image Count
+                Keyword
               </label>
-              <select className="block w-full rounded-md border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-100 px-3 py-2 text-primary-100 dark:text-primaryDark-100 shadow-sm focus:border-primaryTeal-100 focus:outline-none focus:ring-primaryTeal-100 sm:text-sm">
-                <option>Any amount</option>
-                <option>Less than 10</option>
-                <option>10-50 images</option>
-                <option>50-100 images</option>
-                <option>More than 100</option>
-              </select>
+              <input
+                type="text"
+                placeholder="Search collections..."
+                onChange={(e: any) =>
+                  dispatch(setKeyword(((e && e.target.value) || "").trim()))
+                }
+                className="block w-full rounded-md border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-100 px-3 py-2 text-primary-100 dark:text-primaryDark-100 shadow-sm focus:border-primaryTeal-100 focus:outline-none focus:ring-primaryTeal-100 sm:text-sm"
+              />
             </div>
 
             <div className="space-y-2">
               <label className="block text-sm font-medium text-primary-100 dark:text-primaryDark-100">
-                Creator Type
+                Image Count
               </label>
-              <select className="block w-full rounded-md border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-100 px-3 py-2 text-primary-100 dark:text-primaryDark-100 shadow-sm focus:border-primaryTeal-100 focus:outline-none focus:ring-primaryTeal-100 sm:text-sm">
-                <option>All creators</option>
-                <option>Verified photographers</option>
-                <option>ImageHub editors</option>
-                <option>Community curated</option>
+              <select
+                className="block w-full rounded-md border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-100 px-3 py-2 text-primary-100 dark:text-primaryDark-100 shadow-sm focus:border-primaryTeal-100 focus:outline-none focus:ring-primaryTeal-100 sm:text-sm"
+                value={imageCount}
+                onChange={e => dispatch(setImageCount(e.target.value))}
+              >
+                <option value="all">Any</option>
+                {filterOptions &&
+                  filterOptions.imageCount &&
+                  filterOptions.imageCount.map((option: any, idx: number) => (
+                    <option key={idx} value={option.value}>
+                      {option.name}
+                    </option>
+                  ))}
               </select>
             </div>
 
@@ -252,13 +232,19 @@ export function CollectionsGrid() {
               <label className="block text-sm font-medium text-primary-100 dark:text-primaryDark-100">
                 Date Created
               </label>
-              <select className="block w-full rounded-md border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-100 px-3 py-2 text-primary-100 dark:text-primaryDark-100 shadow-sm focus:border-primaryTeal-100 focus:outline-none focus:ring-primaryTeal-100 sm:text-sm">
-                <option>Any time</option>
-                <option>Last 24 hours</option>
-                <option>Last 7 days</option>
-                <option>Last 30 days</option>
-                <option>Last 3 months</option>
-                <option>Last year</option>
+              <select
+                className="block w-full rounded-md border border-gray-200 dark:border-dark-100 bg-neutralWhite-100 dark:bg-dark-100 px-3 py-2 text-primary-100 dark:text-primaryDark-100 shadow-sm focus:border-primaryTeal-100 focus:outline-none focus:ring-primaryTeal-100 sm:text-sm"
+                value={dateCreated}
+                onChange={e => dispatch(setDateCreated(e.target.value))}
+              >
+                <option value={"all"}>Any Time</option>
+                {filterOptions &&
+                  filterOptions.dateCreated &&
+                  filterOptions.dateCreated.map((option: any, idx: number) => (
+                    <option key={idx} value={option.value}>
+                      {option.name}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
@@ -273,7 +259,7 @@ export function CollectionsGrid() {
 
       {/* Collections grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {collections.map((collection) => (
+        {collections.map((collection:any) => (
           <Link
             key={collection.id}
             href={`/collections/${collection.id}`}
@@ -341,7 +327,7 @@ export function CollectionsGrid() {
 
       {/* Load more button */}
       <div className="mt-12 text-center">
-        {hasMore ? (
+        {hasNextPage ? (
           <button
             onClick={loadMore}
             disabled={loading}

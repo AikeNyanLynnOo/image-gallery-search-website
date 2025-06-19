@@ -45,7 +45,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-5 justify-center">
               {!isAuthenticated && (
                 <Link
-                  href="/signup"
+                  href="/auth/signup"
                   className="inline-flex justify-center rounded-lg bg-primaryTeal-100 px-8 py-4 text-base font-medium text-white shadow-lg transition-all hover:bg-secondaryTeal-100 hover:shadow-primaryTeal-100/20 dark:hover:shadow-primaryTeal-100/10 hover:translate-y-[-2px]"
                 >
                   Sign Up for Free

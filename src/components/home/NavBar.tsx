@@ -401,14 +401,14 @@ export function Navbar({ showAuth = true }: any) {
             {!isAuthenticated && showAuth && (
               <div className="pt-4 pb-1 border-t border-gray-200 dark:border-dark-100">
                 <Link
-                  href="/login"
+                  href="/auth/login"
                   className="block w-full rounded-md px-3 py-2 text-center text-base font-medium text-primary-100 dark:text-primaryDark-100 hover:bg-gray-100 dark:hover:bg-dark-100 hover:text-primaryTeal-100 dark:hover:text-primaryTeal-100"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Log in
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/auth/signup"
                   className="mt-2 block w-full rounded-md bg-primaryTeal-100 px-3 py-2 text-center text-base font-medium text-white shadow-sm transition-colors hover:bg-secondaryTeal-100"
                   onClick={() => setMobileMenuOpen(false)}
                 >
